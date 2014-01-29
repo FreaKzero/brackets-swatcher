@@ -1,4 +1,4 @@
-/*jslint vars: true, plusplus: true, devel: true, nomen: true, regexp: true, indent: 4, maxerr: 50 */
+/*jslint vars: true, plusplus: true, nomen: true, devel: true, regexp: true, indent: 4, maxerr: 50 */
 /*global define, $, brackets, FileReader, Mustache */
 
 define(function (require, exports, module) {
@@ -20,23 +20,31 @@ define(function (require, exports, module) {
         StringUtils = brackets.getModule("utils/StringUtils"),
         FileViewController = brackets.getModule("project/FileViewController"),
 
+        actualFile,
+        loaded = false,
+
         app = {
             ID: "swatcher.run",
+            SHORTCUT: "F11",
             PANEL: "#swatcher",
             CSS: "swatcher.css",
             MENULABEL: "Swatcher",
             MENULOCATION: Menus.AppMenuBar.VIEW_MENU
-        },
+        };
 
-        actualFile, loaded = false;
-
-    function _getBgPath(s, cdoc) {
+    /*
+        Build an imagepath via filename and parentpath of current document
+    */
+    function _getBgPath(str, currentDocument) {
         var os = brackets.platform.indexOf('win') ? 'file:///' : '/',
-            root = os + cdoc.file._parentPath;
+            root = os + currentDocument.file._parentPath;
 
-        return s.slice(0, 1) + root + s.slice(1 + Math.abs(0));
+        return str.slice(0, 1) + root + str.slice(1 + Math.abs(0));
     }
 
+    /*
+        Handle the Contextmenu checksign and open/close Panel
+    */
     function _handleActive() {
         if (!CommandManager.get(app.ID).getChecked()) {
             CommandManager.get(app.ID).setChecked(true);
@@ -50,6 +58,9 @@ define(function (require, exports, module) {
         }
     }
 
+    /*
+        Inserts String into focused editor
+    */
     function _insert(editor, str) {
         if (editor) {
             var document = editor.document;
@@ -67,65 +78,85 @@ define(function (require, exports, module) {
         }
     }
 
-    function getSwatchData(cdoc) {
-        if (cdoc !== null && typeof (cdoc) !== 'string') {
-            actualFile = cdoc.file.fullPath;
-            var label, hex, f, e, s, r = [];
-            var documentText = cdoc.getText();
-            var documentLines = StringUtils.getLines(documentText);
+    /*
+        Go to a specific Line of a File
+    */
+    function _gotoLine(file, line) {
+        FileViewController.addToWorkingSetAndSelect(file, FileViewController.WORKING_SET_VIEW);
+        EditorManager.getCurrentFullEditor().setCursorPos(line, 0);
+    }
+
+    /*
+        Parse Less Variables from current Document via Regex and prepare the data-tags for HTML
+        Since you can insert in every File you want, we need raw CSS Styles and LESS variables as data-tags
+
+        @style = actual visualisation of the Swatch
+        @hex = CSS Property or Colorhash of the Swatch
+        @label = The Label of the Swatch
+    */
+    function swatchesFromLess(currentDocument) {
+        if (currentDocument !== null && typeof (currentDocument) !== 'string') {
+
+            // set global Variable
+            actualFile = currentDocument.file.fullPath;
+
+            var label, hex, found, entity, style,
+                lessName, lessVal, panelData = [],
+                documentText = currentDocument.getText(),
+                documentLines = StringUtils.getLines(documentText);
 
             // (alnum - _)(:)(#HEX) OR (alnum - _)(:)('all chars')
             // @myvar:#FF0000; OR @myvar:'img/mypic.png';
             var regex = /@[0-9a-z\-_]{3,25}\s*:\s*('.*'|#[0-9a-f]{3,6})/ig;
 
-            while ((f = regex.exec(documentText)) !== null) {
+            while ((found = regex.exec(documentText)) !== null) {
 
-                e = f[0].split(":");
-                e[0] = $.trim(e[0]);
-                e[1] = $.trim(e[1]);
+                entity = found[0].split(":");
+                lessName = $.trim(entity[0]);
+                lessVal = $.trim(entity[1]);
 
-                if (e[1][0] === '#') {
-                    s = 'background-color:' + e[1];
-                    hex = e[1];
+                if (lessVal[0] === '#') {
+
+                    style = 'background-color:' + lessVal;
+                    hex = lessVal;
                     label = hex;
+
                 } else {
-                    s = "background: url(" + _getBgPath(e[1], cdoc) + ") no-repeat center center #252525;background-size: 90%;";
-                    hex = 'background-image: url(' + e[1] + ');';
+
+                    style = "background: url(" + _getBgPath(lessVal, currentDocument) + ") no-repeat center center #252525;background-size: 90%;";
+                    hex = 'background-image: url(' + lessVal + ');';
                     label = '[img]';
+
                 }
 
-                r.push({
-                    line: StringUtils.offsetToLineNum(documentLines, f.index),
-                    less: e[0],
+                panelData.push({
+                    line: StringUtils.offsetToLineNum(documentLines, found.index),
+                    less: lessName,
                     hex: hex,
                     label: label,
-                    style: s
+                    style: style
                 });
             }
+
             return {
-                wrap: r
+                wrap: panelData
             };
         }
     }
 
-    function renderSwatches(editor) {
-        if (editor) {
-            var data = getSwatchData(editor.document),
-                html = Mustache.render(swatchHtml, data);
-
-            $('#swatcher-container').empty().append(html);
-        }
-    }
-
-    function renderAco(data) {
+    /*
+        Render Bottompanel for ACO Colorname defining
+    */
+    function panelFromAco(acoPalette) {
         var name, str = "",
-            r = [];
+            panelData = [];
 
-        data.forEach(function (obj, i) {
+        acoPalette.forEach(function (obj, i) {
             if (obj.hash) {
                 name = '@color' + i;
                 str += name + ":" + obj.hash + "; \n";
-                r.push({
+
+                panelData.push({
                     less: '@color' + i,
                     hex: obj.hash,
                     style: 'background-color:' + obj.hash
@@ -134,13 +165,29 @@ define(function (require, exports, module) {
         });
 
         var html = Mustache.render(acoHtml, {
-            wrap: r
+            wrap: panelData
         });
 
         $('#swatcher-container').empty().append(html);
     }
 
-    function insertFromAco(editor) {
+    /*
+        Render Bottompanel with color definitons from LESS File
+    */
+    function panelFromLess(editor) {
+        if (editor) {
+            var data = swatchesFromLess(editor.document),
+                html = Mustache.render(swatchHtml, data);
+
+            $('#swatcher-container').empty().append(html);
+        }
+    }
+
+    /*
+      Insert Data from acoPanel [panelFromAco()] into current Editor
+      and refresh the Swatcher Main Panel
+    */
+    function acoToLess(editor) {
         if (editor) {
             var ext = editor.document.language._mode,
                 str = "";
@@ -165,19 +212,27 @@ define(function (require, exports, module) {
                 return false;
             }
 
+            // Insert Less String and Refresh Panel
             _insert(editor, str);
-            renderSwatches(editor);
+            panelFromLess(editor);
+
         } else {
+
             alert("Please Focus a Line of a CSS/LESS Document to Insert Swatches");
+
         }
     }
 
-    function gotoLine(file, line) {
-        FileViewController.addToWorkingSetAndSelect(file, FileViewController.WORKING_SET_VIEW);
-        EditorManager.getCurrentFullEditor().setCursorPos(line, 0);
-    }
+    /*
+        register Change/Click Events
+    */
+    function registerListener(instance) {
 
-    function registerListeners(instance) {
+        /*
+            BottomPanel, Mainview
+            Click on a Swatch - get current Editor, get Filextension of current File in Editor and
+            Paste the less variable OR the CSS Property
+        */
         instance.on('click', '.swatcher-color', function () {
             var insert, editor = EditorManager.getFocusedEditor(),
                 ext = editor.document.language._mode;
@@ -189,36 +244,74 @@ define(function (require, exports, module) {
             _insert(editor, insert);
         });
 
+        /*
+            BottomPanel, Top/Constant
+            Parse Swatches from current Editor
+        */
         instance.on('click', '.swatcher-parse', function () {
             var editor = EditorManager.getFocusedEditor(),
                 ext = editor.document.language._mode;
 
             if (ext === 'css' || ext === 'less') {
-                renderSwatches(editor);
+                panelFromLess(editor);
             } else {
                 alert('Please use a CSS or LESS File to parse Swatches');
                 return false;
             }
         });
 
+        /*
+            BottomPanel, Top/Constant
+            Click on the Label of a Swatch -> go to the Line where the LESS var is defined (also switches document)
+            @actualFile = gets globally set from swatchesFromLess()
+        */
         instance.on('click', '.swatcher-label', function () {
-            gotoLine(actualFile, $(this).data("line"));
+            _gotoLine(actualFile, $(this).data("line"));
         });
 
+        /*
+            BottomPanel, Top/Constant
+            Panel closer
+        */
         instance.on('click', '.close', function () {
             _handleActive();
         });
 
+        //ENHANCE: Maybe some fancy Transitions
+        /*
+            Bottompanel, Top/Constant
+            Keylistener, when length of inputfield is > 2 the Filter kicks in
+        */
+        instance.on('keyup', '.filter', function () {
+            if ($(this).val().length > 2) {
+                $('.swatcher-colorwrap').hide().find('div[data-less*="' + $(this).val() + '"]').parent().show();
+            } else {
+                $('.swatcher-colorwrap').show();
+            }
+        });
+
+        //TODO: Bad Selector Name
+        /*
+            BottomPanel, Top/Constant
+            Fires up the Aco Loader Dialog Modal
+        */
         instance.on('click', '.swatcher-toggle', function () {
             var compiledTemplate = Mustache.render(loadacoHtml),
                 dialog = Dialogs.showModalDialogUsingTemplate(compiledTemplate),
                 $dialog = dialog.getElement(),
                 palette;
 
+            //TODO: button.primary = bad
+            /*
+                Aco Modal
+                OnChange Event at File Input use HTML5 FileReader API at onloaded event to get
+                a binaryString for the thirdparty/aco library to parse binary Photoshop Aco Palette
+            */
             $dialog.on('change', '#swatcher-file', function () {
                 var fr = new FileReader();
                 fr.onloadend = function () {
                     palette = Aco.getPalette(this.result);
+                    // We cant use aco.colnum because that property can be from all colorspaces - we just want RGB (prevented in lib)
                     if (palette.length > 0) {
                         $dialog.find('.swatcher-file-status').html('Swatcher Found <strong>' + palette.length + '</strong> parseable RGB Swatches');
                         $dialog.find('button.primary').attr('disabled', false);
@@ -231,26 +324,33 @@ define(function (require, exports, module) {
                 fr.readAsBinaryString(this.files[0]);
             });
 
+            //TODO: Check Disabled...
+            // button.primary = bad
+            /*
+                ACO Modal
+                Load the current gotten Palette (from ACO Lib) into the Bottom Panel for defining LESS variable Names
+            */
+
             $dialog.find("button.primary").on("click", function () {
-                renderAco(palette);
+                panelFromAco(palette);
                 $('.swatcher-insless').show();
             });
         });
 
+        /*
+            Bottompanel, Aco View
+            "Import into current Editor"
+        */
         instance.on('click', '.swatcher-acoInsert', function () {
-            insertFromAco(EditorManager.getFocusedEditor());
+            acoToLess(EditorManager.getFocusedEditor());
         });
 
+        /*
+            Bottompanel, Aco View
+            Cancel Import of Aco Palette
+        */
         instance.on('click', '.swatcher-acoCancel', function () {
             $('#swatcher-container').empty();
-        });
-
-        instance.on('keyup', '.filter', function () {
-            if ($(this).val().length > 2) {
-                $('.swatcher-colorwrap').hide().find('div[data-less*="' + $(this).val() + '"]').parent().show();
-            } else {
-                $('.swatcher-colorwrap').show();
-            }
         });
 
         loaded = true;
@@ -261,8 +361,11 @@ define(function (require, exports, module) {
 
         var $swatcher = $(Mustache.render(panelHtml));
 
+        /*
+            We just need to fire this 1 Time
+        */
         if (!loaded) {
-            registerListeners($swatcher);
+            registerListener($swatcher);
         }
 
         PanelManager.createBottomPanel(app.ID, $swatcher, 200);
@@ -272,6 +375,6 @@ define(function (require, exports, module) {
     AppInit.appReady(function () {
         var m = Menus.getMenu(app.MENULOCATION);
         CommandManager.register(app.MENULABEL, app.ID, _init);
-        m.addMenuItem(app.ID, 'F11');
+        m.addMenuItem(app.ID, app.SHORTCUT);
     });
 });
