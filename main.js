@@ -1,6 +1,7 @@
 /*jslint vars: true, plusplus: true, nomen: true, devel: true, regexp: true, indent: 4, maxerr: 50 */
 /*global define, $, brackets, FileReader, Mustache */
 
+//TODO - define an Array with Messages - not so messy
 define(function (require, exports, module) {
     "use strict";
 
@@ -27,13 +28,13 @@ define(function (require, exports, module) {
             ID: "swatcher.run",
             SHORTCUT: "F11",
             PANEL: "#swatcher",
-            CSS: "swatcher.css",
+            CSS: "css/swatcher.css",
             MENULABEL: "Swatcher",
             MENULOCATION: Menus.AppMenuBar.VIEW_MENU
         };
 
     /*
-        Build an imagepath via filename and parentpath of current document
+        Build an Imagepath via Filename and parentpath of current document
     */
     function _getBgPath(str, currentDocument) {
         var os = brackets.platform.indexOf('win') ? 'file:///' : '/',
@@ -87,12 +88,16 @@ define(function (require, exports, module) {
     }
 
     /*
+        Bottompanel, MainView
         Parse Less Variables from current Document via Regex and prepare the data-tags for HTML
         Since you can insert in every File you want, we need raw CSS Styles and LESS variables as data-tags
 
         @style = actual visualisation of the Swatch
         @hex = CSS Property or Colorhash of the Swatch
+        @less = LESS Variablename
+        @line = Linenumber where variable was defined        
         @label = The Label of the Swatch
+        
     */
     function swatchesFromLess(currentDocument) {
         if (currentDocument !== null && typeof (currentDocument) !== 'string') {
@@ -145,7 +150,12 @@ define(function (require, exports, module) {
     }
 
     /*
+        Bottompanel, ACO View
         Render Bottompanel for ACO Colorname defining
+        
+        @style = actual visualisation of the Swatch
+        @hex = Colorhash from Acolib
+        @less = defineable LESS Variable Name
     */
     function panelFromAco(acoPalette) {
         var name, str = "",
@@ -172,7 +182,8 @@ define(function (require, exports, module) {
     }
 
     /*
-        Render Bottompanel with color definitons from LESS File
+        Bottompanel, Main View
+        Render Bottompanel with color definitons from LESS File [swatchesFromLess()]
     */
     function panelFromLess(editor) {
         if (editor) {
@@ -184,7 +195,8 @@ define(function (require, exports, module) {
     }
 
     /*
-      Insert Data from acoPanel [panelFromAco()] into current Editor
+      Bottompanel, ACO View
+      Insert Data from ACO View [panelFromAco()] into current Editor
       and refresh the Swatcher Main Panel
     */
     function acoToLess(editor) {
@@ -224,7 +236,7 @@ define(function (require, exports, module) {
     }
 
     /*
-        register Change/Click Events
+        Register Change/Click Events
     */
     function registerListener(instance) {
 
@@ -271,13 +283,23 @@ define(function (require, exports, module) {
 
         /*
             BottomPanel, Top/Constant
+            Inserts less.js from a CDN also inserts a sample stylesheet/less Tag
+            For easier Live Development
+        */
+        instance.on('click', '.swatcher-insertJS', function () {
+            var head = '<link rel="stylesheet/less" type="text/css" href="styles.less" /> \n <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.6.1/less.min.js"></script>';
+            _insert(EditorManager.getFocusedEditor(), head);
+        });
+
+        /*
+            BottomPanel, Top/Constant
             Panel closer
         */
         instance.on('click', '.close', function () {
             _handleActive();
         });
 
-        //ENHANCE: Maybe some fancy Transitions
+        //ENHANCE: Maybe some fancy Transitions, Disabled/Enabled State 
         /*
             Bottompanel, Top/Constant
             Keylistener, when length of inputfield is > 2 the Filter kicks in
@@ -303,7 +325,7 @@ define(function (require, exports, module) {
 
             //TODO: button.primary = bad
             /*
-                Aco Modal
+                ACO Modal
                 OnChange Event at File Input use HTML5 FileReader API at onloaded event to get
                 a binaryString for the thirdparty/aco library to parse binary Photoshop Aco Palette
             */
@@ -324,13 +346,11 @@ define(function (require, exports, module) {
                 fr.readAsBinaryString(this.files[0]);
             });
 
-            //TODO: Check Disabled...
-            // button.primary = bad
+            //TODO button.primary = bad
             /*
                 ACO Modal
                 Load the current gotten Palette (from ACO Lib) into the Bottom Panel for defining LESS variable Names
             */
-
             $dialog.find("button.primary").on("click", function () {
                 panelFromAco(palette);
                 $('.swatcher-insless').show();
@@ -338,15 +358,15 @@ define(function (require, exports, module) {
         });
 
         /*
-            Bottompanel, Aco View
-            "Import into current Editor"
+            Bottompanel, ACO View
+            "Import into current Editor" [acoToLess()]
         */
         instance.on('click', '.swatcher-acoInsert', function () {
             acoToLess(EditorManager.getFocusedEditor());
         });
 
         /*
-            Bottompanel, Aco View
+            Bottompanel, ACO View
             Cancel Import of Aco Palette
         */
         instance.on('click', '.swatcher-acoCancel', function () {
@@ -356,14 +376,14 @@ define(function (require, exports, module) {
         loaded = true;
     }
 
+    /*
+        Init the Extension
+    */
     var _init = function () {
         ExtensionUtils.loadStyleSheet(module, app.CSS);
 
         var $swatcher = $(Mustache.render(panelHtml));
 
-        /*
-            We just need to fire this 1 Time
-        */
         if (!loaded) {
             registerListener($swatcher);
         }

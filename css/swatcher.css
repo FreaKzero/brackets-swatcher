@@ -18,7 +18,7 @@
 #swatcher-toolbar-icon {
   height: 24px;
   width: 24px;
-  background: url('images/icon.png') 0 0;
+  background: url('../images/icon.png') 0 0;
 }
 .swatcher-insless {
   display: none;
