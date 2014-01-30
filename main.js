@@ -71,15 +71,15 @@ define(function (require, exports, module) {
     /*
         Inserts String into focused editor
     */
-    function _insert(editor, str) {
-        if (editor) {
-            var document = editor.document;
+    function _insert(currentEditor, str) {
+        if (currentEditor) {
+            var document = currentEditor.document;
 
-            if (editor.getSelectedText().length > 0) {
-                var selection = editor.getSelection();
+            if (currentEditor.getSelectedText().length > 0) {
+                var selection = currentEditor.getSelection();
                 document.replaceRange(str, selection.start, selection.end);
             } else {
-                var pos = editor.getCursorPos();
+                var pos = currentEditor.getCursorPos();
                 document.replaceRange(str, {
                     line: pos.line,
                     ch: pos.ch
@@ -194,9 +194,9 @@ define(function (require, exports, module) {
         Bottompanel, Main View
         Render Bottompanel with color definitons from LESS File [swatchesFromLess()]
     */
-    function panelFromLess(editor) {
-        if (editor) {
-            var data = swatchesFromLess(editor.document),
+    function panelFromLess(currentEditor) {
+        if (currentEditor) {
+            var data = swatchesFromLess(currentEditor.document),
                 html = Mustache.render(MainView, data);
 
             $('#swatcher-container').empty().append(html);
@@ -208,9 +208,9 @@ define(function (require, exports, module) {
       Insert Data from ACO View [panelFromAco()] into current Editor
       and refresh the Swatcher Main Panel
     */
-    function acoToLess(editor) {
-        if (editor) {
-            var mode = editor.document.language._mode,
+    function acoToLess(currentEditor) {
+        if (currentEditor) {
+            var mode = currentEditor.document.language._mode,
                 str = "";
 
             $('#swatcher-prepare tr').each(function () {
@@ -234,8 +234,8 @@ define(function (require, exports, module) {
             }
 
             // Insert Less String and Refresh Panel
-            _insert(editor, str);
-            panelFromLess(editor);
+            _insert(currentEditor, str);
+            panelFromLess(currentEditor);
 
         } else {
 
@@ -311,16 +311,30 @@ define(function (require, exports, module) {
             _handleActive();
         });
 
-        //ENHANCE: Maybe some fancy Transitions, Disabled/Enabled State 
         /*
             Bottompanel, Top/Constant
             Keylistener, when length of inputfield is > 2 the Filter kicks in
         */
         instance.on('keyup', '.swatcher-filter', function () {
-            if ($(this).val().length > 2) {
-                $('.swatcher-colorwrap').hide().find('div[data-less*="' + $(this).val() + '"]').parent().show();
+            var fadeIn = 'fast',
+                fadeOut = 'fast',
+                $filter = $(this).val(),
+                $visible = $('.swatcher-colorwrap:visible').size();
+
+            if ($filter.length > 2 && $visible > 0) {
+
+                $('.swatcher-colorwrap:not(.found)')
+                    .fadeOut(fadeOut)
+                    .find('div[data-less*="' + $filter + '"]')
+                    .parent()
+                    .addClass('found');
+
+                $('.found').fadeIn(fadeIn);
+
             } else {
-                $('.swatcher-colorwrap').show();
+
+                $('.swatcher-colorwrap').removeClass('found').fadeIn(fadeIn);
+
             }
         });
 
@@ -346,12 +360,12 @@ define(function (require, exports, module) {
 
                     // We cant use aco.colnum because that property can be from all colorspaces - we just want RGB (prevented in lib)
                     if (palette.length > 0) {
-                        
+
                         $dialog.find('.swatcher-file-status').html(
                             messages.DIALOG_PARSESUCCESS.replace('{count}', palette.length)
                         );
                         $dialog.find('.swatcher-am-ok').attr('disabled', false);
-                        
+
                     } else {
 
                         $dialog.find('.swatcher-file-status').html(messages.DIALOG_CANTPARSE);
