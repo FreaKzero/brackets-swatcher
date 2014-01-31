@@ -14,9 +14,7 @@ A Brackets.io Extension to load Photoshop ACO Palette Files (RGB only) or parse 
 * Filter via LESS @variable names
 
 ##TODO
-* Refactor
-* Improve ACO Parser
-* Testing on Mac/Linux
+* Redo ACOLib
 
  **Author** [FreaKzero](https://github.com/freakzero) 
  **Extension for** [Brackets.io](http://brackets.io)
