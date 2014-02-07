@@ -170,17 +170,16 @@ define(function (require, exports, module) {
         var name, str = "",
             panelData = [];
 
-        acoPalette.forEach(function (obj, i) {
-            if (obj.hash) {
-                name = '@color' + i;
-                str += name + ":" + obj.hash + "; \n";
+        acoPalette.forEach(function (color, i) {
 
-                panelData.push({
-                    less: '@color' + i,
-                    hex: obj.hash,
-                    style: 'background-color:' + obj.hash
-                });
-            }
+            name = '@color' + i;
+            str += name + ":" + color + "; \n";
+
+            panelData.push({
+                less: '@color' + i,
+                hex: color,
+                style: 'background-color:' + color
+            });
         });
 
         var html = Mustache.render(AcoView, {
@@ -332,9 +331,7 @@ define(function (require, exports, module) {
                 $('.found').fadeIn(fadeIn);
 
             } else {
-
                 $('.swatcher-colorwrap').removeClass('found').fadeIn(fadeIn);
-
             }
         });
 
@@ -356,7 +353,7 @@ define(function (require, exports, module) {
             $dialog.on('change', '#swatcher-file', function () {
                 var fr = new FileReader();
                 fr.onloadend = function () {
-                    palette = Aco.getPalette(this.result);
+                    palette = Aco.getRGB(this.result);
 
                     // We cant use aco.colnum because that property can be from all colorspaces - we just want RGB (prevented in lib)
                     if (palette.length > 0) {
@@ -374,7 +371,7 @@ define(function (require, exports, module) {
                     }
 
                 };
-                fr.readAsBinaryString(this.files[0]);
+                fr.readAsArrayBuffer(this.files[0]);
             });
 
             /*
