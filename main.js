@@ -1,3 +1,4 @@
+
 /*jslint vars: true, plusplus: true, nomen: true, devel: true, regexp: true, indent: 4, maxerr: 50 */
 /*global define, $, brackets, FileReader, Mustache */
 define(function (require, exports, module) {
@@ -228,8 +229,8 @@ define(function (require, exports, module) {
                 break;
 
             default:
-                alert(messages.ACO_WRONGFILE);
-                return false;
+                //alert(messages.ACO_WRONGFILE);
+                //return false;
             }
 
             // Insert Less String and Refresh Panel
@@ -262,7 +263,7 @@ define(function (require, exports, module) {
                 insert = $(this).data("less");
             } else {
                 insert = $(this).data("hex");
-            }
+           }
 
             _insert(editor, insert);
         });
@@ -275,12 +276,12 @@ define(function (require, exports, module) {
             var editor = EditorManager.getFocusedEditor(),
                 mode = editor.document.language._mode;
 
-            if (mode === 'css' || mode === 'less') {
+            //if (mode === 'css' || mode === 'less') {
                 panelFromLess(editor);
-            } else {
-                alert(messages.MAIN_WRONGFILE);
-                return false;
-            }
+            //} else {
+            //    alert(messages.MAIN_WRONGFILE);
+            //    return false;
+            //}
         });
 
         /*
