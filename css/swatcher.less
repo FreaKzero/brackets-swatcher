@@ -7,16 +7,55 @@
 @textcolor2:    #94a3a7;
 @swatchhover:   #74ddf1;
 @panelBG:       #454849;
+@danger:        #843534;
+@danger-border: lighten(@danger, 20%);
 
-@icon:'../images/icon.png';
-
+@icon: '../images/icon.png';
 
 #swatcher {
   background-color: @panelBG;
 }
 
 .swatcher {
-    height:200px;
+    height:400px;
+}
+
+.swatcher-error {
+    background-color: @danger;
+    border: 1px solid @danger-border;
+    color:white;
+    width: 600px;
+    border-radius: 5px;
+    padding: 5px 10px 10px 10px;
+    margin: 1px auto;
+    
+    h3 {
+        padding:0;
+        margin: 0;
+        text-align:right;
+        color: @danger-border;
+    }
+    
+    hr {
+        border: 0;        
+        color: @danger-border;
+        background-color: @danger-border;
+        height: 1px;
+        margin: 0 0 10px 0;
+        padding:0;
+    }
+    
+    a {
+        color: @danger-border;
+        
+        &:hover {
+            color:white;
+        }
+    }    
+}
+
+#swatcher-settings-blacklist {
+    width: 550px !important;
 }
 
 .toolbar-right {
@@ -29,6 +68,7 @@
     overflow:auto;
     height:100%;
     width: 100%;
+    padding-bottom: 100px;
 }
 
 #swatcher-toolbar-icon {
@@ -74,27 +114,14 @@
     overflow: hidden;
 }
 
-.swatcher-colorwrap:hover >.swatcher-label {    
-    transition: bottom 0.5s ease;
-    bottom: 0;
-}
-
-
-.swatcher-label {
-    position:absolute;      
-    bottom: -22px;    
-    padding: 0 0 2px 0;
-    margin-top: 3px;    
-    width: 70px;
-    height: 18px;
-    color: @textcolor;
+.swatcher-label {              
+    display: none;
+    position:absolute;     
+    padding: 2px 6px; 
+    color: @swatchhover;
     text-align:center;
     text-shadow: @border-dark 0 1px 0px;
-    background: rgba(0, 0, 0, 0.5);
-    word-wrap:break-word;
-}
-
-.swatcher-label:hover {
-    color: @swatchhover;
+    background: rgba(0, 0, 0, 0.7);    
+    border-radius: 5px;
     cursor:pointer;
 }

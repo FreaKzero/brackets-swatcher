@@ -3,7 +3,39 @@
   background-color: #454849;
 }
 .swatcher {
-  height: 200px;
+  height: 400px;
+}
+.swatcher-error {
+  background-color: #843534;
+  border: 1px solid #c0605e;
+  color: white;
+  width: 600px;
+  border-radius: 5px;
+  padding: 5px 10px 10px 10px;
+  margin: 1px auto;
+}
+.swatcher-error h3 {
+  padding: 0;
+  margin: 0;
+  text-align: right;
+  color: #c0605e;
+}
+.swatcher-error hr {
+  border: 0;
+  color: #c0605e;
+  background-color: #c0605e;
+  height: 1px;
+  margin: 0 0 10px 0;
+  padding: 0;
+}
+.swatcher-error a {
+  color: #c0605e;
+}
+.swatcher-error a:hover {
+  color: white;
+}
+#swatcher-settings-blacklist {
+  width: 550px !important;
 }
 .toolbar-right {
   position: absolute;
@@ -14,6 +46,7 @@
   overflow: auto;
   height: 100%;
   width: 100%;
+  padding-bottom: 100px;
 }
 #swatcher-toolbar-icon {
   height: 24px;
@@ -53,24 +86,14 @@
   font-size: 12px;
   overflow: hidden;
 }
-.swatcher-colorwrap:hover > .swatcher-label {
-  transition: bottom 0.5s ease;
-  bottom: 0;
-}
 .swatcher-label {
+  display: none;
   position: absolute;
-  bottom: -22px;
-  padding: 0 0 2px 0;
-  margin-top: 3px;
-  width: 70px;
-  height: 18px;
-  color: #d0d0d0;
+  padding: 2px 6px;
+  color: #74ddf1;
   text-align: center;
   text-shadow: #1e1f20 0 1px 0px;
-  background: rgba(0, 0, 0, 0.5);
-  word-wrap: break-word;
-}
-.swatcher-label:hover {
-  color: #74ddf1;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 5px;
   cursor: pointer;
 }

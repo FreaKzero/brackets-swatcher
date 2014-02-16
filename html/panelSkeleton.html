@@ -1,13 +1,13 @@
 <div id="swatcher" class="swatcher bottom-panel vert-resizable top-resizer">
-<div class="toolbar simple-toolbar-layout">
-    <button class="btn primary small swatcher-parse no-focus">Read LESS</button>
-    <button class="btn small swatcher-openModal no-focus">Import ACO</button>
-    <button class="btn small swatcher-insertJS no-focus">Insert LESS.js</button>
-    <div class="toolbar-right">
-        <input type="input" class="swatcher-filter input input-large" placeholder="Filter" />        
+    <div class="toolbar simple-toolbar-layout">
+        <button id="swatcher-parseLESS" class="btn primary small no-focus">Read LESS</button>
+        <button id="swatcher-open-colorimport" class="btn small no-focus">Import ACO</button>
+        <button id="swatcher-open-settingsdialog" class="btn small no-focus">Settings</button>
+        <div class="toolbar-right">
+            <input type="text" id="swatcher-filter" class="input input-large" placeholder="Filter" />
+        </div>
+        <a href="#" class="close">&times;</a>
     </div>
-    <a href="#" class="close">&times;</a>
-</div>
-    <div id="swatcher-palette"></div>
-    <div id="swatcher-container" class="resizable-content"></div>
+
+    <div id="swatcher-container" class="resizable-content no-focus"></div>
 </div>

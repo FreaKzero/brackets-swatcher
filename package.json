@@ -1,12 +1,12 @@
 {
-	"name": "brackets.swatcher",
-	"title": "Swatcher",
-	"description": "Load Photoshop ACO Palette Files (RGB only) or parse LESS @variables into the Bottombar for easier use. ",
-	"homepage": "https://github.com/FreaKzero/brackets-swatcher",
-	"version": "0.2.3",
-	"author": "FreaKzero <pete@freakzero.com>",
-	"license": "GPL",
-	"engines": {
-		"brackets": ">=0.36.0"
-	}
+    "name": "brackets.swatcher",
+    "title": "Swatcher",
+    "description": "Load Photoshop ACO Palette Files (RGB only) or parse LESS @variables into the Bottombar for easier use. ",
+    "homepage": "https://github.com/FreaKzero/brackets-swatcher",
+    "version": "0.3.0",
+    "author": "FreaKzero <pete@freakzero.com>",
+    "license": "GPL",
+    "engines": {
+        "brackets": ">=0.36.0"
+    }
 }
