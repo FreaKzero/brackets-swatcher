@@ -164,7 +164,7 @@ define(function (require, exports, module) {
                 panelData = [],
                 documentText = currentDocument.getText(),
                 documentLines = StringUtils.getLines(documentText),
-                regex = /@[0-9a-z\-]+\s*:\s*(@[0-9a-z\-]+|(lighten|darken|saturate|desaturate|fadein|fadeout|fade|spin|mix)\(.*\)|'.*'|#[0-9a-f]{3,6})/ig;
+                regex = /@[0-9a-z\-_]+\s*:\s*(@[0-9a-z\-]+|(lighten|darken|saturate|desaturate|fadein|fadeout|fade|spin|mix)\(.*\)|'.*'|#[0-9a-f]{3,6})/ig;
 
             while ((found = regex.exec(documentText)) !== null) {
                 entity = found[0].split(":");
