@@ -61,8 +61,6 @@
   width: 30px;
 }
 .swatcher-color {
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
   width: 70px;
   height: 70px;
   border-bottom: 1px solid #1e1f20;
@@ -85,6 +83,7 @@
   transition: background-color 400ms ease-out;
   font-size: 12px;
   overflow: hidden;
+  background: url('../images/bg-transparent.png');
 }
 .swatcher-label {
   display: none;

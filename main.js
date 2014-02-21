@@ -150,21 +150,24 @@ define(function (require, exports, module) {
         @line = Linenumber where variable was defined        
         @label = The Label of the Swatch
         
+
+        Problems:
+            first @TEXT = must be at START of string (!)
+            @TEXT-gradient-TEXT parsing
     */
     function swatchesFromLess(currentDocument) {
         if (currentDocument !== null && typeof (currentDocument) !== 'string') {
 
             // set global Variable
             actualFile = currentDocument.file.fullPath;
-
             var found, entity, img, htmlID,
                 selector, lessName, lessVal,
-                styleHead = ".bgSwatch(@img) {background: url(@img) no-repeat center center #252525; background-size: 90%;}",
+                styleHead = ".bgSwatch(@img) {background: url(@img) no-repeat center center; background-size: 90%;}",
                 styleBody = "",
                 panelData = [],
                 documentText = currentDocument.getText(),
                 documentLines = StringUtils.getLines(documentText),
-                regex = /@[0-9a-z\-]+\s*:\s*(@[0-9a-z\-]+|(lighten|darken|saturate|desaturate|fadein|fadeout|fade|spin|mix)\(.*\)|'.*'|#[0-9a-f]{3,6})/ig;
+                regex = /@[0-9a-z\-]+\s*:\s*(@[0-9a-z\-]+|(gradient|rgba|lighten|darken|saturate|desaturate|fadein|fadeout|fade|spin|mix)\(.*\)|'.*'|#[0-9a-f]{3,6})/ig;
 
             while ((found = regex.exec(documentText)) !== null) {
                 entity = found[0].split(":");
@@ -199,9 +202,7 @@ define(function (require, exports, module) {
             }
 
             if (_parseLESS(styleHead + styleBody)) {
-                return {
-                    wrap: panelData
-                };
+                return panelData;
             }
 
         }
@@ -212,7 +213,7 @@ define(function (require, exports, module) {
         Render Bottompanel with color definitons from LESS File [swatchesFromLess()]
     */
     function panelFromLess(currentEditor) {
-        var data = swatchesFromLess(currentEditor.document);
+        var data = {swatches : swatchesFromLess(currentEditor.document) };
 
         if (data) {
             var html = Mustache.render(MainView, data);
