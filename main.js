@@ -22,6 +22,7 @@ define(function (require, exports, module) {
         StringUtils = brackets.getModule("utils/StringUtils"),
         PreferencesManager = brackets.getModule("preferences/PreferencesManager"),
         FileViewController = brackets.getModule("project/FileViewController"),
+        
         //actualFile will be set from swatchesFromLess()        
         actualFile,
         swatchesCSS,
@@ -42,6 +43,7 @@ define(function (require, exports, module) {
         Load Preferences 
     */
     var preferences = PreferencesManager.getPreferenceStorage(module, DefaultPreferences);
+    
     /*
         Build an Imagepath via Filename and parentpath of current document
     */
@@ -97,21 +99,10 @@ define(function (require, exports, module) {
     }
 
     /*
-        need desc (Browser fix)
-    */
-    function _rgb2hex(rgb) {
-        rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-        return "#" +
-            ("0" + parseInt(rgb[1], 10).toString(16)).slice(-2) +
-            ("0" + parseInt(rgb[2], 10).toString(16)).slice(-2) +
-            ("0" + parseInt(rgb[3], 10).toString(16)).slice(-2);
-    }
-
-    /*
-        need a desc
+        Process Filtered LESS String from swatchesFromLess() via less.Parser
     */
     function _parseLESS(lessString) {
-        swatchesCSS = null;
+        swatchesCSS = null;        
         var lp = new(less.Parser);
         lp.parse(lessString, function (err, tree) {
             try {
@@ -125,7 +116,7 @@ define(function (require, exports, module) {
     }
 
     /*
-        need a desc
+        Check string against the Blacklist defined in the Settings Panel        
     */
     function _checkBlacklist(string) {
 
@@ -140,20 +131,7 @@ define(function (require, exports, module) {
     }
 
     /*
-        Bottompanel, MainView
-        Parse Less Variables from current Document via Regex and prepare the data-tags for HTML
-        Since you can insert in every File you want, we need raw CSS Styles and LESS variables as data-tags
-
-        @style = actual visualisation of the Swatch
-        @hex = CSS Property or Colorhash of the Swatch
-        @less = LESS Variablename
-        @line = Linenumber where variable was defined        
-        @label = The Label of the Swatch
-        
-
-        Problems:
-            first @TEXT = must be at START of string (!)
-            @TEXT-gradient-TEXT parsing
+        Filters LESS Data from current active Document for Swatcher Backgrounds
     */
     function swatchesFromLess(currentDocument) {
         if (currentDocument !== null && typeof (currentDocument) !== 'string') {
@@ -167,27 +145,36 @@ define(function (require, exports, module) {
                 panelData = [],
                 documentText = currentDocument.getText(),
                 documentLines = StringUtils.getLines(documentText),
-                regex = /@[0-9a-z\-]+\s*:\s*(@[0-9a-z\-]+|(gradient|rgba|lighten|darken|saturate|desaturate|fadein|fadeout|fade|spin|mix)\(.*\)|'.*'|#[0-9a-f]{3,6})/ig;
+                regexVariables = /@[0-9a-z\-_]+\s*:\s*([0-9a-z\-_@#%'"*\/\.\(\)\,\+\s]+)/ig,
+                regexBackgrounds = /(ceil|floor|percentage|round|sqrt|abs|sin|asin|cos|acos|tan|atan|pi|pow|mod|min|max|length|extract|escape|e)(\()|(^[0-9.]+)|(.*\s(\+|\-|\*)\s.*)|(inherit|normal|bold|italic|\")/g;
 
-            while ((found = regex.exec(documentText)) !== null) {
+            while ((found = regexVariables.exec(documentText)) !== null) {
+                
+                // We need all (!) @variables defined since we want @variable:@variable too
+                // If we dont do that we will get LESS Parseerrors
+                styleHead += $.trim(found[0]) + ";";
+
+                // get lessName (@variable) and the definition lessVal
                 entity = found[0].split(":");
-
                 lessName = $.trim(entity[0]);
                 lessVal = $.trim(entity[1]);
-
-                if (_checkBlacklist(lessName) > -1) {
+                
+                // Swatches are colors, filter out all math related functions and string-number-starts with regex
+                // Also check against the Blacklist from Settings Panel
+                if (lessVal.search(regexBackgrounds) > -1 || _checkBlacklist(lessName) > -1) {
                     continue;
                 }
-
+                
+                // Generate HTML Selector - htmlID is also used as the Label of the Swatch in HTML Template
                 htmlID = lessName.substring(1);
                 selector = '#' + htmlID + '.swatcher-color';
-                styleBody += selector + '{ background-color:' + lessVal + '; }';
 
-                styleHead += found[0] + ";";
-
+                // Check for Images (We dont want doublequotes since font-families use them - code convention)
                 if (lessVal[0] === "'") {
                     img = 'background-image: url(' + lessVal + ');';
                     styleBody += selector + "{ .bgSwatch(" + _getBgPath(lessVal, currentDocument) + ");}";
+                
+                // if its not an Image its an color [rgba, #hash, colorcode, less colorfunction, etc]
                 } else {
                     img = 'none';
                     styleBody += selector + '{ background-color:' + lessVal + '; }';
@@ -200,25 +187,27 @@ define(function (require, exports, module) {
                     htmlID: htmlID
                 });
             }
-
+            
+            // parse our generated LESS string and return it - _parseLESS() is handling Errors
             if (_parseLESS(styleHead + styleBody)) {
                 return panelData;
             }
-
         }
     }
 
-    /*
-        Bottompanel, Main View
-        Render Bottompanel with color definitons from LESS File [swatchesFromLess()]
+    /*        
+        Render Bottompanel and inject filtered/less-parsed CSS for Swatches [swatchesFromLess()]
     */
     function panelFromLess(currentEditor) {
-        var data = {swatches : swatchesFromLess(currentEditor.document) };
-
-        if (data) {
+        var data = {
+            swatches: swatchesFromLess(currentEditor.document)
+        };
+        
+        if (data.swatches) {
             var html = Mustache.render(MainView, data);
             $('#swatcher-container').empty().append(html);
-            // Otherwise we will break resizeable bottombar            
+            
+            // We have to inject them here - otherwise the resizeable Container wont function
             $('#inject').html(swatchesCSS);
         }
     }
@@ -317,7 +306,7 @@ define(function (require, exports, module) {
                     insert = $(this).data("less");
                 } else {
                     if ($(this).data("image") === 'none') {
-                        insert = _rgb2hex($(this).css('backgroundColor'));
+                        insert = $(this).css('backgroundColor');
                     } else {
                         insert = $(this).data('image');
                     }

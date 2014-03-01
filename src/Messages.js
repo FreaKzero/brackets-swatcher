@@ -9,7 +9,7 @@
              ACO_WRONGFILE: 'You can only insert Swatches on a LESS or CSS Document',
              MAIN_NODOCUMENT: 'Please focus an editor window',
              MAIN_WRONGEXT: 'Swatcher can only parse CSS or LESS Files',             
-             MAIN_LESSERROR: 'Cant generate Swatches due to an <a href="https://github.com/FreaKzero/brackets-swatcher/tree/master#what-means-cant-generate-swatches-due-to-an-not-parseable-varvar-assignment-">not parseable @var:@var assignment</a><br><b>Please use the Blacklist Feature to fix this<br><br>LESS ERRORMESSAGE: </b><u>{errorMessage}</u>',
+             MAIN_LESSERROR: 'Cant generate Swatches due to an LESS Parsererror<br><br>LESS ERRORMESSAGE: </b><u>{errorMessage}</u>',
              DIALOG_CANTPARSE: '<strong style="color:red">Swatcher cant parse any Swatches <br> Please make sure the Swatches are in RGB Format</strong>',
              DIALOG_PARSESUCCESS: '<strong style="color:green">Swatcher Found {count} parseable RGB Swatches</strong>',
          },
