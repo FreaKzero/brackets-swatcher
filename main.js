@@ -22,7 +22,7 @@ define(function (require, exports, module) {
         StringUtils = brackets.getModule("utils/StringUtils"),
         PreferencesManager = brackets.getModule("preferences/PreferencesManager"),
         FileViewController = brackets.getModule("project/FileViewController"),
-        
+
         //actualFile will be set from swatchesFromLess()        
         actualFile,
         swatchesCSS,
@@ -43,7 +43,7 @@ define(function (require, exports, module) {
         Load Preferences 
     */
     var preferences = PreferencesManager.getPreferenceStorage(module, DefaultPreferences);
-    
+
     /*
         Build an Imagepath via Filename and parentpath of current document
     */
@@ -102,7 +102,7 @@ define(function (require, exports, module) {
         Process Filtered LESS String from swatchesFromLess() via less.Parser
     */
     function _parseLESS(lessString) {
-        swatchesCSS = null;        
+        swatchesCSS = null;
         var lp = new(less.Parser);
         lp.parse(lessString, function (err, tree) {
             try {
@@ -130,14 +130,37 @@ define(function (require, exports, module) {
         return string.toLowerCase().search(blacklist);
     }
 
-    /*
-        Filters LESS Data from current active Document for Swatcher Backgrounds
+    /*                        
+        1.) Filter only @variable definitions
+        2.) Concat filtered @variables in a String
+        3.) Sorting out Math functions, Strings starting with numbers, strings with math operators, and HTML width/height entities
+        4.) Check the Rest against a User setable Blacklist
+        5.) With the Rest: Generate new LESS for Swatches with generated IDs (using Variable Name)
+        6.) With the Rest: Push needed Template Data for Mustache
+        7.) Send the generated LESS File (styleHead and styleBody) for parsing to _parseLESS()
+
+            Filters     LESS Data from current active Document for Swatcher Backgrounds
+            found:      Actual found line (via regexVariables)
+            lessName:   Trimmed LESS variable declarion of current Line (via found)
+            lessVal:    Trimmed LESS definition of current Line (via found)
+            img:        Will be filled if first Char of lessval is an singlequote otherwise none
+            htmlID:     Generated HTML ID taken from lessName for Swatches
+            Selector:   CSS Selectorstring for filtered Swatches
+            styleHead:  Contains ALL Variable definitions from file (for parsing LESS)
+            styleBody:  Contains only dynamic generated LESS for the Swatches
+            panelData:  Data Array for Mustache
+
+            regexVariables:     see found
+            regexBackgrounds:   Main Regex to filter only Background definitions
+        
+        ### TPL: MainView.html
     */
     function swatchesFromLess(currentDocument) {
         if (currentDocument !== null && typeof (currentDocument) !== 'string') {
 
             // set global Variable
             actualFile = currentDocument.file.fullPath;
+            
             var found, entity, img, htmlID,
                 selector, lessName, lessVal,
                 styleHead = ".bgSwatch(@img) {background: url(@img) no-repeat center center; background-size: 90%;}",
@@ -149,7 +172,7 @@ define(function (require, exports, module) {
                 regexBackgrounds = /(ceil|floor|percentage|round|sqrt|abs|sin|asin|cos|acos|tan|atan|pi|pow|mod|min|max|length|extract|escape|e)(\()|(^[0-9.]+)|(.*\s(\+|\-|\*)\s.*)|(inherit|normal|bold|italic|\")/g;
 
             while ((found = regexVariables.exec(documentText)) !== null) {
-                
+
                 // We need all (!) @variables defined since we want @variable:@variable too
                 // If we dont do that we will get LESS Parseerrors
                 styleHead += $.trim(found[0]) + ";";
@@ -158,13 +181,13 @@ define(function (require, exports, module) {
                 entity = found[0].split(":");
                 lessName = $.trim(entity[0]);
                 lessVal = $.trim(entity[1]);
-                
+
                 // Swatches are colors, filter out all math related functions and string-number-starts with regex
                 // Also check against the Blacklist from Settings Panel
                 if (lessVal.search(regexBackgrounds) > -1 || _checkBlacklist(lessName) > -1) {
                     continue;
                 }
-                
+
                 // Generate HTML Selector - htmlID is also used as the Label of the Swatch in HTML Template
                 htmlID = lessName.substring(1);
                 selector = '#' + htmlID + '.swatcher-color';
@@ -173,8 +196,8 @@ define(function (require, exports, module) {
                 if (lessVal[0] === "'") {
                     img = 'background-image: url(' + lessVal + ');';
                     styleBody += selector + "{ .bgSwatch(" + _getBgPath(lessVal, currentDocument) + ");}";
-                
-                // if its not an Image its an color [rgba, #hash, colorcode, less colorfunction, etc]
+
+                    // if its not an Image its an color [rgba, #hash, colorcode, less colorfunction, etc]
                 } else {
                     img = 'none';
                     styleBody += selector + '{ background-color:' + lessVal + '; }';
@@ -187,7 +210,7 @@ define(function (require, exports, module) {
                     htmlID: htmlID
                 });
             }
-            
+
             // parse our generated LESS string and return it - _parseLESS() is handling Errors
             if (_parseLESS(styleHead + styleBody)) {
                 return panelData;
@@ -197,21 +220,26 @@ define(function (require, exports, module) {
 
     /*        
         Render Bottompanel and inject filtered/less-parsed CSS for Swatches [swatchesFromLess()]
+        ### TPL: MainView.html
     */
     function panelFromLess(currentEditor) {
         var data = {
             swatches: swatchesFromLess(currentEditor.document)
         };
-        
+
         if (data.swatches) {
             var html = Mustache.render(MainView, data);
             $('#swatcher-container').empty().append(html);
-            
+
             // We have to inject them here - otherwise the resizeable Container wont function
             $('#inject').html(swatchesCSS);
         }
     }
 
+    /*
+        Transfers Imported ACO Palette into LESS or CSS File
+        ### TPL: ColorDefine.html
+    */
     function acoToLess(currentEditor) {
         if (currentEditor) {
             var mode = currentEditor.document.language._mode,
@@ -247,10 +275,13 @@ define(function (require, exports, module) {
     }
 
     /*
-        Register Change/Click Events
-        Constant means in every View (panelSkeleton)
+        Register Change/Click Events        
     */
     function registerEvents(instance) {
+
+        /*
+            jQuery function for custom Animation ON/OFF Settings
+        */
         $.fn.filterFX = function (method) {
             var animate = preferences.getValue('animation'),
                 speed = 300;
@@ -271,6 +302,9 @@ define(function (require, exports, module) {
             return this;
         };
 
+        /*
+            Mouseover/out Events for showing Labels            
+        */
         instance.on({
             mouseenter: function () {
                 var toolTip = $(this).data('less');
@@ -287,14 +321,25 @@ define(function (require, exports, module) {
             }
         }, '.swatcher-color');
 
+        /*
+            Clickevent to import "defined" ACO-Colors (ColorDefine.html) into Swatcher Panel
+        */
         instance.on('click', '#swatcher-colordefine-import', function () {
             acoToLess(EditorManager.getFocusedEditor());
         });
 
+        /*
+            Clickevent to cancel the ColorDefine Bottomscreen (ColorDefine.html)
+        */        
         instance.on('click', '#swatcher-colordefine-cancel', function () {
             $('#swatcher-container').empty();
         });
 
+        /*
+            Mouse Button Events on the Swatches
+            Leftclick: insert Less variable or rgba() value on other files
+            Rightclick: Go to File and line where Swatch is defined
+        */
         instance.on('mousedown', '.swatcher-color', function (event) {
             var insert, editor = EditorManager.getFocusedEditor(),
                 mode = editor.document.language._mode;
@@ -320,9 +365,8 @@ define(function (require, exports, module) {
             }
         });
 
-        /*
-            BottomPanel, Top/Constant
-            Parse Swatches from current Editor
+        /*            
+            Parse Swatches from current Editor/Document
         */
         instance.on('click', '#swatcher-parseLESS', function () {
             var editor = EditorManager.getFocusedEditor();
@@ -340,17 +384,21 @@ define(function (require, exports, module) {
             }
         });
 
-        /*
-            BottomPanel, Top/Constant
-            Inserts less.js from a CDN also inserts a sample stylesheet/less Tag
-            For easier Live Development
+        /*            
+            Fires up the Aco Loader Dialog Modal
+        */
+        instance.on('click', '#swatcher-open-colorimport', function () {
+            ColorImportDialog.show();
+        });
+
+        /*          
+            Fires Up Settings Dialog
         */
         instance.on('click', '#swatcher-open-settingsdialog', function () {
             SettingsDialog.show(preferences);
         });
 
-        /*
-            BottomPanel, Top/Constant
+        /*            
             Panel closer
         */
         instance.on('click', '.close', function () {
@@ -358,7 +406,7 @@ define(function (require, exports, module) {
         });
 
         /*
-            Bottompanel, Top/Constant
+            Filter Swatches
             Keylistener, when length of inputfield is > 2 the Filter kicks in
         */
         instance.on('keyup', '#swatcher-filter', function () {
@@ -375,15 +423,6 @@ define(function (require, exports, module) {
             } else {
                 $('.swatcher-colorwrap').removeClass('found').filterFX('show');
             }
-        });
-
-
-        /*
-            BottomPanel, Top/Constant
-            Fires up the Aco Loader Dialog Modal
-        */
-        instance.on('click', '#swatcher-open-colorimport', function () {
-            ColorImportDialog.show();
         });
 
         loaded = true;
