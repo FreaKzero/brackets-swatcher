@@ -6,12 +6,16 @@
          store = {
              SYSTEM_ERROR: 'Unknown System Error',
              ACO_NOFILE: 'Please focus a Line of a CSS/LESS Document to insert Swatches',
-             ACO_WRONGFILE: 'You can only insert Swatches on a LESS or CSS Document',
+             ACO_WRONGFILE: 'You can only insert Swatches on a LESS or CSS Document',             
              MAIN_NODOCUMENT: 'Please focus an editor window',
              MAIN_WRONGEXT: 'Swatcher can only parse CSS or LESS Files',             
              MAIN_LESSERROR: 'Cant generate Swatches due to an LESS Parsererror<br><br>LESS ERRORMESSAGE: </b><u>{errorMessage}</u>',
-             DIALOG_CANTPARSE: '<strong style="color:red">Swatcher cant parse any Swatches <br> Please make sure the Swatches are in RGB Format</strong>',
-             DIALOG_PARSESUCCESS: '<strong style="color:green">Swatcher Found {count} parseable RGB Swatches</strong>',
+             
+             DIALOG_IMG_CANTPARSE: '<strong style="color:red">Cant extract any Colors from Image</strong>',
+             DIALOG_IMG_PARSESUCCESS: '<strong style="color:green">Successfully extracted {count} Colors</strong>',
+             
+             DIALOG_ACO_CANTPARSE: '<strong style="color:red">Swatcher cant parse any Swatches <br> Please make sure the Swatches are in RGB Format</strong>',
+             DIALOG_ACO_PARSESUCCESS: '<strong style="color:green">Swatcher Found {count} parseable RGB Swatches</strong>',
          },
          messages = {
              panel: function (key, search, replace) {
