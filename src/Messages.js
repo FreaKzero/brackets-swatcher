@@ -10,6 +10,8 @@
              MAIN_NODOCUMENT: 'Please focus an editor window',
              MAIN_WRONGEXT: 'Swatcher can only parse CSS or LESS Files',             
              MAIN_LESSERROR: 'Cant generate Swatches due to an LESS Parsererror<br><br>LESS ERRORMESSAGE: </b><u>{errorMessage}</u>',
+
+             DIALOG_WRONGMIME: '<strong style="color:red">Please use an {filetype} File to Import Colorpalettes</strong>',             
              
              DIALOG_IMG_CANTPARSE: '<strong style="color:red">Cant extract any Colors from Image</strong>',
              DIALOG_IMG_PARSESUCCESS: '<strong style="color:green">Successfully extracted {count} Colors</strong>',
