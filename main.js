@@ -22,19 +22,17 @@ define(function (require, exports, module) {
         StringUtils = brackets.getModule("utils/StringUtils"),
         PreferencesManager = brackets.getModule("preferences/PreferencesManager"),
         FileViewController = brackets.getModule("project/FileViewController"),
-
         //actualFile will be set from swatchesFromLess()        
         actualFile,
         swatchesCSS,
 
         // We just need 1 fired registerEvents() per instance
         loaded = false,
-
         app = {
             ID: "swatcher.run",
             SHORTCUT: "F11",
             PANEL: "#swatcher",
-            CSS: "css/swatcher.css",
+            CSS: "css/swatcher.less",
             MENULABEL: "Swatcher",
             MENULOCATION: Menus.AppMenuBar.VIEW_MENU
         };
@@ -42,7 +40,9 @@ define(function (require, exports, module) {
     /*
         Load Preferences 
     */
-    var preferences = PreferencesManager.getPreferenceStorage(module, DefaultPreferences);
+    ExtensionUtils.loadStyleSheet(module, app.CSS);
+    var preferences = PreferencesManager.getPreferenceStorage(module, DefaultPreferences),
+        $icon = $('<a href="#" id="swatcher-toolbar-icon"> </a>').attr('title', 'Swatcher').appendTo($('#main-toolbar .buttons'));        
 
     /*
         Build an Imagepath via Filename and parentpath of current document
@@ -62,11 +62,13 @@ define(function (require, exports, module) {
             CommandManager.get(app.ID).setChecked(true);
             $(app.PANEL).show();
             EditorManager.resizeEditor();
+            $icon.addClass('active');
         } else {
             CommandManager.get(app.ID).setChecked(false);
             $(app.PANEL).hide();
             EditorManager.resizeEditor();
             EditorManager.focusEditor();
+            $icon.removeClass('active');
         }
     }
 
@@ -160,7 +162,7 @@ define(function (require, exports, module) {
 
             // set global Variable
             actualFile = currentDocument.file.fullPath;
-            
+
             var found, entity, img, htmlID,
                 selector, lessName, lessVal,
                 styleHead = ".bgSwatch(@img) {background: url(@img) no-repeat center center; background-size: 90%;}",
@@ -330,7 +332,7 @@ define(function (require, exports, module) {
 
         /*
             Clickevent to cancel the ColorDefine Bottomscreen (ColorDefine.html)
-        */        
+        */
         instance.on('click', '#swatcher-colordefine-cancel', function () {
             $('#swatcher-container').empty();
         });
@@ -404,7 +406,7 @@ define(function (require, exports, module) {
         instance.on('click', '.close', function () {
             _handleActive();
         });
-
+                
         /*
             Filter Swatches
             Keylistener, when length of inputfield is > 2 the Filter kicks in
@@ -431,9 +433,7 @@ define(function (require, exports, module) {
     /*
         Init the Extension
     */
-    var _init = function () {
-        ExtensionUtils.loadStyleSheet(module, app.CSS);
-
+    var _init = function () {        
         var $swatcher = $(Mustache.render(PanelSkeleton));
 
         if (!loaded) {
@@ -448,5 +448,9 @@ define(function (require, exports, module) {
         var m = Menus.getMenu(app.MENULOCATION);
         CommandManager.register(app.MENULABEL, app.ID, _init);
         m.addMenuItem(app.ID, app.SHORTCUT);
+        
+        $icon.on("click", function() {
+           _init();
+        });        
     });
 });

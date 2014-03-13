@@ -48,10 +48,26 @@
   width: 100%;
   padding-bottom: 100px;
 }
+#extension-name-icon {
+  background-image: url(extension-name-sprite.svg);
+}
 #swatcher-toolbar-icon {
+  background-image: url('images/swatcher-icon.png');
   height: 24px;
   width: 24px;
-  background: url('../images/icon.png') 0 0;
+}
+#swatcher-toolbar-icon.ok {
+  background-position: 0 -24px !important;
+}
+#swatcher-toolbar-icon.active {
+  background-position: 0 -48px !important;
+}
+#swatcher-toolbar-icon.warning,
+#swatcher-toolbar-icon.loading {
+  background-position: 0 -72px !important;
+}
+#swatcher-toolbar-icon.error {
+  background-position: 0 -96px !important;
 }
 .swatcher-insless {
   display: none;
@@ -83,7 +99,7 @@
   transition: background-color 400ms ease-out;
   font-size: 12px;
   overflow: hidden;
-  background: url('../images/bg-transparent.png');
+  background: url('images/bg-transparent.png');
 }
 .swatcher-label {
   display: none;

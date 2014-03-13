@@ -10,8 +10,8 @@
 @danger:        #843534;
 @danger-border: lighten(@danger, 20%);
 
-@icon: '../images/icon.png';
-@transBG: '../images/bg-transparent.png';
+@icon: 'images/swatcher-icon.png';
+@transBG: 'images/bg-transparent.png';
 
 #swatcher {
   background-color: @panelBG;
@@ -72,10 +72,29 @@
     padding-bottom: 100px;
 }
 
+#extension-name-icon {
+    background-image: url(extension-name-sprite.svg);
+}
+
 #swatcher-toolbar-icon {
+    background-image: url(@icon);
     height: 24px;
     width: 24px;
-    background: url(@icon) 0 0;
+    &.ok {
+        background-position: 0 -24px !important;
+    }
+    
+    &.active {
+        background-position: 0 -48px !important;                
+    }
+    
+    &.warning, &.loading {
+        background-position: 0 -72px !important;        
+    }
+    
+    &.error {
+        background-position: 0 -96px !important;        
+    }
 }
 
 .swatcher-insless {
