@@ -7,17 +7,7 @@ define(function (require, exports, module) {
         version: 0,
         colnum: 0,
         colors: [],
-
-        /*
-            Generate Hex Colorhash from decimal r g b values (0-255)
-        */
-        genHash: function (r, g, b) {
-            var bin = r << 16 | g << 8 | b;
-            return (function (h) {
-                return new Array(7 - h.length).join("0") + h
-            })(bin.toString(16).toUpperCase());
-        },
-
+        
         /*
             Reads Version and Colorsum of the Palette
             1 = Version of Palette
@@ -87,7 +77,7 @@ define(function (require, exports, module) {
                 pot = i * 10;
 
                 if (aco.checkColorSpace(data[pot + 5], 'RGB')) {
-                    aco.colors.push("#" + aco.genHash(data[pot + 6], data[pot + 8], data[pot + 10]));
+                    aco.colors.push([data[pot + 6], data[pot + 8], data[pot + 10]]);
                 } else {
                     console.log('Skipping Color - Not RGB');
                 }

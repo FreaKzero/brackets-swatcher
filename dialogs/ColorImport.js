@@ -17,8 +17,13 @@ define(function (require, exports, module) {
         Register Dialog Events
     */
     function registerEvents(dialog) {
+        
+        // Since we can have Palettes from Images or Aco Files - we need this global
         var palette;
-
+        
+        /*
+            Event/Show for the Palette from ACO Button
+        */
         dialog.on('click', '.show-btn-aco', function () {
 
             $(this).addClass('primary');
@@ -28,6 +33,9 @@ define(function (require, exports, module) {
             $('#show-import-aco').show();
         });
 
+        /*
+            Event/Show for the Palette from IMG Button
+        */
         dialog.on('click', '.show-btn-img', function () {
             $(this).addClass('primary');
             $('.show-btn-aco').removeClass('primary');
@@ -36,49 +44,55 @@ define(function (require, exports, module) {
             $('#show-import-aco').hide();
         });
 
+        /*
+            FileInput Change Event for Image Files (ColorThief)
+        */
         dialog.on('change', '#swatcher-colorimport-img', function () {
             var fr = new FileReader();
             //TODO check Mime (!)
             fr.onload = function (event) {
                 
+                // Colorthief needs a HTML <img> element to inject it into a Canvas, filling src with BASE64 String
                 $('#colorthief').prop('src', event.target.result);
-
+                
                 var $image = $('#colorthief'),
                     colnum = parseInt($('#swatcher-colorimport-img-num').val());
-                    
+                
+                // Set Palette globally
                 palette = ColorThief.createPalette($image[0], colnum);
 
-                if (palette.length > 0) {                    
+                // Success Message and enable OK Button
+                if (palette.length > 0) {
                     dialog.find('#swatcher-colorimport-status').html(
                         messages.getMessage('DIALOG_IMG_PARSESUCCESS', 'count', palette.length)
                     );
 
                     dialog.find('#swatcher-colorimport-ok').attr('disabled', false);
-
+                
+                // Error Message - disable OK Button
                 } else {
 
                     dialog.find('#swatcher-colorimport-status').html(
                         messages.getMessage('DIALOG_IMG_CANTPARSE')
                     );
-
-                    dialog.find('#swatcher-colorimport-ok').attr('disabled', 'disabled');
                     
+                    dialog.find('#swatcher-colorimport-ok').attr('disabled', 'disabled');
                 }
-
-
             };
-
+            
+            // Reason: <img src="BASE64">
             fr.readAsDataURL(this.files[0]);
-
         });
 
         /*
-            When value of FileInput File changes, Fire
+            FileInput Change Event for Aco Files (Photoshop Swatches)
         */
         dialog.on('change', '#swatcher-colorimport-aco', function () {
             var fr = new FileReader();
 
             fr.onloadend = function () {
+                
+                // Set Palette globally
                 palette = Aco.getRGB(this.result);
 
                 // We cant use aco.colnum because that property can be from all colorspaces - we just want RGB (prevented in lib)
@@ -100,25 +114,41 @@ define(function (require, exports, module) {
             fr.readAsArrayBuffer(this.files[0]);
 
         });
-
-        dialog.on('click', '#swatcher-colorimport-ok', function () {            
-            createPanel(palette);            
+        
+        /*
+            ClickEvent for OK Button - ColorDefine Panel (Defining Colornames)
+        */
+        dialog.on('click', '#swatcher-colorimport-ok', function () {
+            createPanel(palette);
         });
     }
 
+    /*
+        Creates Hexadecimal Colorhashes from R, G, B decimal values
+    */
+    function hashFromRGB(r, g, b) {
+        var bin = r << 16 | g << 8 | b;
+        return (function (h) {
+            return new Array(7 - h.length).join("0") + h
+        })('#' + bin.toString(16).toUpperCase());
+    }
+
+    /*
+        Creates the ColorDefine Panel to define Colornames
+    */
     function createPanel(palette) {
-        var name, str = "",
-            panelData = [];
+        var name, panelData = [];
 
-        palette.forEach(function (color, i) {
-
-            name = '@color' + i;
-            str += name + ":" + color + "; \n";
-
+        palette.forEach(function (arrayRGB, i) {
+            
+            // Hashes are more convenient, since we will never have any transparent colors in Import
+            var hash = hashFromRGB(arrayRGB[0], arrayRGB[1], arrayRGB[2]);
+            
+            // Data for Mustache
             panelData.push({
                 less: '@color' + i,
-                hex: color,
-                style: 'background-color:' + color
+                hex: hash,
+                style: 'background-color:' + hash
             });
         });
 

@@ -104,7 +104,7 @@ define(function (require, exports, module) {
         // using median cut algorithm
 
         var cmap = quantize(pixelArray, colorCount);
-        var palette = preparePalette(cmap.palette());
+        var palette = cmap.palette();
         
         // Clean up
         image.removeCanvas();
@@ -112,25 +112,7 @@ define(function (require, exports, module) {
         return palette;
 
     }
-
-    function preparePalette(palette) {
-        var num = palette.length,
-            hashes = [];
-
-        for (var i = 0; i < num; i++) {
-            hashes.push("#"+genHash(palette[i][0], palette[i][1], palette[i][2]));
-        }
-
-        return hashes;
-    }
-
-    function genHash(r, g, b) {
-        var bin = r << 16 | g << 8 | b;
-        return (function (h) {
-            return new Array(7 - h.length).join("0") + h
-        })(bin.toString(16).toUpperCase());
-    }
-
+    
     /*
      * getAverageRGB(sourceImageFilename)
      * returns {r: num, g: num, b: num}
