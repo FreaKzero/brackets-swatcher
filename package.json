@@ -1,9 +1,9 @@
 {
     "name": "brackets.swatcher",
     "title": "Swatcher",
-    "description": "Load Photoshop ACO Palette Files (RGB only) or parse LESS @variables into the Bottombar for easier use. ",
+    "description": "Generates a Colorpalette Bottompanel via importing directly from LESS, Imagefiles (dominant colors) or Photoshop Swatches (Aco Files)",
     "homepage": "https://github.com/FreaKzero/brackets-swatcher",
-    "version": "0.3.1",
+    "version": "0.4.0",
     "author": "FreaKzero <pete@freakzero.com>",
     "license": "GPL",
     "engines": {

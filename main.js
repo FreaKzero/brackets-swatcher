@@ -38,7 +38,7 @@ define(function (require, exports, module) {
         };
 
     /*
-        Load Preferences 
+        Load Preferences, CSS and Inject Icon into main-toolbar
     */
     ExtensionUtils.loadStyleSheet(module, app.CSS);
     var preferences = PreferencesManager.getPreferenceStorage(module, DefaultPreferences),
