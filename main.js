@@ -5,7 +5,7 @@ define(function (require, exports, module) {
 
     var DefaultPreferences = require("./cfg/DefaultPreferences"),
         messages = require('./src/Messages'),
-
+        SwatchHint = require('./src/SwatchHint'),
         PanelSkeleton = require("text!html/PanelSkeleton.html"),
         MainView = require("text!html/MainView.html"),
 
@@ -173,6 +173,9 @@ define(function (require, exports, module) {
                 regexVariables = /@[0-9a-z\-_]+\s*:\s*([0-9a-z\-_@#%'"*\/\.\(\)\,\+\s]+)/ig,
                 regexBackgrounds = /(ceil|floor|percentage|round|sqrt|abs|sin|asin|cos|acos|tan|atan|pi|pow|mod|min|max|length|extract|escape|e)(\()|(^[0-9.]+)|(.*\s(\+|\-|\*)\s.*)|(inherit|normal|bold|italic|\")/g;
 
+            // Reset CodeHints
+            SwatchHint.reset();
+
             while ((found = regexVariables.exec(documentText)) !== null) {
 
                 // We need all (!) @variables defined since we want @variable:@variable too
@@ -190,7 +193,7 @@ define(function (require, exports, module) {
                     continue;
                 }
 
-                // Generate HTML Selector - htmlID is also used as the Label of the Swatch in HTML Template
+                // Generate HTML Selector
                 htmlID = lessName.substring(1);
                 selector = '#' + htmlID + '.swatcher-color';
 
@@ -205,6 +208,10 @@ define(function (require, exports, module) {
                     styleBody += selector + '{ background-color:' + lessVal + '; }';
                 }
 
+                // Register Swatch for CodeHints
+                    SwatchHint.register(lessName, htmlID);
+
+                // Push Data for Mustache
                 panelData.push({
                     line: StringUtils.offsetToLineNum(documentLines, found.index),
                     less: lessName,
@@ -215,6 +222,7 @@ define(function (require, exports, module) {
 
             // parse our generated LESS string and return it - _parseLESS() is handling Errors
             if (_parseLESS(styleHead + styleBody)) {
+                SwatchHint.init();
                 return panelData;
             }
         }

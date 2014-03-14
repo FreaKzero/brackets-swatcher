@@ -76,11 +76,17 @@
   height: 30px;
   width: 30px;
 }
-.swatcher-color {
+.swatcher-swatch-panel {
   width: 70px;
   height: 70px;
   border-bottom: 1px solid #1e1f20;
   cursor: pointer;
+}
+.swatcher-swatch-hints {
+  display: inline-block;
+  margin-right: 5px;
+  height: 10px;
+  width: 10px;
 }
 .swatcher-colorwrap {
   border-radius: 3px;
