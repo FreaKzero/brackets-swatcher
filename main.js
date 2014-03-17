@@ -22,6 +22,7 @@ define(function (require, exports, module) {
         StringUtils = brackets.getModule("utils/StringUtils"),
         PreferencesManager = brackets.getModule("preferences/PreferencesManager"),
         FileViewController = brackets.getModule("project/FileViewController"),
+
         //actualFile will be set from swatchesFromLess()        
         actualFile,
         swatchesCSS,
@@ -220,7 +221,7 @@ define(function (require, exports, module) {
                 });
             }
 
-            // parse our generated LESS string and return it - _parseLESS() is handling Errors
+            // parse our generated LESS string and return Swatches for Mustache
             if (_parseLESS(styleHead + styleBody)) {
                 SwatchHint.init();
                 return panelData;
@@ -247,6 +248,7 @@ define(function (require, exports, module) {
     }
 
     /*
+        TODO: We dont have only aco here...
         Transfers Imported ACO Palette into LESS or CSS File
         ### TPL: ColorDefine.html
     */
@@ -395,7 +397,7 @@ define(function (require, exports, module) {
         });
 
         /*            
-            Fires up the Aco Loader Dialog Modal
+            Fires up the ColorImport Dialog
         */
         instance.on('click', '#swatcher-open-colorimport', function () {
             ColorImportDialog.show();

@@ -4,13 +4,31 @@ define(function (require, exports, module) {
     "use strict";
     var CodeHintManager = brackets.getModule("editor/CodeHintManager"),
         DocumentManager = brackets.getModule("document/DocumentManager"),
-        codeHints = [];
+        codeHints = [],
+        codeStr = "";
 
     function SwatchHint() {}
 
     SwatchHint.prototype.init = function () {
         var hints = new SwatchHint();
         CodeHintManager.registerHintProvider(hints, ["css", "less"], 0);
+    };
+
+    SwatchHint.prototype.queryHints = function (query) {
+        var filtered = codeHints.filter(function (v) {
+            if (v.indexOf(query) > -1) {
+                return v;
+            }
+        });
+
+        if (query[0] == "@") {
+            if (filtered.length > 0) {
+                return filtered;
+            } else {
+                codeStr = "";
+                return null;
+            }
+        }
     };
 
     SwatchHint.prototype.reset = function () {
@@ -23,40 +41,43 @@ define(function (require, exports, module) {
         );
     };
 
-    SwatchHint.prototype.getHints = function (trigger) {
-        if (trigger !== "@") {
-            return null;
+    SwatchHint.prototype.getHints = function (char) {
+        if (char === null) {
+            codeStr = codeStr.slice(0, -1);
+        } else {
+            codeStr += char;
         }
 
+        var filteredHints = this.queryHints(codeStr);
+
         return {
-            hints: codeHints,
+            hints: filteredHints,
             match: null,
             selectInitial: true,
             handleWideResults: false
         };
     };
 
-    SwatchHint.prototype.hasHints = function (editor, trigger) {
+    SwatchHint.prototype.hasHints = function (editor, char) {
         this.editor = editor;
 
-        return trigger ? trigger === "@" : false;
+        return char ? char === "@" : false;
 
     };
 
-    SwatchHint.prototype.getColorFromString = function (string) {
+    SwatchHint.prototype.autoComplete = function (string) {
 
         var pos = string.lastIndexOf(">");
-        return string.substring(pos + 2);
+        return string.substring(pos + 2).substring(codeStr.length - 1);
 
     };
 
     SwatchHint.prototype.insertHint = function (hint) {
-        var code = this.getColorFromString(hint),
+        var code = this.autoComplete(hint),
             currentDoc = DocumentManager.getCurrentDocument(),
             pos = this.editor.getCursorPos();
-
+        codeStr = "";
         currentDoc.replaceRange(code, pos);
-
     };
 
     exports.register = SwatchHint.prototype.register;
