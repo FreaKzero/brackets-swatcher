@@ -4,31 +4,14 @@ define(function (require, exports, module) {
     "use strict";
     var CodeHintManager = brackets.getModule("editor/CodeHintManager"),
         DocumentManager = brackets.getModule("document/DocumentManager"),
-        codeHints = [],
-        codeStr = "";
+        hintHelper = require('../src/hintHelper'),
+        codeHints = [];
 
     function SwatchHint() {}
 
     SwatchHint.prototype.init = function () {
         var hints = new SwatchHint();
         CodeHintManager.registerHintProvider(hints, ["css", "less"], 0);
-    };
-
-    SwatchHint.prototype.queryHints = function (query) {
-        var filtered = codeHints.filter(function (v) {
-            if (v.indexOf(query) > -1) {
-                return v;
-            }
-        });
-
-        if (query[0] == "@") {
-            if (filtered.length > 0) {
-                return filtered;
-            } else {
-                codeStr = "";
-                return null;
-            }
-        }
     };
 
     SwatchHint.prototype.reset = function () {
@@ -42,13 +25,9 @@ define(function (require, exports, module) {
     };
 
     SwatchHint.prototype.getHints = function (char) {
-        if (char === null) {
-            codeStr = codeStr.slice(0, -1);
-        } else {
-            codeStr += char;
-        }
 
-        var filteredHints = this.queryHints(codeStr);
+        hintHelper.registerChar(char);
+        var filteredHints = hintHelper.filterHints(codeHints);
 
         return {
             hints: filteredHints,
@@ -61,14 +40,20 @@ define(function (require, exports, module) {
     SwatchHint.prototype.hasHints = function (editor, char) {
         this.editor = editor;
 
-        return char ? char === "@" : false;
-
+        if (char === "@") {
+            return 1;
+        } else {
+            hintHelper.reset();
+            return false;
+        }
     };
 
     SwatchHint.prototype.autoComplete = function (string) {
 
-        var pos = string.lastIndexOf(">");
-        return string.substring(pos + 2).substring(codeStr.length - 1);
+        var pos = string.lastIndexOf(">"),
+            search = hintHelper.getSearchString();
+
+        return string.substring(pos + 2).substring(search.length - 1);
 
     };
 
@@ -76,7 +61,8 @@ define(function (require, exports, module) {
         var code = this.autoComplete(hint),
             currentDoc = DocumentManager.getCurrentDocument(),
             pos = this.editor.getCursorPos();
-        codeStr = "";
+
+        hintHelper.reset();
         currentDoc.replaceRange(code, pos);
     };
 
