@@ -20,6 +20,11 @@ define(function (require, exports, module) {
             if (searchString.length > 0) {
                 searchString = searchString.slice(0, -1);
             }
+
+            if (searchString === "@") {
+                this.reset();
+            }
+
         } else {
             searchString += char;
         }

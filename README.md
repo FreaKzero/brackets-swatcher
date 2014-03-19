@@ -40,7 +40,8 @@ This was a common Problem with the old filter Function so you were **forced** to
 **Since Swatcher Version 0.3.1 this Problem dont exists anymore - Please update Swatcher via Brackets Extension Manager.**
 
  **Author** [FreaKzero](https://github.com/freakzero)
-
- **Scripts Used:**[ColorThief](http://lokeshdhakar.com/projects/color-thief)
- 
  **Extension for** [Brackets.io](http://brackets.io)
+
+ **Thanks to:**
+Lokesh Dhakar [ColorThief](http://lokeshdhakar.com/projects/color-thief)
+Alexander Hochreiter for Testing on Linux/Mac Systems

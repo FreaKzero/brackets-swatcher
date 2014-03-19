@@ -4,6 +4,7 @@ define(function (require, exports, module) {
     var DefaultPreferences = require("../cfg/DefaultPreferences"),
         BlacklistSets = require("../cfg/BlacklistSets"),
         Template = require("text!../html/SettingsDialog.html"),
+
         Dialogs = brackets.getModule("widgets/Dialogs"),
         CommandManager = brackets.getModule("command/CommandManager"),
         preferences;
@@ -14,6 +15,7 @@ define(function (require, exports, module) {
             preferences.setValue('blacklist', DefaultPreferences.blacklist);
             preferences.setValue('animation', DefaultPreferences.animation);
             preferences.setValue('sets', DefaultPreferences.sets);
+            preferences.setValue('swatchsize', DefaultPreferences.swatchsize);
             CommandManager.execute("debug.refreshWindow");
         });
 
@@ -27,6 +29,7 @@ define(function (require, exports, module) {
 
             preferences.setValue('blacklist', $.trim($('#swatcher-settings-blacklist').val()));
             preferences.setValue('animation', $animationValue);
+            preferences.setValue('swatchsize', $('#swatcher-settings-size option:selected').val());
             CommandManager.execute("debug.refreshWindow");
         });
 

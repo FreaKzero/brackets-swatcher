@@ -43,7 +43,8 @@ define(function (require, exports, module) {
     */
     ExtensionUtils.loadStyleSheet(module, app.CSS);
     var preferences = PreferencesManager.getPreferenceStorage(module, DefaultPreferences),
-        $icon = $('<a href="#" id="swatcher-toolbar-icon"> </a>').attr('title', 'Swatcher').appendTo($('#main-toolbar .buttons'));        
+        swatchsize = preferences.getValue('swatchsize'),
+        $icon = $('<a href="#" id="swatcher-toolbar-icon"> </a>').attr('title', 'Swatcher').appendTo($('#main-toolbar .buttons'));
 
     /*
         Build an Imagepath via Filename and parentpath of current document
@@ -210,7 +211,7 @@ define(function (require, exports, module) {
                 }
 
                 // Register Swatch for CodeHints
-                    SwatchHint.register(lessName, htmlID);
+                SwatchHint.register(lessName, htmlID);
 
                 // Push Data for Mustache
                 panelData.push({
@@ -319,13 +320,16 @@ define(function (require, exports, module) {
         */
         instance.on({
             mouseenter: function () {
-                var toolTip = $(this).data('less');
-                var pos = $(this).offset();
+                var toolTip = $(this).data('less'),
+                    pos = $(this).offset(),
+                    top;
+
+                swatchsize === 'big' ? top = 60 : top = 30;
 
                 $('<span class="swatcher-label"></span>').text(toolTip)
                     .appendTo('body')
                     .css('left', (pos.left + 20) + 'px')
-                    .css('top', (pos.top + 60) + 'px')
+                    .css('top', (pos.top + top) + 'px')
                     .filterFX('show');
             },
             mouseleave: function () {
@@ -416,7 +420,7 @@ define(function (require, exports, module) {
         instance.on('click', '.close', function () {
             _handleActive();
         });
-                
+
         /*
             Filter Swatches
             Keylistener, when length of inputfield is > 2 the Filter kicks in
@@ -443,8 +447,11 @@ define(function (require, exports, module) {
     /*
         Init the Extension
     */
-    var _init = function () {        
-        var $swatcher = $(Mustache.render(PanelSkeleton));
+    var _init = function () {
+        var TemplateData = {};
+        TemplateData.swatchsize = swatchsize;
+
+        var $swatcher = $(Mustache.render(PanelSkeleton, TemplateData));
 
         if (!loaded) {
             registerEvents($swatcher);
@@ -458,9 +465,9 @@ define(function (require, exports, module) {
         var m = Menus.getMenu(app.MENULOCATION);
         CommandManager.register(app.MENULABEL, app.ID, _init);
         m.addMenuItem(app.ID, app.SHORTCUT);
-        
-        $icon.on("click", function() {
-           _init();
-        });        
+
+        $icon.on("click", function () {
+            _init();
+        });
     });
 });
