@@ -11,7 +11,7 @@ define(function (require, exports, module) {
 
     SwatchHint.prototype.init = function () {
         var hints = new SwatchHint();
-        CodeHintManager.registerHintProvider(hints, ["css", "less"], 0);
+        CodeHintManager.registerHintProvider(hints, ['less'], 0);
     };
 
     SwatchHint.prototype.reset = function () {

@@ -10,6 +10,7 @@ Generates a Colorpalette Bottompanel via importing directly from LESS, Imagefile
     * Supports LESS color-related Functions, rgba() and Hashs
     * Supports backgroundimages (Codeconvention: use Singlequotes)
     * Supports @variable:@variable assignments
+    * Configurable Swatch sizes
 
 * Colorpalette Import
     * Load Colorpalettes from RGB Photshop Swatch Files (*.aco)
@@ -20,16 +21,14 @@ Generates a Colorpalette Bottompanel via importing directly from LESS, Imagefile
     * Leftclick on a Swatch to Insert LESS Variable or rgba()/background-image values on other Files
     * Rightclick on a Swatch will direct the Cursor to the place where LESS Variable is defined
     * Filter for Swatches in Bottombar via LESS variable names
+    * Codehint Support (LESS Files only)
     
 * Blacklists for Variable Names
     * User defined Blacklists
     * Blacklist Sets
 
 ### Planned Features / TODO
-* Codehint Feature
-* Define Custom Shortcuts
 * More Blacklist Sets (Foundation, Twitter Bootstrap 2)
-* Dark Theme/Bright Theme
 
 ### Known Bugs
 * Background Images filtered fronm @variable:@variable dont show up 
@@ -44,4 +43,4 @@ This was a common Problem with the old filter Function so you were **forced** to
 
  **Thanks to:**
 Lokesh Dhakar [ColorThief](http://lokeshdhakar.com/projects/color-thief)
-Alexander Hochreiter for Testing on Linux/Mac Systems
+Alexander Hochreiter for Testing on Mac/Linux Systems

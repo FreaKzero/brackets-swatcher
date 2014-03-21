@@ -31,9 +31,8 @@ define(function (require, exports, module) {
         loaded = false,
         app = {
             ID: "swatcher.run",
-            SHORTCUT: "F11",
             PANEL: "#swatcher",
-            CSS: "css/swatcher.less",
+            CSS: "css/swatcher.css",
             MENULABEL: "Swatcher",
             MENULOCATION: Menus.AppMenuBar.VIEW_MENU
         };
@@ -44,6 +43,7 @@ define(function (require, exports, module) {
     ExtensionUtils.loadStyleSheet(module, app.CSS);
     var preferences = PreferencesManager.getPreferenceStorage(module, DefaultPreferences),
         swatchsize = preferences.getValue('swatchsize'),
+        shortcut = preferences.getValue('shortcut'),
         $icon = $('<a href="#" id="swatcher-toolbar-icon"> </a>').attr('title', 'Swatcher').appendTo($('#main-toolbar .buttons'));
 
     /*
@@ -196,7 +196,7 @@ define(function (require, exports, module) {
                 }
 
                 // Generate HTML Selector
-                htmlID = lessName.substring(1);
+                htmlID = 'SW_' + lessName.substring(1);
                 selector = '#' + htmlID + '.swatcher-color';
 
                 // Check for Images (We dont want doublequotes since font-families use them - code convention)
@@ -248,12 +248,11 @@ define(function (require, exports, module) {
         }
     }
 
-    /*
-        TODO: We dont have only aco here...
-        Transfers Imported ACO Palette into LESS or CSS File
+    /*        
+        Writes Imported/Defined Colors into Editor (LESS or CSS File)
         ### TPL: ColorDefine.html
     */
-    function acoToLess(currentEditor) {
+    function writeToEditor(currentEditor) {
         if (currentEditor) {
             var mode = currentEditor.document.language._mode,
                 str = "";
@@ -338,10 +337,10 @@ define(function (require, exports, module) {
         }, '.swatcher-color');
 
         /*
-            Clickevent to import "defined" ACO-Colors (ColorDefine.html) into Swatcher Panel
+            Clickevent to import "defined" Colors (ColorDefine.html) into Swatcher Panel
         */
         instance.on('click', '#swatcher-colordefine-import', function () {
-            acoToLess(EditorManager.getFocusedEditor());
+            writeToEditor(EditorManager.getFocusedEditor());
         });
 
         /*
@@ -464,7 +463,7 @@ define(function (require, exports, module) {
     AppInit.appReady(function () {
         var m = Menus.getMenu(app.MENULOCATION);
         CommandManager.register(app.MENULABEL, app.ID, _init);
-        m.addMenuItem(app.ID, app.SHORTCUT);
+        m.addMenuItem(app.ID, shortcut);
 
         $icon.on("click", function () {
             _init();

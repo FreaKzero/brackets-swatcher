@@ -5,7 +5,8 @@
      var DefaultPreferences = {
          blacklist: 'font,height,width,size,radius,min,max,margin,padding',
          animation: 'checked',
-         swatchsize: 'big'
+         swatchsize: 'big',
+         shortcut: 'F11'
      };
      
      module.exports = DefaultPreferences;

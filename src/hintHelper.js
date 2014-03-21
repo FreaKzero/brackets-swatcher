@@ -42,7 +42,7 @@ define(function (require, exports, module) {
                 return filtered;
             } else {
                 this.reset();
-                return null;
+                return [];
             }
         }
     };

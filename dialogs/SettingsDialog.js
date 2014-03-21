@@ -4,13 +4,15 @@ define(function (require, exports, module) {
     var DefaultPreferences = require("../cfg/DefaultPreferences"),
         BlacklistSets = require("../cfg/BlacklistSets"),
         Template = require("text!../html/SettingsDialog.html"),
+        ShortcutHelper = require("../src/shortcuthelper"),
 
         Dialogs = brackets.getModule("widgets/Dialogs"),
         CommandManager = brackets.getModule("command/CommandManager"),
         preferences;
 
     function registerEvents(dialog) {
-
+        ShortcutHelper.register('#swatcher-settings-shortcut');
+        
         dialog.on('click', '#swatcher-settings-restore', function () {
             preferences.setValue('blacklist', DefaultPreferences.blacklist);
             preferences.setValue('animation', DefaultPreferences.animation);
@@ -25,11 +27,18 @@ define(function (require, exports, module) {
         });
 
         dialog.on('click', '#swatcher-settings-save', function () {
-            var $animationValue = $('#swatcher-settings-animation').prop("checked") ? 'checked' : '';
-
+            var $animationValue = $('#swatcher-settings-animation').prop("checked") ? 'checked' : '',
+                $swatchsize = $('#swatcher-settings-size option:selected').val(),
+                $shortcut = $('#swatcher-settings-shortcut').val();
+            
             preferences.setValue('blacklist', $.trim($('#swatcher-settings-blacklist').val()));
             preferences.setValue('animation', $animationValue);
-            preferences.setValue('swatchsize', $('#swatcher-settings-size option:selected').val());
+            preferences.setValue('shortcut', $shortcut);
+            
+            if ($swatchsize !== "0") {
+                preferences.setValue('swatchsize', $swatchsize);
+            }
+                                     
             CommandManager.execute("debug.refreshWindow");
         });
 

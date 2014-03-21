@@ -1,7 +1,7 @@
 <div class="modal">
 
     <div class="modal-header">
-        <h1 class="dialog-title">Swatcher Parser Settings</h1>
+        <h1 class="dialog-title">Swatcher Settings</h1>
     </div>
 
     <div class="modal-body">
@@ -18,17 +18,23 @@
         <input type="text" value="{{blacklist}}" id="swatcher-settings-blacklist" />
         <br />
         <br />
-        <label for="swatcher-settings-size"> Swatch Sizes</label>
+        <label for="swatcher-settings-size">Swatch Sizes:</label>
             <select id="swatcher-settings-size">
+            <option value="0">Select Swatchsize</option>
             <option value="big">70 x 70</option>
             <option value="small">35 x 35</option>
             </select>
         <br />
         <br />
+        <label for="swatcher-settings-shortcut">Shortcut:</label>
+            <input type="text" id="swatcher-settings-shortcut" value="{{shortcut}}" />        
+        <br />
+        <br />
         <label for="swatcher-settings-animation">
             <input type="checkbox" id="swatcher-settings-animation" {{animation}}> Filter/Label Animations
         </label>
-
+        <br />
+        <br />
         <div style="text-align:right">
             <strong>Found a Bug ?</strong> Please Report it via
             <a href="https://github.com/FreaKzero/brackets-swatcher/issues?state=open">GitHub</a> or
