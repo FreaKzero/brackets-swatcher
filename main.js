@@ -172,7 +172,9 @@ define(function (require, exports, module) {
                 panelData = [],
                 documentText = currentDocument.getText(),
                 documentLines = StringUtils.getLines(documentText),
-                regexVariables = /@[0-9a-z\-_]+\s*:\s*([0-9a-z\-_@#%'"*\/\.\(\)\,\+\s]+)/ig,
+                //regexVariables = /@[0-9a-z\-_]+\s*:\s*([0-9a-z\-_@#%'"*\/\.\(\)\,\+\s]+)/ig,
+                regexVariables = /^@[0-9a-z\-_]+\s*:\s*([0-9a-z\-_@#%'"*\/\.\(\)\,\+\s]+)/igm,
+
                 regexBackgrounds = /(ceil|floor|percentage|round|sqrt|abs|sin|asin|cos|acos|tan|atan|pi|pow|mod|min|max|length|extract|escape|e)(\()|(^[0-9.]+)|(.*\s(\+|\-|\*)\s.*)|(inherit|normal|bold|italic|\")/g;
 
             // Reset CodeHints
@@ -426,11 +428,12 @@ define(function (require, exports, module) {
         */
         instance.on('keyup', '#swatcher-filter', function () {
             var $filter = $(this).val();
+
             //method, animate
             if ($filter.length > 2) {
                 $('.swatcher-colorwrap:not(.found)')
                     .filterFX('hide')
-                    .find('div[data-less*="' + $filter + '"]')
+                    .find('div[data-less*="' + $filter.toLowerCase() + '"]')
                     .parent()
                     .addClass('found');
 
