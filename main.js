@@ -448,10 +448,10 @@ define(function (require, exports, module) {
             Update Swatches on save
             Only updates when the previous scanned File is saved
         */
-        $(DocumentManager).on("documentSaved", function (e, entry) {
+        $(DocumentManager).on("documentSaved", function (e, doc) {                        
             var editor = EditorManager.getFocusedEditor();
-
-            if (editor && actualFile === editor.document.file.fullPath) {
+            
+            if (editor &&actualFile === doc.file.fullPath) {
                 panelFromLess(editor);
             }
         });
