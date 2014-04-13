@@ -7,6 +7,7 @@ Generates a Colorpalette Bottompanel via importing directly from LESS, Imagefile
 ## Features
 
 * Visual Swatches from Imported LESS variables
+    * Once a LESS File is read, Colorswatches will update on every save
     * Supports LESS color-related Functions, rgba() and Hashs
     * Supports backgroundimages (Codeconvention: use Singlequotes)
     * Supports @variable:@variable assignments
@@ -38,9 +39,10 @@ This was a common Problem with the old filter Function so you were **forced** to
 
 **Since Swatcher Version 0.3.1 this Problem dont exists anymore - Please update Swatcher via Brackets Extension Manager.**
 
- **Author** [FreaKzero](https://github.com/freakzero)
+ **Author** [FreaKzero](https://github.com/freakzero)  
  **Extension for** [Brackets.io](http://brackets.io)
 
- **Thanks to:**
-Lokesh Dhakar [ColorThief](http://lokeshdhakar.com/projects/color-thief)
+ **Thanks to:**  
+Lokesh Dhakar [ColorThief](http://lokeshdhakar.com/projects/color-thief)  
+Amin Ullah Khan [GitHub](https://github.com/sprintr)  
 Alexander Hochreiter for Testing on Mac/Linux Systems

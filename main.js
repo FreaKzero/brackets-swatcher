@@ -451,7 +451,7 @@ define(function (require, exports, module) {
         $(DocumentManager).on("documentSaved", function (e, doc) {                        
             var editor = EditorManager.getFocusedEditor();
             
-            if (editor &&actualFile === doc.file.fullPath) {
+            if (editor && actualFile === doc.file.fullPath) {
                 panelFromLess(editor);
             }
         });
