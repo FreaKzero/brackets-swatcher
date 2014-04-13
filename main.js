@@ -444,6 +444,18 @@ define(function (require, exports, module) {
             }
         });
 
+        /*
+            Update Swatches on save
+            Only updates when the previous scanned File is saved
+        */
+        $(DocumentManager).on("documentSaved", function (e, entry) {
+            var editor = EditorManager.getFocusedEditor();
+
+            if (editor && actualFile === editor.document.file.fullPath) {
+                panelFromLess(editor);
+            }
+        });
+
         loaded = true;
     }
 
@@ -463,13 +475,6 @@ define(function (require, exports, module) {
         PanelManager.createBottomPanel(app.ID, $swatcher, 200);
         _handleActive();
     };
-
-    /*
-		Update panel on save
-	*/
-	$(DocumentManager).on("documentSaved", function(e, entry) {
-		panelFromLess(EditorManager.getFocusedEditor());
-	});
 
     AppInit.appReady(function () {
         var m = Menus.getMenu(app.MENULOCATION);
