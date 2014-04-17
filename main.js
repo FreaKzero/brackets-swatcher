@@ -107,12 +107,14 @@ define(function (require, exports, module) {
         Process Filtered LESS String from swatchesFromLess() via less.Parser
     */
     function _parseLESS(lessString) {
+        $icon.removeClass('error');
         swatchesCSS = null;
         var lp = new(less.Parser);
         lp.parse(lessString, function (err, tree) {
             try {
                 swatchesCSS = tree.toCSS();
             } catch (error) {
+                $icon.addClass('error');
                 messages.panel('MAIN_LESSERROR', 'errorMessage', error.message);
             }
         });
