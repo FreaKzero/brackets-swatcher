@@ -4,13 +4,13 @@ define(function(require, exports, module) {
     "use strict";
 
     var DefaultPreferences = require("./cfg/DefaultPreferences"),
+        Utils = require("./src/Utils"),
         messages = require('./src/Messages'),
-        SwatchHint = require('./src/SwatchHint'),
+        SwatchHint = require('./src/SwatchHints'),        
+        ColorImportDialog = require("src/dialogs/ColorImport"),
+        SettingsDialog = require("src/dialogs/SettingsDialog"),
         PanelSkeleton = require("text!html/PanelSkeleton.html"),
         MainView = require("text!html/MainView.html"),
-        Utils = require("./src/utils"),
-        ColorImportDialog = require("dialogs/ColorImport"),
-        SettingsDialog = require("dialogs/SettingsDialog"),
 
         AppInit = brackets.getModule('utils/AppInit'),
         Menus = brackets.getModule("command/Menus"),

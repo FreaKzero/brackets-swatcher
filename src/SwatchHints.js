@@ -4,7 +4,7 @@ define(function (require, exports, module) {
     "use strict";
     var CodeHintManager = brackets.getModule("editor/CodeHintManager"),
         DocumentManager = brackets.getModule("document/DocumentManager"),
-        hintHelper = require('../src/hintHelper'),
+        hintHelper = require('../src/helpers/HintHelper'),
         codeHints = [];
 
     function SwatchHint() {}

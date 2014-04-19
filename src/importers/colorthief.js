@@ -19,7 +19,7 @@
  * Requires jquery and quantize.js.
  */
 define(function (require, exports, module) {
-    var quantize = require('../src/quantize');
+    var quantize = require('../helpers/quantize');
     var CanvasImage = function (image) {
         this.canvas = document.createElement('canvas');
         this.context = this.canvas.getContext('2d');

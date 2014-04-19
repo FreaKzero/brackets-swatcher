@@ -2,15 +2,13 @@
 /*global define, $, brackets, FileReader, Mustache */
 
 define(function (require, exports, module) {
-    var MainTemplate = require("text!../html/ColorImport.html"),
+    var MainTemplate = require("text!../../html/ColorImport.html"),
         ColorDefineTemplate = require("text!html/ColorDefine.html"),
-        messages = require('../src/Messages'),
+        messages = require('../Messages'),
 
-        Dialogs = brackets.getModule("widgets/Dialogs"),
-        CommandManager = brackets.getModule("command/CommandManager"),
-        EditorManager = brackets.getModule("editor/EditorManager"),
-        Aco = require("../src/aco"),
-        ColorThief = require("../src/colorthief");
+        Dialogs = brackets.getModule("widgets/Dialogs"),        
+        Aco = require("../importers/aco"),
+        ColorThief = require("../importers/colorthief");
 
 
     /*

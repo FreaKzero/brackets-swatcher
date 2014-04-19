@@ -1,10 +1,10 @@
 /*jslint vars: true, plusplus: true, nomen: true, devel: true, regexp: true, indent: 4, maxerr: 50 */
 /*global define, $, brackets, FileReader, Mustache */
 define(function (require, exports, module) {
-    var DefaultPreferences = require("../cfg/DefaultPreferences"),
-        BlacklistSets = require("../cfg/BlacklistSets"),
-        Template = require("text!../html/SettingsDialog.html"),
-        ShortcutHelper = require("../src/shortcuthelper"),
+    var DefaultPreferences = require("../../cfg/DefaultPreferences"),
+        BlacklistSets = require("../../cfg/BlacklistSets"),
+        Template = require("text!../../html/SettingsDialog.html"),
+        ShortcutHelper = require("../../src/helpers/ShortcutHelper"),
 
         Dialogs = brackets.getModule("widgets/Dialogs"),
         CommandManager = brackets.getModule("command/CommandManager"),
