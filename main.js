@@ -8,7 +8,7 @@ define(function(require, exports, module) {
         SwatchHint = require('./src/SwatchHint'),
         PanelSkeleton = require("text!html/PanelSkeleton.html"),
         MainView = require("text!html/MainView.html"),
-
+        Utils = require("./src/utils"),
         ColorImportDialog = require("dialogs/ColorImport"),
         SettingsDialog = require("dialogs/SettingsDialog"),
 
@@ -20,7 +20,6 @@ define(function(require, exports, module) {
         ExtensionUtils = brackets.getModule("utils/ExtensionUtils"),
         StringUtils = brackets.getModule("utils/StringUtils"),
         PreferencesManager = brackets.getModule("preferences/PreferencesManager"),
-        FileViewController = brackets.getModule("project/FileViewController"),
         DocumentManager = brackets.getModule("document/DocumentManager"),
 
         //actualFile will be set from swatchesFromLess()        
@@ -46,15 +45,6 @@ define(function(require, exports, module) {
         shortcut = preferences.getValue('shortcut'),
         $icon = $('<a href="#" id="swatcher-toolbar-icon"> </a>').attr('title', 'Swatcher').appendTo($('#main-toolbar .buttons'));
 
-    /*
-        Build an Imagepath via Filename and parentpath of current document
-    */
-    function _getBgPath(str, currentDocument) {
-        var os = brackets.platform.indexOf('win') ? 'file:///' : '/',
-            root = os + currentDocument.file._parentPath;
-
-        return str.slice(0, 1) + root + str.slice(1 + Math.abs(0));
-    }
 
     /*
         Handle the Contextmenu checksign and open/close Panel
@@ -72,34 +62,6 @@ define(function(require, exports, module) {
             EditorManager.focusEditor();
             $icon.removeClass('active');
         }
-    }
-
-    /*
-        Inserts String into focused editor
-    */
-    function _insert(currentEditor, str) {
-        if (currentEditor) {
-            var document = currentEditor.document;
-
-            if (currentEditor.getSelectedText().length > 0) {
-                var selection = currentEditor.getSelection();
-                document.replaceRange(str, selection.start, selection.end);
-            } else {
-                var pos = currentEditor.getCursorPos();
-                document.replaceRange(str, {
-                    line: pos.line,
-                    ch: pos.ch
-                });
-            }
-        }
-    }
-
-    /*
-        Go to a specific Line of a File
-    */
-    function _gotoLine(file, line) {
-        FileViewController.addToWorkingSetAndSelect(file, FileViewController.WORKING_SET_VIEW);
-        EditorManager.getCurrentFullEditor().setCursorPos(line, 0);
     }
 
     /*
@@ -211,7 +173,7 @@ define(function(require, exports, module) {
                 // Check for Images (We dont want doublequotes since font-families use them - code convention)
                 if (lessVal[0] === "'") {
                     img = 'background-image: url(' + lessVal + ');';
-                    styleBody += selector + "{ .bgSwatch(" + _getBgPath(lessVal, currentDocument) + ");}";
+                    styleBody += selector + "{ .bgSwatch(" + Utils.getBgPath(lessVal, currentDocument) + ");}";
 
                     // if its not an Image its an color [rgba, #hash, colorcode, less colorfunction, etc]
                 } else {
@@ -287,7 +249,7 @@ define(function(require, exports, module) {
             }
 
             // Insert Less String and Refresh Panel
-            _insert(currentEditor, str);
+            Utils.insert(currentEditor, str);
             panelFromLess(currentEditor);
 
         } else {
@@ -380,11 +342,11 @@ define(function(require, exports, module) {
                             insert = $(this).data('image');
                         }
                     }
-                    _insert(editor, insert);
+                    Utils.insert(editor, insert);
                     break;
 
                 case 2: // Right MouseButton
-                    _gotoLine(actualFile, $(this).data("line"));
+                    Utils.gotoLine(actualFile, $(this).data("line"));
                     break;
             }
         });
@@ -466,10 +428,12 @@ define(function(require, exports, module) {
             Only updates when the previous scanned File is saved
         */
         $(DocumentManager).on("documentSaved", function(e, doc) {
-            var editor = EditorManager.getFocusedEditor();
+            if (actualFile) {
+                var editor = EditorManager.getFocusedEditor();
 
-            if (editor && actualFile === doc.file.fullPath) {
-                panelFromLess(editor);
+                if (editor && actualFile === doc.file.fullPath) {
+                    panelFromLess(editor);
+                }
             }
         });
 
