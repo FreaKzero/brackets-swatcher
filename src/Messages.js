@@ -6,7 +6,7 @@
          store = {
              SYSTEM_ERROR: 'Unknown System Error',
              ACO_NOFILE: 'Please focus a Line of a CSS/LESS Document to insert Swatches',
-             ACO_WRONGFILE: 'You can only insert Swatches on a LESS or CSS Document',             
+             MAIN_WRONGFILE: 'You can only insert Swatches on a LESS or CSS Document',             
              MAIN_NODOCUMENT: 'Please focus an editor window',
              MAIN_WRONGEXT: 'Swatcher can only parse CSS or LESS Files',             
              MAIN_LESSERROR: 'Cant generate Swatches due to an LESS Parsererror<br><br>LESS ERRORMESSAGE: </b><u>{errorMessage}</u>',
