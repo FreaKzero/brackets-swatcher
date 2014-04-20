@@ -81,6 +81,7 @@ define(function(require, exports, module) {
     */
     function swatchesFromLess(currentDocument) {
         if (currentDocument !== null && typeof(currentDocument) !== 'string') {
+            console.clear();
 
             // set global Variable
             var found, entity, img, htmlID,
@@ -88,9 +89,9 @@ define(function(require, exports, module) {
                 styleHead = ".bgSwatch(@img) {background: url(@img) no-repeat center center; background-size: 90%;}",
                 styleBody = "",
                 panelData = [],
+                backgrounds = {},
                 documentText = currentDocument.getText(),
                 documentLines = StringUtils.getLines(documentText),
-                //regexVariables = /@[0-9a-z\-_]+\s*:\s*([0-9a-z\-_@#%'"*\/\.\(\)\,\+\s]+)/ig,
                 regexVariables = /^@[0-9a-z\-_]+\s*:\s*([0-9a-z\-_@#%'"*\/\.\(\)\,\+\s]+)/igm,
 
                 regexBackgrounds = /(ceil|floor|percentage|round|sqrt|abs|sin|asin|cos|acos|tan|atan|pi|pow|mod|min|max|length|extract|escape|e)(\()|(^[0-9.]+)|(.*\s(\+|\-|\*)\s.*)|(inherit|normal|bold|italic|\")/g;
@@ -123,13 +124,18 @@ define(function(require, exports, module) {
                 if (lessVal[0] === "'") {
                     img = 'background-image: url(' + lessVal + ');';
                     styleBody += selector + "{ .bgSwatch(" + Utils.getBgPath(lessVal, currentDocument) + ");}";
+                    backgrounds[lessName] = lessVal;
+                    console.log("registered "+lessName);
 
-                    // if its not an Image its an color [rgba, #hash, colorcode, less colorfunction, etc]
+                } else if (lessVal[0] === "@" && typeof(backgrounds[lessVal]) !== "undefined") {
+                    img = 'background-image: url(' + backgrounds[lessVal] + ');';
+                    styleBody += selector + "{ .bgSwatch(" + Utils.getBgPath(backgrounds[lessVal], currentDocument) + ");}";
+
+                // if its not an Image its an color [rgba, #hash, colorcode, less colorfunction, etc]
                 } else {
                     img = 'none';
                     styleBody += selector + '{ background-color:' + lessVal + '; }';
                 }
-
                 // Register Swatch for CodeHints
                 SwatchHints.register(lessName, htmlID);
 
