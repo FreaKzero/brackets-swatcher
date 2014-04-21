@@ -12,6 +12,7 @@
 
 @icon: 'images/swatcher-icon.png';
 @transBG: 'images/bg-transparent.png';
+@spinner : 'images/spinner.gif';
 
 #swatcher {
   background-color: @panelBG;
@@ -19,6 +20,13 @@
 
 .swatcher {
     height:400px;
+}
+
+.swatcher-colorimport-loading {
+    background: url(@spinner) no-repeat;
+    height:16px;
+    width:16px;
+    display:none;
 }
 
 .swatcher-error {

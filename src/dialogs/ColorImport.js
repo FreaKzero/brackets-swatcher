@@ -46,7 +46,10 @@ define(function(require, exports, module) {
             FileInput Change Event for Image Files (ColorThief)
         */
         dialog.on('change', '#swatcher-colorimport-img', function(changeEvent) {
-
+            
+            dialog.find('.swatcher-colorimport-loading').show();
+            dialog.find('#swatcher-colorimport-status').html("");
+            
             if (changeEvent.target.files[0].type.match(/image.*/)) {
                 var fr = new FileReader();
 
@@ -62,6 +65,7 @@ define(function(require, exports, module) {
 
                     // Success Message and enable OK Button
                     if (palette.length > 0) {
+                        dialog.find('.swatcher-colorimport-loading').hide();
                         dialog.find('#swatcher-colorimport-status').html(
                             messages.getMessage('DIALOG_IMG_PARSESUCCESS', 'count', palette.length)
                         );
@@ -97,8 +101,10 @@ define(function(require, exports, module) {
         /*
             FileInput Change Event for Aco Files (Photoshop Swatches)
         */
-        dialog.on('change', '#swatcher-colorimport-aco', function(changeEvent) {
-
+        dialog.on('change', '#swatcher-colorimport-aco', function(changeEvent) {            
+            dialog.find('.swatcher-colorimport-loading').show();
+            dialog.find('#swatcher-colorimport-status').html("");
+            
             // file.type on aco is an empty String.... 
             if (changeEvent.target.files[0].name.slice(-3).toLowerCase() === "aco") {
 
@@ -112,6 +118,7 @@ define(function(require, exports, module) {
                     if (palette.length > 0) {
 
                         // Show Success Message with count of colors found and activate OK Button
+                        dialog.find('.swatcher-colorimport-loading').hide();
                         dialog.find('#swatcher-colorimport-status').html(
                             messages.getMessage('DIALOG_ACO_PARSESUCCESS', 'count', palette.length)
                         );
@@ -125,7 +132,7 @@ define(function(require, exports, module) {
                 };
 
                 fr.readAsArrayBuffer(this.files[0]);
-
+                
                 // Wrong MIME
             } else {
 
