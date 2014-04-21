@@ -2,11 +2,7 @@
 /*global define, $, Mustache, brackets */
 
 define(function(require, exports, module) {
-    var PreferencesManager = brackets.getModule("preferences/PreferencesManager"),
-        DefaultPreferences = require("../cfg/DefaultPreferences"),
-        preferences = PreferencesManager.getPreferenceStorage(module, DefaultPreferences),
-
-        StringUtils = brackets.getModule("utils/StringUtils"),
+    var StringUtils = brackets.getModule("utils/StringUtils"),
         Utils = require("./Utils"),
         SwatchHints = require('./SwatchHints'),
         messages = require('./Messages'),
@@ -14,7 +10,7 @@ define(function(require, exports, module) {
         MainView = require("text!html/MainView.html"),
 
         swatchesCSS,
-        $icon;
+        $icon,preferences;
 
     function joinStyles(obj) {
         var key, str = '';
@@ -59,11 +55,11 @@ define(function(require, exports, module) {
     */
     function checkBlacklist(string) {
 
-        if (preferences.getValue('blacklist') === '') {
+        if (preferences.get('blacklist') === '') {
             return -1;
         }
 
-        var regex = "(" + preferences.getValue('blacklist').replace(/,/g, "|") + ")",
+        var regex = "(" + preferences.get('blacklist').replace(/,/g, "|") + ")",
             blacklist = new RegExp(regex, "g");
 
         return string.toLowerCase().search(blacklist);
@@ -189,8 +185,9 @@ define(function(require, exports, module) {
         }
     }
 
-    function dependencies(icon) {
+    function dependencies(icon, prefs) {
         $icon = icon;
+        preferences = prefs;
     }
 
     exports.update = updatePanel;

@@ -1,8 +1,7 @@
 /*jslint vars: true, plusplus: true, nomen: true, devel: true, regexp: true, indent: 4, maxerr: 50 */
-/*global define, $, brackets, FileReader, Mustache */
-define(function (require, exports, module) {
-    var DefaultPreferences = require("../../cfg/DefaultPreferences"),
-        BlacklistSets = require("../../cfg/BlacklistSets"),
+/*global define, $, brackets, Mustache */
+define(function (require, exports) {
+    var BlacklistSets = require("../../cfg/BlacklistSets"),
         Template = require("text!../../html/SettingsDialog.html"),
         ShortcutHelper = require("../../src/helpers/ShortcutHelper"),
 
@@ -14,11 +13,14 @@ define(function (require, exports, module) {
         ShortcutHelper.register('#swatcher-settings-shortcut');
         
         dialog.on('click', '#swatcher-settings-restore', function () {
+            /*
             preferences.setValue('blacklist', DefaultPreferences.blacklist);
             preferences.setValue('animation', DefaultPreferences.animation);
             preferences.setValue('sets', DefaultPreferences.sets);
             preferences.setValue('swatchsize', DefaultPreferences.swatchsize);
             CommandManager.execute("debug.refreshWindow");
+            */
+            alert("placeholder");                        
         });
 
         dialog.on('change', '#swatcher-settings-sets', function () {
@@ -31,12 +33,12 @@ define(function (require, exports, module) {
                 $swatchsize = $('#swatcher-settings-size option:selected').val(),
                 $shortcut = $('#swatcher-settings-shortcut').val();
             
-            preferences.setValue('blacklist', $.trim($('#swatcher-settings-blacklist').val()));
-            preferences.setValue('animation', $animationValue);
-            preferences.setValue('shortcut', $shortcut);
+            preferences.persist('blacklist', $.trim($('#swatcher-settings-blacklist').val()));
+            preferences.persist('animation', $animationValue);
+            preferences.persist('shortcut', $shortcut);
             
             if ($swatchsize !== "0") {
-                preferences.setValue('swatchsize', $swatchsize);
+                preferences.persist('swatchsize', $swatchsize);
             }
                                      
             CommandManager.execute("debug.refreshWindow");
@@ -44,10 +46,11 @@ define(function (require, exports, module) {
 
     }
 
-    exports.show = function (prefs) {
+    exports.show = function (prefs) {        
         preferences = prefs;
 
-        var TemplateData = preferences.getAllValues();
+        var TemplateData = preferences.getAll();
+        console.log(TemplateData);
         TemplateData.sets = BlacklistSets.getSets();
 
         var compiledTemplate = Mustache.render(Template, TemplateData),

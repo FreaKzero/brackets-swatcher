@@ -3,7 +3,7 @@
 define(function(require, exports, module) {
     "use strict";
 
-    var DefaultPreferences = require("./cfg/DefaultPreferences"),
+    var Preferences = require("./src/Preferences"),
         Utils = require("./src/Utils"),
         messages = require('./src/Messages'),
         SwatchPanel = require('./src/SwatchPanel'),
@@ -18,7 +18,6 @@ define(function(require, exports, module) {
         PanelManager = brackets.getModule("view/PanelManager"),
         EditorManager = brackets.getModule("editor/EditorManager"),
         ExtensionUtils = brackets.getModule("utils/ExtensionUtils"),
-        PreferencesManager = brackets.getModule("preferences/PreferencesManager"),
         DocumentManager = brackets.getModule("document/DocumentManager"),
 
         actualFile = false,
@@ -26,7 +25,7 @@ define(function(require, exports, module) {
         // We just need 1 fired registerEvents() per instance
         loaded = false,
         app = {
-            ID: "swatcher.run",
+            ID: "brackets.swatcher",
             PANEL: "#swatcher",
             CSS: "css/swatcher.css",
             MENULABEL: "Swatcher",
@@ -37,12 +36,11 @@ define(function(require, exports, module) {
         Load Preferences, CSS and Inject Icon into main-toolbar
     */
     ExtensionUtils.loadStyleSheet(module, app.CSS);
-    var preferences = PreferencesManager.getPreferenceStorage(module, DefaultPreferences),
-        swatchsize = preferences.getValue('swatchsize'),
-        shortcut = preferences.getValue('shortcut'),
+    var swatchsize = Preferences.get('swatchsize'),
+        shortcut = Preferences.get('shortcut'),
         $icon = $('<a href="#" id="swatcher-toolbar-icon"> </a>').attr('title', 'Swatcher').appendTo($('#main-toolbar .buttons'));
 
-    SwatchPanel.dependencies($icon);
+    SwatchPanel.dependencies($icon, Preferences);
 
     /*
         Handle the Contextmenu checksign and open/close Panel
@@ -108,7 +106,7 @@ define(function(require, exports, module) {
             jQuery function for custom Animation ON/OFF Settings
         */
         $.fn.filterFX = function(method) {
-            var animate = preferences.getValue('animation'),
+            var animate = Preferences.get('animation'),            
                 speed = 300;
 
             if (animate === "checked") {
@@ -235,7 +233,7 @@ define(function(require, exports, module) {
             Fires Up Settings Dialog
         */
         instance.on('click', '#swatcher-open-settingsdialog', function() {
-            SettingsDialog.show(preferences);
+            SettingsDialog.show(Preferences);
         });
 
         /*            
