@@ -5,7 +5,7 @@ define(function(require, exports, module) {
 
     var _ = brackets.getModule('thirdparty/lodash'),
         PreferencesManager = brackets.getModule('preferences/PreferencesManager'),
-        prefs = PreferencesManager.getExtensionPrefs('brackets-snippet');
+        prefs = PreferencesManager.getExtensionPrefs('brackets.swatcher');
 
     var defaultPreferences = {
         "blacklist": {
