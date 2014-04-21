@@ -16,13 +16,27 @@ define(function(require, exports, module) {
         swatchesCSS,
         $icon;
 
+    function joinStyles(obj) {
+        var key, str = '';
+        for (key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                str += '#SW_' + key.substring(1) + ".swatcher-color" + obj[key] + "\n";
+            }
+        }
+        return str;
+    }
+
     /*
         Process Filtered LESS String from swatchesFromLess() via less.Parser
     */
-    function parseLess(lessString) {
+    function parseLess(styleHead, styles) {
+
+        var lessString = joinStyles(styles) + styleHead.join('');
+
         $icon.removeClass('error');
         swatchesCSS = null;
         var lp = new(less.Parser);
+
         lp.parse(lessString, function(err, tree) {
             try {
                 swatchesCSS = tree.toCSS();
@@ -77,23 +91,24 @@ define(function(require, exports, module) {
 
             regexVariables:     see found
             regexBackgrounds:   Main Regex to filter only Background definitions
+
+
+            TODO:
+            rename BG Mixin
+            refactor BG Mixin (use as extend)
+            replace BG Mixin with "" at Styles register
                 
     */
     function swatchesFromLess(currentDocument) {
         if (currentDocument !== null && typeof(currentDocument) !== 'string') {
-            console.clear();
 
-            // set global Variable
-            var found, entity, img, htmlID,
-                selector, lessName, lessVal,
-                styleHead = ".bgSwatch(@img) {background: url(@img) no-repeat center center; background-size: 90%;}",
-                styleBody = "",
+            var found, entity, img, htmlID, lessName, lessVal,
+                styleHead = [],
                 panelData = [],
-                backgrounds = {},
+                styles = {},
                 documentText = currentDocument.getText(),
                 documentLines = StringUtils.getLines(documentText),
                 regexVariables = /^@[0-9a-z\-_]+\s*:\s*([0-9a-z\-_@#%'"*\/\.\(\)\,\+\s]+)/igm,
-
                 regexBackgrounds = /(ceil|floor|percentage|round|sqrt|abs|sin|asin|cos|acos|tan|atan|pi|pow|mod|min|max|length|extract|escape|e)(\()|(^[0-9.]+)|(.*\s(\+|\-|\*)\s.*)|(inherit|normal|bold|italic|\")/g;
 
             // Reset CodeHints
@@ -101,41 +116,42 @@ define(function(require, exports, module) {
 
             while ((found = regexVariables.exec(documentText)) !== null) {
 
-                // We need all (!) @variables defined since we want @variable:@variable too
-                // If we dont do that we will get LESS Parseerrors
-                styleHead += $.trim(found[0]) + ";";
-
                 // get lessName (@variable) and the definition lessVal
                 entity = found[0].split(":");
                 lessName = $.trim(entity[0]);
                 lessVal = $.trim(entity[1]);
+                htmlID = 'SW_' + lessName.substring(1);
 
-                // Swatches are colors, filter out all math related functions and string-number-starts with regex
-                // Also check against the Blacklist from Settings Panel
                 if (lessVal.search(regexBackgrounds) > -1 || checkBlacklist(lessName) > -1) {
                     continue;
                 }
 
-                // Generate HTML Selector
-                htmlID = 'SW_' + lessName.substring(1);
-                selector = '#' + htmlID + '.swatcher-color';
+                if (lessVal[0] === '@' && typeof(styles[lessVal]) === "undefined") {
+                    continue;
 
-                // Check for Images (We dont want doublequotes since font-families use them - code convention)
-                if (lessVal[0] === "'") {
-                    img = 'background-image: url(' + lessVal + ');';
-                    styleBody += selector + "{ .bgSwatch(" + Utils.getBgPath(lessVal, currentDocument) + ");}";
-                    backgrounds[lessName] = lessVal;
-                    console.log("registered "+lessName);
+                } else if (typeof(styles[lessVal]) !== "undefined") {
+                    styleHead.push($.trim(found[0]) + ";");
 
-                } else if (lessVal[0] === "@" && typeof(backgrounds[lessVal]) !== "undefined") {
-                    img = 'background-image: url(' + backgrounds[lessVal] + ');';
-                    styleBody += selector + "{ .bgSwatch(" + Utils.getBgPath(backgrounds[lessVal], currentDocument) + ");}";
+                    if (styles[lessVal].indexOf('url(')) {
+                        img = styles[lessVal];
+                    } else {
+                        img = 'none';
+                    }
 
-                // if its not an Image its an color [rgba, #hash, colorcode, less colorfunction, etc]
+                    styles[lessName] = styles[lessVal];
+
+                } else if (lessVal[0] === "'") {
+                    styleHead.push($.trim(found[0]) + ";");
+                    img = "background-image: url(" + lessVal + ");";
+                    styles[lessName] = "{ background-image: url(" + Utils.getBgPath(lessVal, currentDocument) + ");}";
+
                 } else {
+                    styleHead.push($.trim(found[0]) + ";");
+
                     img = 'none';
-                    styleBody += selector + '{ background-color:' + lessVal + '; }';
+                    styles[lessName] = '{ background:' + lessVal + '; }';
                 }
+
                 // Register Swatch for CodeHints
                 SwatchHints.register(lessName, htmlID);
 
@@ -149,7 +165,7 @@ define(function(require, exports, module) {
             }
 
             // parse our generated LESS string and return Swatches for Mustache
-            if (parseLess(styleHead + styleBody)) {
+            if (parseLess(styleHead, styles)) {
                 SwatchHints.init();
                 return panelData;
             }
