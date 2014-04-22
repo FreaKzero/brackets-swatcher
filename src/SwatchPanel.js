@@ -11,17 +11,7 @@ define(function(require, exports, module) {
 
         swatchesCSS,
         $icon,preferences;
-
-    function joinStyles(obj) {
-        var key, str = '';
-        for (key in obj) {
-            if (obj.hasOwnProperty(key)) {
-                str += '#SW_' + key.substring(1) + ".swatcher-color" + obj[key] + "\n";
-            }
-        }
-        return str;
-    }
-
+        
     /*
         Process Filtered LESS String from swatchesFromLess() via less.Parser
     */
@@ -73,39 +63,31 @@ define(function(require, exports, module) {
         5.) With the Rest: Generate new LESS for Swatches with generated IDs (using Variable Name)
         6.) With the Rest: Push needed Template Data for Mustache
         7.) Send the generated LESS File (styleHead and styleBody) for parsing to parseLess()
-
-            Filters     LESS Data from current active Document for Swatcher Backgrounds
+            
             found:      Actual found line (via regexVariables)
             lessName:   Trimmed LESS variable declarion of current Line (via found)
             lessVal:    Trimmed LESS definition of current Line (via found)
             img:        Will be filled if first Char of lessval is an singlequote otherwise none
-            htmlID:     Generated HTML ID taken from lessName for Swatches
-            Selector:   CSS Selectorstring for filtered Swatches
-            styleHead:  Contains ALL Variable definitions from file (for parsing LESS)
-            styleBody:  Contains only dynamic generated LESS for the Swatches
+            htmlID:     Generated HTML ID taken from lessName for Swatches            
+            lessBuffer: Contains all filtered Variable definitions from file (for parsing LESS)
             panelData:  Data Array for Mustache
+            styles:     Object to Register and Hold the Styles for the actual Swatches    
 
             regexVariables:     see found
-            regexBackgrounds:   Main Regex to filter only Background definitions
-
-
-            TODO:
-            rename BG Mixin
-            refactor BG Mixin (use as extend)
-            replace BG Mixin with "" at Styles register
-                
+            regexOnlyColors:   Main Regex to filter only Background definitions
+                                                                
     */
     function swatchesFromLess(currentDocument) {
         if (currentDocument !== null && typeof(currentDocument) !== 'string') {
 
             var found, entity, img, htmlID, lessName, lessVal,
-                styleHead = [],
+                lessBuffer = [],
                 panelData = [],
                 styles = {},
                 documentText = currentDocument.getText(),
                 documentLines = StringUtils.getLines(documentText),
                 regexVariables = /^@[0-9a-z\-_]+\s*:\s*([0-9a-z\-_@#%'"*\/\.\(\)\,\+\s]+)/igm,
-                regexBackgrounds = /(ceil|floor|percentage|round|sqrt|abs|sin|asin|cos|acos|tan|atan|pi|pow|mod|min|max|length|extract|escape|e)(\()|(^[0-9.]+)|(.*\s(\+|\-|\*)\s.*)|(inherit|normal|bold|italic|\")/g;
+                regexOnlyColors = /(ceil|floor|percentage|round|sqrt|abs|sin|asin|cos|acos|tan|atan|pi|pow|mod|min|max|length|extract|escape|e)(\()|(^[0-9.]+)|(.*\s(\+|\-|\*)\s.*)|(inherit|normal|bold|italic|\")/g;
 
             // Reset CodeHints
             SwatchHints.reset();
@@ -118,33 +100,54 @@ define(function(require, exports, module) {
                 lessVal = $.trim(entity[1]);
                 htmlID = 'SW_' + lessName.substring(1);
 
-                if (lessVal.search(regexBackgrounds) > -1 || checkBlacklist(lessName) > -1) {
+                /*
+                    Check against Less noncolor functions - and user variable Blacklist
+                */
+                if (lessVal.search(regexOnlyColors) > -1 || checkBlacklist(lessName) > -1) {
                     continue;
                 }
 
+                /* 
+                    Search for LESS Variable - and variable wasnt registered before - no action
+                */
                 if (lessVal[0] === '@' && typeof(styles[lessVal]) === "undefined") {
                     continue;
 
-                } else if (typeof(styles[lessVal]) !== "undefined") {
-                    styleHead.push($.trim(found[0]) + ";");
+                /* Search for LESS Variable - and variable is registered
+                    - Differentiate between img and nonimg (CSS Files Leftclick)
+                    - Push the complete Style String into lessBuffer (needed for @var:@var parsing in LESS)
+                    - Register Property via NEW Lessvariable but old saved value from styles Object (@clone)
+                */                    
+                } else if (typeof(styles[lessVal]) !== "undefined") {                    
 
                     if (styles[lessVal].indexOf('url(')) {
                         img = styles[lessVal];
                     } else {
                         img = 'none';
                     }
-
+                    
+                    lessBuffer.push($.trim(found[0]) + ";");
                     styles[lessName] = styles[lessVal];
-
-                } else if (lessVal[0] === "'") {
-                    styleHead.push($.trim(found[0]) + ";");
+                /*
+                    Search for an Image
+                        - Set IMG for Mustache (CSS Files Leftclick)
+                        - Push the complete Style String into lessBuffer (needed for @var:@var parsing in LESS)
+                        - Register Property via Less Variable
+                    
+                */
+                } else if (lessVal[0] === "'") {                    
                     img = "background-image: url(" + lessVal + ");";
+                    lessBuffer.push($.trim(found[0]) + ";");
                     styles[lessName] = "{ background-image: url(" + Utils.getBgPath(lessVal, currentDocument) + ");}";
-
-                } else {
-                    styleHead.push($.trim(found[0]) + ";");
-
+                /*
+                    Colorhashes, RGBA, LESS Colorfunctions ...
+                        - Set IMG to none
+                        - Push the complete Style String into lessBuffer (needed for @var:@var parsing in LESS)
+                        - Reigster Property via Less Variable
+                */
+                } else {                    
                     img = 'none';
+                    lessBuffer.push($.trim(found[0]) + ";");
                     styles[lessName] = '{ background:' + lessVal + '; }';
                 }
 
@@ -161,13 +164,26 @@ define(function(require, exports, module) {
             }
 
             // parse our generated LESS string and return Swatches for Mustache
-            if (parseLess(styleHead, styles)) {
+            if (parseLess(lessBuffer, styles)) {
                 SwatchHints.init();
                 return panelData;
             }
         }
     }
 
+    /*
+        Join styles Object from swatchesFromLess() to a LESS String        
+    */
+    function joinStyles(obj) {
+        var key, str = '';
+        for (key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                str += '#SW_' + key.substring(1) + ".swatcher-color" + obj[key];
+            }
+        }
+        return str;
+    }
+    
     /*        
         Render Bottompanel and inject filtered/less-parsed CSS for Swatches [swatchesFromLess()]     
     */
@@ -185,6 +201,9 @@ define(function(require, exports, module) {
         }
     }
 
+    /*
+        Inject Dependencies from main
+    */
     function dependencies(icon, prefs) {
         $icon = icon;
         preferences = prefs;
