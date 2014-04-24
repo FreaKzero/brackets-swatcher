@@ -8,7 +8,7 @@ define(function(require, exports, module) {
 
         Dialogs = brackets.getModule("widgets/Dialogs"),
         Aco = require("../importers/aco"),
-        ColorThief = require("../importers/colorthief");
+        ColorThief = require("../importers/color-thief");
 
 
     /*
@@ -18,7 +18,7 @@ define(function(require, exports, module) {
 
         // Since we can have Palettes from Images or Aco Files - we need this global
         var palette;
-
+        
         /*
             Event/Show for the Palette from ACO Button
         */
@@ -46,10 +46,10 @@ define(function(require, exports, module) {
             FileInput Change Event for Image Files (ColorThief)
         */
         dialog.on('change', '#swatcher-colorimport-img', function(changeEvent) {
-            
+
             dialog.find('.swatcher-colorimport-loading').show();
             dialog.find('#swatcher-colorimport-status').html("");
-            
+
             if (changeEvent.target.files[0].type.match(/image.*/)) {
                 var fr = new FileReader();
 
@@ -61,7 +61,7 @@ define(function(require, exports, module) {
                         colnum = parseInt($('#swatcher-colorimport-img-num').val());
 
                     // Set Palette globally
-                    palette = ColorThief.createPalette($image[0], colnum);
+                    palette = ColorThief.getPalette($image[0], colnum);
 
                     // Success Message and enable OK Button
                     if (palette.length > 0) {
@@ -101,10 +101,10 @@ define(function(require, exports, module) {
         /*
             FileInput Change Event for Aco Files (Photoshop Swatches)
         */
-        dialog.on('change', '#swatcher-colorimport-aco', function(changeEvent) {            
+        dialog.on('change', '#swatcher-colorimport-aco', function(changeEvent) {
             dialog.find('.swatcher-colorimport-loading').show();
             dialog.find('#swatcher-colorimport-status').html("");
-            
+
             // file.type on aco is an empty String.... 
             if (changeEvent.target.files[0].name.slice(-3).toLowerCase() === "aco") {
 
@@ -132,7 +132,7 @@ define(function(require, exports, module) {
                 };
 
                 fr.readAsArrayBuffer(this.files[0]);
-                
+
                 // Wrong MIME
             } else {
 
@@ -153,16 +153,24 @@ define(function(require, exports, module) {
         });
     }
 
+
+    function toHex(N) {
+        if (N == null) return "00";
+        N = parseInt(N);
+        if (N == 0 || isNaN(N)) return "00";
+        N = Math.max(0, N);
+        N = Math.min(N, 255);
+        N = Math.round(N);
+        return "0123456789ABCDEF".charAt((N - N % 16) / 16) + "0123456789ABCDEF".charAt(N % 16);
+    }
+
     /*
         Creates Hexadecimal Colorhashes from R, G, B decimal values
     */
-    function hashFromRGB(r, g, b) {
-        var bin = r << 16 | g << 8 | b;
-        return (function(h) {
-            return new Array(7 - h.length).join("0") + h
-        })('#' + bin.toString(16).toUpperCase());
-    }
 
+    function hashFromRGB(R, G, B) {
+        return "#" + toHex(R) + toHex(G) + toHex(B);
+    }
 
     /*        
         Writes Imported/Defined Colors into Editor (LESS or CSS File)        

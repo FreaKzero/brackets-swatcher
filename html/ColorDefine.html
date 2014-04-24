@@ -2,19 +2,25 @@
     <tbody id="swatcher-colordefine-define">
         {{#wrap}}
         <tr data-hex="{{hex}}">
-            <td width="5%">
-                <div class="swatcher-prepare-color" style="{{style}}"></div>
+            <td width="1%">
+                <div href="#" class="swatcher-prepare-color-remove">&times;</div>
             </td>
-            <td width="5%">{{hex}}</td>
-            <td width="90%">
-                <input type="text" class="input input-medium" value="{{less}}" />
+            
+            <td width="1%">
+                <div class="swatcher-prepare-color" style="{{style}}">&nbsp;</div>
+            </td>
+            <td width="1%">
+                {{hex}}
+            </td>
+            <td width="98%">
+                <input type="text" class="input input" value="{{less}}" style="margin:0;"/>
             </td>
         </tr>
         {{/wrap}}
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="3" style="background-color: #d0d5d5;height: 28px;">
+            <td colspan="4" style="background-color: #d0d5d5;height: 28px;">
                 <button id="swatcher-colordefine-import" class="btn small primary no-focus">Import into current Editor</button>
                 <button id="swatcher-colordefine-cancel"class="btn small no-focus">Cancel</button>
             </td>

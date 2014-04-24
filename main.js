@@ -147,6 +147,10 @@ define(function(require, exports, module) {
             }
         }, '.swatcher-color');
 
+        instance.on('click', '.swatcher-prepare-color-remove', function() {
+            $(this).parent('').parent().remove();
+        });
+        
         /*
             Clickevent to import "defined" Colors (ColorDefine.html) into Swatcher Panel
         */

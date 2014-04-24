@@ -6,6 +6,7 @@
 @textcolor:     #d0d0d0;
 @textcolor2:    #94a3a7;
 @swatchhover:   #74ddf1;
+@brackets-hover: #0083e8;
 @panelBG:       #454849;
 @danger:        #843534;
 @danger-border: lighten(@danger, 20%);
@@ -100,21 +101,36 @@
         background-position: 0 -96px !important;        
     }
 }
-
 .swatcher-insless {
     display:none;
 }
 
-.swatcher-prepare-color {
-    height: 30px;
-    width: 30px;
+.swatcher-prepare-color-remove {    
+    cursor: pointer;
+    color: #a9acac;  
+    font-weight:bold;
+    display: inline-block;
+    font-size: 15px;
+    
+    &:hover {        
+        color: @brackets-hover;
+    }
+}
+
+.swatcher-prepare-color {    
+    border-radius: 3px;
+    border: 1px solid #adadad;            
+    vertical-align: bottom;
+    width: 15px;
+    height: 15px;
+    display: inline-block;    
 }
 
 .swatcher-swatch-panel {
     width: 100%;
     height: 100%;
     border-bottom: 1px solid @border-dark;
-    cursor: pointer;
+    cursor: pointer;    
 }
 
 .swatcher-swatch-hints {
