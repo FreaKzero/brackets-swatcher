@@ -7,7 +7,7 @@ Generates a Colorpalette Bottompanel via importing directly from LESS, Imagefile
 ## Features
 
 * Visual Swatches from Imported LESS variables
-    * Once a LESS File is read, Colorswatches will update on every save
+    * Track your Main LESS Variables File, Colorswatches and Codehints will be updated on save! (Tested with Bootstrap 3.1.1 / uikit 2.6.0)        
     * Supports LESS color-related Functions, rgba() and Hashs
     * Supports backgroundimages (Codeconvention: use Singlequotes)
     * Supports @variable:@variable assignments
@@ -15,8 +15,7 @@ Generates a Colorpalette Bottompanel via importing directly from LESS, Imagefile
 
 * Colorpalette Import
     * Load Colorpalettes from RGB Photshop Swatch Files (*.aco)
-    * Extract Dominant Colors from any Image File via ColorThief (*.jpg, *.gif, *.bmp, *.png)
-    * Insert Colors in a CSS or LESS File
+    * Extract Dominant Colors from any Image File via ColorThief (*.jpg, *.gif, *.bmp, *.png)    
     
 * Easy Handling
     * Leftclick on a Swatch to Insert LESS Variable or rgba()/background-image values on other Files
@@ -24,21 +23,6 @@ Generates a Colorpalette Bottompanel via importing directly from LESS, Imagefile
     * Filter for Swatches in Bottombar via LESS variable names
     * Codehint Support (LESS Files only)
     
-* Blacklists for Variable Names
-    * User defined Blacklists
-    * Blacklist Sets
-
-### Planned Features / TODO
-* More Blacklist Sets (Foundation, Twitter Bootstrap 2)
-
-### Known Bugs
-* Background Images filtered fronm @variable:@variable dont show up 
-
-### What means "Cant generate Swatches due to an not parseable @var:@var assignment" ?
-This was a common Problem with the old filter Function so you were **forced** to use the Blacklists in the Swatcher-Settings Menu.
-
-**Since Swatcher Version 0.3.1 this Problem dont exists anymore - Please update Swatcher via Brackets Extension Manager.**
-
  **Author** [FreaKzero](https://github.com/freakzero)  
  **Extension for** [Brackets.io](http://brackets.io)
 

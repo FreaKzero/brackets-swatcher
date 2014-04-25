@@ -4,20 +4,7 @@
         <h1 class="dialog-title">Swatcher Settings</h1>
     </div>
 
-    <div class="modal-body">
-        <label for="swatcher-settings-sets">Predefined Blacklists:</label>
-        <select id="swatcher-settings-sets">
-            <option value="" id="swatcher-settings-firstoption">Choose Framework</option>
-            {{#sets}}
-            <option value="{{string}}">{{name}}</option>
-            {{/sets}}
-        </select>
-        <br />
-        <br />
-        <label for="swatcher-settings-blacklist">Variablename Blacklist:</label>
-        <input type="text" value="{{blacklist}}" id="swatcher-settings-blacklist" />
-        <br />
-        <br />
+    <div class="modal-body">        
         <label for="swatcher-settings-size">Swatch Sizes:</label>
             <select id="swatcher-settings-size">
             <option value="0">Select Swatchsize</option>

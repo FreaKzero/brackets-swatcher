@@ -40,29 +40,13 @@ define(function(require, exports, module) {
         return swatchesCSS;
     }
 
-    /*
-        Check string against the Blacklist defined in the Settings Panel        
-    */
-    function checkBlacklist(string) {
-
-        if (preferences.get('blacklist') === '') {
-            return -1;
-        }
-
-        var regex = "(" + preferences.get('blacklist').replace(/,/g, "|") + ")",
-            blacklist = new RegExp(regex, "g");
-
-        return string.toLowerCase().search(blacklist);
-    }
-
     /*                        
         1.) Filter only @variable definitions
         2.) Concat filtered @variables in a String
-        3.) Sorting out Math functions, Strings starting with numbers, strings with math operators, and HTML width/height entities
-        4.) Check the Rest against a User setable Blacklist
-        5.) With the Rest: Generate new LESS for Swatches with generated IDs (using Variable Name)
-        6.) With the Rest: Push needed Template Data for Mustache
-        7.) Send the generated LESS File (styleHead and styleBody) for parsing to parseLess()
+        3.) Sorting out Math functions, Strings starting with numbers, strings with math operators, and HTML width/height entities        
+        4.) With the Rest: Generate new LESS for Swatches with generated IDs (using Variable Name)
+        5.) With the Rest: Push needed Template Data for Mustache
+        6.) Send the generated LESS File (styleHead and styleBody) for parsing to parseLess()
             
             found:      Actual found line (via regexVariables)
             lessName:   Trimmed LESS variable declarion of current Line (via found)
@@ -101,9 +85,9 @@ define(function(require, exports, module) {
                 htmlID = 'SW_' + lessName.substring(1);
 
                 /*
-                    Check against Less noncolor functions - and user variable Blacklist
+                    Check against Less noncolor functions
                 */
-                if (lessVal.search(regexOnlyColors) > -1 || checkBlacklist(lessName) > -1) {
+                if (lessVal.search(regexOnlyColors) > -1) {
                     continue;
                 }
 

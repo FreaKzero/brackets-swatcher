@@ -7,11 +7,7 @@ define(function(require, exports, module) {
         PreferencesManager = brackets.getModule('preferences/PreferencesManager'),
         prefs = PreferencesManager.getExtensionPrefs('brackets.swatcher');
 
-    var defaultPreferences = {
-        "blacklist": {
-            "type": "string",
-            "value": "font,height,width,size,radius,min,max,margin,padding"
-        },
+    var defaultPreferences = {        
         "animation": {
             "type": "string",
             "value": "checked"
