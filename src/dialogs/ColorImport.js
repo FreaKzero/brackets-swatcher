@@ -1,11 +1,12 @@
 /*jslint vars: true, plusplus: true, nomen: true, devel: true, regexp: true, indent: 4, maxerr: 50 */
 /*global define, $, brackets, FileReader, Mustache */
 
-define(function(require, exports, module) {
+define(function(require, exports) {
     var MainTemplate = require("text!../../html/ColorImport.html"),
         ColorDefineTemplate = require("text!html/ColorDefine.html"),
         messages = require('../Messages'),
-
+        Utils = require('../Utils'),
+        SwatchPanel = require('../SwatchPanel'),
         Dialogs = brackets.getModule("widgets/Dialogs"),
         Aco = require("../importers/aco"),
         ColorThief = require("../importers/color-thief");
@@ -153,26 +154,33 @@ define(function(require, exports, module) {
         });
     }
 
-
-    function toHex(N) {
-        if (N == null) return "00";
-        N = parseInt(N);
-        if (N == 0 || isNaN(N)) return "00";
-        N = Math.max(0, N);
-        N = Math.min(N, 255);
-        N = Math.round(N);
-        return "0123456789ABCDEF".charAt((N - N % 16) / 16) + "0123456789ABCDEF".charAt(N % 16);
-    }
-
     /*
-        Creates Hexadecimal Colorhashes from R, G, B decimal values
+        Creates the ColorDefine Panel to define Colornames
     */
+    function createPanel(palette) {
+        var panelData = [];
 
-    function hashFromRGB(R, G, B) {
-        return "#" + toHex(R) + toHex(G) + toHex(B);
+        palette.forEach(function(arrayRGB, i) {
+
+            // Hashes are more convenient, since we will never have any transparent colors in Import
+            var hash = Utils.hashFromRGB(arrayRGB[0], arrayRGB[1], arrayRGB[2]);
+
+            // Data for Mustache
+            panelData.push({
+                less: '@color' + i,
+                hex: hash,
+                style: 'background-color:' + hash
+            });
+        });
+
+        var html = Mustache.render(ColorDefineTemplate, {
+            wrap: panelData
+        });
+
+        $('#swatcher-container').empty().append(html);
     }
 
-    /*        
+     /*        
         Writes Imported/Defined Colors into Editor (LESS or CSS File)        
     */
     function importColors(currentEditor) {
@@ -200,41 +208,17 @@ define(function(require, exports, module) {
                     return false;
             }
 
-            // Insert Less String and Refresh Panel
             Utils.insert(currentEditor, str);
-            SwatchPanel.update(currentEditor);
-
-        } else {
+            return SwatchPanel.update(currentEditor);
+            
+        } else {            
             messages.dialog('ACO_NOFILE');
+            return false;
         }
     }
 
-    /*
-        Creates the ColorDefine Panel to define Colornames
-    */
-    function createPanel(palette) {
-        var panelData = [];
-
-        palette.forEach(function(arrayRGB, i) {
-
-            // Hashes are more convenient, since we will never have any transparent colors in Import
-            var hash = hashFromRGB(arrayRGB[0], arrayRGB[1], arrayRGB[2]);
-
-            // Data for Mustache
-            panelData.push({
-                less: '@color' + i,
-                hex: hash,
-                style: 'background-color:' + hash
-            });
-        });
-
-        var html = Mustache.render(ColorDefineTemplate, {
-            wrap: panelData
-        });
-
-        $('#swatcher-container').empty().append(html);
-    }
-
+    exports.importColors = importColors;  
+    
     exports.show = function() {
         var compiledTemplate = Mustache.render(MainTemplate),
             dialog = Dialogs.showModalDialogUsingTemplate(compiledTemplate);

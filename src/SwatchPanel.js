@@ -199,6 +199,8 @@ define(function(require, exports, module) {
             // We have to inject them here - otherwise the resizeable Container wont function
             $('#swatcher-inject').html(swatchesCSS);
         }
+                
+        return currentEditor.document.file.fullPath;
     }
 
     /*
