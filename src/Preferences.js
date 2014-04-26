@@ -7,7 +7,7 @@ define(function(require, exports, module) {
         PreferencesManager = brackets.getModule('preferences/PreferencesManager'),
         prefs = PreferencesManager.getExtensionPrefs('brackets.swatcher');
 
-    var defaultPreferences = {        
+    var defaultPreferences = {
         "animation": {
             "type": "string",
             "value": "checked"
@@ -52,11 +52,11 @@ define(function(require, exports, module) {
         }, this);
         return obj;
     };
-
+        
     prefs.persist = function(key, value) {
         this.set(key, value);
         this.save();
     };
-
+    
     module.exports = prefs;
 });
