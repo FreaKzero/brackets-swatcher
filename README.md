@@ -1,8 +1,8 @@
 # Brackets Swatcher
 
-![Screenshot](https://raw2.github.com/FreaKzero/brackets-swatcher/master/readme.png)
+Generates Colorpalette Bottompanel/Codehints via importing directly from LESS, Imagefiles (dominant colors) or Photoshop Swatches (Aco Files).
 
-Generates a Colorpalette Bottompanel via importing directly from LESS, Imagefiles (dominant colors) or Photoshop Swatches (Aco Files).
+![Screenshot](https://raw2.github.com/FreaKzero/brackets-swatcher/master/readme.png)
 
 ## Features
 
@@ -21,10 +21,11 @@ Generates a Colorpalette Bottompanel via importing directly from LESS, Imagefile
     * Leftclick on a Swatch to Insert LESS Variable or rgba()/background-image values on other Files
     * Rightclick on a Swatch will direct the Cursor to the place where LESS Variable is defined
     * Filter for Swatches in Bottombar via LESS variable names
-    * Codehint Support (LESS Files only)
-    
- **Author** [FreaKzero](https://github.com/freakzero)  
- **Extension for** [Brackets.io](http://brackets.io)
+    * Codehint Support for LESS Files (Triggerchar: @)
+
+
+ **Author** FreaKzero  
+ [Twitter](https://twitter.com/freakzerodotcom) [G+](https://plus.google.com/+FreaKzero)  
 
  **Thanks to:**  
 Lokesh Dhakar [ColorThief](http://lokeshdhakar.com/projects/color-thief)  
