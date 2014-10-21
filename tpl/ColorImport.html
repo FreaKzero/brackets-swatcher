@@ -1,0 +1,51 @@
+<div class="modal">
+
+    <div class="modal-header">
+        <h1 class="dialog-title">Import Color Palettes</h1>
+    </div>
+
+    <div class="modal-body">
+        <center>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default primary show-btn-aco">Palette from Aco</button>
+                <button type="button" class="btn btn-default show-btn-img">Palette from Image</button>
+            </div>
+        </center>
+        <br />
+        <div id="show-import-aco">
+            <strong>Import Photoshop Colorswatches</strong><br />
+            <br />
+            <input id="swatcher-colorimport-aco" type="file" accept=".aco" />
+
+        </div>
+        <div id="show-import-img" style="display:none;">
+            <strong>Import Swatches from Images via <a href="http://www.lokeshdhakar.com/projects/color-thief" target="_blank">ColorThief</a></strong><br />
+            <br />
+            <label for="swatcher-colorimport-img-num">How many Colors you want to extract from Image ?</label>
+            <select id="swatcher-colorimport-img-num">
+                <option>4</option>
+                <option>8</option>
+                <option>16</option>
+                <option>32</option>
+                <option>64</option>
+            </select>
+            
+            <br />
+            <label for="swatcher-colorimport-img">Image File</label>
+            <input id="swatcher-colorimport-img" type="file" accept="image/*" />
+            
+            <img src="" id="colorthief" style="display:none;" />
+        </div>
+
+        <div class="swatcher-colorimport-loading"></div>
+        <div id="swatcher-colorimport-status">            
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <button data-button-id="ok" id="swatcher-colorimport-ok" class="dialog-button btn primary left" disabled="disabled">OK</button>
+        <button data-button-id="cancel" class="dialog-button btn cancel">Cancel</button>
+    </div>
+
+</div>

@@ -1,0 +1,33 @@
+<div class="modal">
+
+    <div class="modal-header">
+        <h1 class="dialog-title">Swatcher Settings</h1>
+    </div>
+
+    <div class="modal-body">        
+        <label for="swatcher-settings-size">Swatch Sizes:</label>
+            <select id="swatcher-settings-size">
+            <option value="0">Select Swatchsize</option>
+            <option value="big">70 x 70</option>
+            <option value="small">35 x 35</option>
+            </select>
+        <br />
+        <br />
+        <label for="swatcher-settings-shortcut">Shortcut:</label>
+            <input type="text" id="swatcher-settings-shortcut" value="{{shortcut}}" />        
+        <br />
+        <br />
+        <div style="text-align:right">
+            <strong>Found a Bug ?</strong> Please Report it via
+            <a href="https://github.com/FreaKzero/brackets-swatcher/issues?state=open">GitHub</a> or
+            <a href="mailto:pete@freakzero.com">Email me</a>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button data-button-id="ok" id="swatcher-settings-save" class="btn primary left">Save and reload Brackets</button>
+        <button data-button-id="cancel" class="dialog-button btn cancel">Cancel</button>
+        <button id="swatcher-settings-restore" class="btn">Restore Defaults</button>
+    </div>
+
+</div>

@@ -1,0 +1,31 @@
+<table class="bottom-panel-table table table-striped table-condensed row-highlight">
+    <tbody id="swatcher-colordefine-define">
+        {{#wrap}}
+        <tr data-hex="{{hex}}">
+            <td width="1%">
+                <div href="#" class="swatcher-prepare-color-remove">&times;</div>
+            </td>
+
+            <td width="1%">
+                <div class="swatcher-prepare-color" style="{{style}}">&nbsp;</div>
+            </td>
+            <td width="1%">
+                {{hex}}
+            </td>
+            <td width="98%">
+                <input type="text" class="input input" value="{{less}}" style="margin:0;" />
+            </td>
+        </tr>
+        {{/wrap}}
+        <tr>
+            <td colspan="5" height="40">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <button id="swatcher-colordefine-import" class="btn small primary no-focus">Import into current Editor</button>
+                <button id="swatcher-colordefine-cancel" class="btn small no-focus">Cancel</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
