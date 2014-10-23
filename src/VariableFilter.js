@@ -25,6 +25,7 @@ define(function(require, exports, module) {
             
             while ((found = mode.regexVariables.exec(documentText)) !== null) {
 
+                //TODO this Breaks Base64
                 entity = found[0].split(":");
                 styleName = $.trim(entity[0]);
                 styleVal = $.trim(entity[1]);

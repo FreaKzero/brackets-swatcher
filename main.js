@@ -118,9 +118,9 @@ define(function(require, exports, module) {
         if ($(this).prop('checked')) {
 
             var editor = EditorManager.getFocusedEditor();
-            actualFile = editor.document.file.fullPath;
-
             if (editor) {
+                actualFile = editor.document.file.fullPath;
+
                 if (Modes.hasPreprocessor(editor)) {
                     SwatchParser.generate(editor);
                 } else {

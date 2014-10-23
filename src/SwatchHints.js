@@ -4,7 +4,6 @@
 define(function(require, exports, module) {
     "use strict";
     var CodeHintManager = brackets.getModule("editor/CodeHintManager"),
-        DocumentManager = brackets.getModule("document/DocumentManager"),
         Modes = require('../modes'),
         mode,
         codeHints = [];
@@ -88,11 +87,10 @@ define(function(require, exports, module) {
 
     SwatchHint.prototype.insertHint = function(hint) {
         var code = this.autoComplete(hint),
-            currentDoc = DocumentManager.getCurrentDocument(),
             pos = this.editor.getCursorPos();
 
         Filter.search = "";
-        currentDoc.replaceRange(code, pos);
+        this.editor.document.replaceRange(code, pos);
     };
 
     exports.setHints = SwatchHint.prototype.setHints;
