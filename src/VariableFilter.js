@@ -14,19 +14,19 @@ define(function(require, exports, module) {
         this.init(editor);
     }
 
-    Swatches.prototype = {        
+    Swatches.prototype = {
         init: function(editor) {
             this.mode = editor.document.language._mode;
-            
+
             var found, entity, styleName, styleVal, htmlID,
-                documentText = editor.document.getText(),                
+                documentText = editor.document.getText(),
                 documentLines = StringUtils.getLines(documentText),
-                mode = Modes.getMode(this.mode);                
-            
+                mode = Modes.getMode(this.mode);
+
             while ((found = mode.regexVariables.exec(documentText)) !== null) {
 
                 //TODO this Breaks Base64
-                entity = found[0].split(":");
+                entity = found[0].split(/: (.+)?/, 2)
                 styleName = $.trim(entity[0]);
                 styleVal = $.trim(entity[1]);
                 htmlID = 'SW_' + styleName.substring(1);
@@ -52,7 +52,7 @@ define(function(require, exports, module) {
                 }
 
                 this.codeHints.push('<div id="' + htmlID + '" class="swatcher-swatch-hints swatcher-color"></div>' + styleName);
-                
+
                 this.panelData.push({
                     line: StringUtils.offsetToLineNum(documentLines, found.index),
                     variable: styleName,
@@ -80,13 +80,13 @@ define(function(require, exports, module) {
         getCodeHints: function() {
             return this.codeHints;
         },
-        
+
         getBgPath: function(str, currentDocument) {
             var os = brackets.platform.indexOf('win') ? 'file:///' : '/',
                 root = os + currentDocument.document.file._parentPath;
 
             return str.slice(0, 1) + root + str.slice(1 + Math.abs(0));
-        }                
+        }
 
     };
 

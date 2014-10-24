@@ -18,7 +18,7 @@ define(function(require, exports, module) {
             var css;
             switch (filtered.mode) {
 
-                case 'text/x-less':
+                case 'text/x-less':                    
                     var lp = new(less.Parser);
                     lp.parse(filtered.getCSS(), function(err, tree) {
                         try {
@@ -26,6 +26,8 @@ define(function(require, exports, module) {
                             Hints.setHints(filtered.getCodeHints());
                             $('#swatcher-container').empty().hide().append(Mustache.render(MainView, data)).fadeIn();
                             $('#swatcher-styles').html(tree.toCSS());
+                            console.log(tree.toCSS());
+                            
                             Icon.setOK();
                         } catch (error) {
                             Icon.setError();

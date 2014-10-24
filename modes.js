@@ -8,7 +8,7 @@ define(function(require, exports, module) {
             mode: 'text/x-less',
             hints: ['less'],
             trigger: '@',
-            regexVariables: /^@[0-9a-z\-_]+\s*:\s*([0-9a-z\-_@#%'"*\/\.\(\)\,\+\s]+)/igm,
+            regexVariables: /^@[0-9a-z\-_]+\s*:\s*(url\('data:image\/(.*);base64.*|[0-9a-z\-_@#%'"*\/\.\(\)\,\+\s]+)/igm,
             regexOnlyColors: /(ceil|floor|percentage|round|sqrt|abs|sin|asin|cos|acos|tan|atan|pi|pow|mod|min|max|length|extract|escape|e)(\()|(^[0-9.]+)|(.*\s(\+|\-|\*)\s.*)|(inherit|normal|bold|italic|\")/g,
         },
 
