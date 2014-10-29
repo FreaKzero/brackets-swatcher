@@ -15,6 +15,7 @@ define(function(require, exports, module) {
 
         SettingsDialog = require('src/dialogs/SettingsDialog'),
         ColorImportDialog = require('src/dialogs/ColorImportDialog'),
+        AssetPathDialog = require('src/dialogs/AssetDialog'),
 
         Preferences = require('src/Preferences'),
         Utils = require('src/Utils'),
@@ -40,11 +41,14 @@ define(function(require, exports, module) {
 
     $instance = $(Mustache.render(PanelSkeleton, TemplateData));
 
-
     $instance.on('click', '.swatcher-prepare-color-remove', function() {
         $(this).parent().parent().fadeOut(function() {
             $(this).remove();
         });
+    });
+
+    $instance.on('click', '#swatcher-open-setasset', function() {
+        AssetPathDialog.show();
     });
 
     /*
@@ -113,6 +117,8 @@ define(function(require, exports, module) {
                 break;
         }
     });
+
+    //TODO set Assetpath here (getBGPath from variablefilter)
 
     $instance.on('change', '#swatcher-track', function() {
         if ($(this).prop('checked')) {

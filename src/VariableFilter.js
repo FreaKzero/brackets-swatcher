@@ -25,7 +25,6 @@ define(function(require, exports, module) {
 
             while ((found = mode.regexVariables.exec(documentText)) !== null) {
 
-                //TODO this Breaks Base64
                 entity = found[0].split(/: (.+)?/, 2)
                 styleName = $.trim(entity[0]);
                 styleVal = $.trim(entity[1]);
@@ -82,6 +81,13 @@ define(function(require, exports, module) {
         },
 
         getBgPath: function(str, currentDocument) {
+            var definedAssetPath = $.trim($('#swatcher-asset-path').val());
+
+            if (definedAssetPath !== "") {
+                alert(definedAssetPath);
+                return definedAssetPath;
+            }
+
             var os = brackets.platform.indexOf('win') ? 'file:///' : '/',
                 root = os + currentDocument.document.file._parentPath;
 
