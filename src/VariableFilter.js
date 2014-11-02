@@ -3,7 +3,8 @@
 
 define(function(require, exports, module) {
     var Modes = require('../modes'),
-        StringUtils = brackets.getModule("utils/StringUtils");
+        StringUtils = brackets.getModule("utils/StringUtils"),
+        AssetPathDialog = require('src/dialogs/AssetDialog');
 
     function Swatches(editor) {
         this.panelData = [];
@@ -21,11 +22,12 @@ define(function(require, exports, module) {
             var found, entity, styleName, styleVal, htmlID,
                 documentText = editor.document.getText(),
                 documentLines = StringUtils.getLines(documentText),
-                mode = Modes.getMode(this.mode);
+                mode = Modes.getMode(this.mode),
+                path = AssetPathDialog.getAssetPath(editor.document);
 
             while ((found = mode.regexVariables.exec(documentText)) !== null) {
 
-                entity = found[0].split(/: (.+)?/, 2)
+                entity = found[0].split(/: (.+)?/, 2);
                 styleName = $.trim(entity[0]);
                 styleVal = $.trim(entity[1]);
                 htmlID = 'SW_' + styleName.substring(1);
@@ -43,7 +45,7 @@ define(function(require, exports, module) {
 
                 } else if (styleVal[0] === "'") {
                     this.styleHead.push($.trim(found[0]) + ";");
-                    this.styles[styleName] = "{ background-image: url(" + this.getBgPath(styleVal, editor) + ");}";
+                    this.styles[styleName] = "{ background-image: url(" + path + styleVal.replace(/'/g, "") + ");}";
 
                 } else {
                     this.styleHead.push($.trim(found[0]) + ";");
@@ -78,22 +80,7 @@ define(function(require, exports, module) {
 
         getCodeHints: function() {
             return this.codeHints;
-        },
-
-        getBgPath: function(str, currentDocument) {
-            var definedAssetPath = $.trim($('#swatcher-asset-path').val());
-
-            if (definedAssetPath !== "") {
-                alert(definedAssetPath);
-                return definedAssetPath;
-            }
-
-            var os = brackets.platform.indexOf('win') ? 'file:///' : '/',
-                root = os + currentDocument.document.file._parentPath;
-
-            return str.slice(0, 1) + root + str.slice(1 + Math.abs(0));
         }
-
     };
 
     return Swatches;

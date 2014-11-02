@@ -6,14 +6,28 @@ define(function(require, exports) {
 
 
     var AssetDialog = {
-        AssetPath: false,
+        AssetPath: '',
 
-        setAssetPath: function(path) {
-            AssetDialog.AssetPath = path;
+        _buildPath: function(currentDocument) {
+            console.log(currentDocument);
+            var os = brackets.platform.indexOf('win') ? 'file:///' : '/';
+
+            return os + currentDocument.file._parentPath;
         },
 
-        getAssetPath: function() {
+        setAssetPath: function(currentDocument) {
+            AssetDialog.AssetPath = AssetDialog._buildPath(currentDocument);
             return AssetDialog.AssetPath;
+        },
+
+        getAssetPath: function(currentDocument) {
+
+            if (AssetDialog.AssetPath === '') {
+                AssetDialog.AssetPath = AssetDialog._buildPath(currentDocument);
+            }
+
+            return AssetDialog.AssetPath;
+
         },
 
         show: function() {
@@ -29,7 +43,8 @@ define(function(require, exports) {
             var instance = dialog.getElement();
 
             instance.on('click', '#swatcher-set-asset-path', function() {
-                AssetDialog.AssetPath = $.trim(instance.find('#swatcher-asset-path').val());
+                var value = $.trim(instance.find('#swatcher-asset-path').val());
+                AssetDialog.AssetPath = value;
             });
         }
     };

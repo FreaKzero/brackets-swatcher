@@ -122,8 +122,8 @@ define(function(require, exports, module) {
 
     $instance.on('change', '#swatcher-track', function() {
         if ($(this).prop('checked')) {
-
             var editor = EditorManager.getFocusedEditor();
+            
             if (editor) {
                 actualFile = editor.document.file.fullPath;
 
