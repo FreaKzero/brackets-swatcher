@@ -9,10 +9,17 @@ define(function(require, exports) {
         AssetPath: '',
 
         _buildPath: function(currentDocument) {
-            console.log(currentDocument);
             var os = brackets.platform.indexOf('win') ? 'file:///' : '/';
 
-            return os + currentDocument.file._parentPath;
+            if (currentDocument) {
+                return os + currentDocument.file._parentPath;
+            } else {
+                return AssetDialog.AssetPath;
+            }
+        },
+
+        resetAssetPath: function() {
+            AssetDialog.AssetPath = '';
         },
 
         setAssetPath: function(currentDocument) {
@@ -21,7 +28,6 @@ define(function(require, exports) {
         },
 
         getAssetPath: function(currentDocument) {
-
             if (AssetDialog.AssetPath === '') {
                 AssetDialog.AssetPath = AssetDialog._buildPath(currentDocument);
             }
