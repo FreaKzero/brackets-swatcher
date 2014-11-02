@@ -13,6 +13,8 @@
              MAIN_LESSERROR: 'Cant generate Swatches due to an LESS Parsererror<br><code>{errorMessage}</code>',
              MAIN_SASSERROR: 'Cant generate Swatches due to an SASS Parsererror<br><code>{errorMessage}</code>',
              MAIN_NOSWATCHES: 'No parseable Variables Found',
+             MAIN_SETPATH: 'New Asset Path is set, please reinitiate Swatcher on your wanted File',
+
              DIALOG_WRONGMIME: '<strong style="color:red">Please use an {filetype} File to Import Colorpalettes</strong>',
 
              DIALOG_IMG_CANTPARSE: '<strong style="color:red">Cant extract any Colors from Image</strong>',

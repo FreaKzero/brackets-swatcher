@@ -2,7 +2,9 @@
 /*global define, $, brackets, Mustache */
 define(function(require, exports) {
     var Template = require("text!../../tpl/AssetPath.html"),
-        Dialogs = brackets.getModule("widgets/Dialogs");
+        Dialogs = brackets.getModule("widgets/Dialogs"),
+        Icon = require('src/plugin-icon'),
+        Messages = require('src/Messages');
 
 
     var AssetDialog = {
@@ -51,6 +53,15 @@ define(function(require, exports) {
             instance.on('click', '#swatcher-set-asset-path', function() {
                 var value = $.trim(instance.find('#swatcher-asset-path').val());
                 AssetDialog.AssetPath = value;
+
+                Icon.forceActive();
+                $('#swatcher-track').prop('checked', false);
+                Messages.notice('MAIN_SETPATH');
+
+            });
+
+            instance.on('click', '#swatcher-reset-asset-path', function() {
+                instance.find('#swatcher-asset-path').val('');
             });
         }
     };

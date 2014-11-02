@@ -139,8 +139,6 @@ define(function(require, exports, module) {
             }
 
         } else {
-            AssetPathDialog.resetAssetPath();
-
             $('#swatcher-container').fadeOut(function() {
                 $(this).empty();
                 $('#swatcher-styles').html("");
