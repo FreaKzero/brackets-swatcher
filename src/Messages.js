@@ -26,7 +26,7 @@
          
          messages = {
              notice: function(key, search, replace) {
-                 var head = '<br><div class="swatcher-error"> <h3>Swatcher Notice</h3> <hr />',
+                 var head = '<br><div class="swatcher-notice"> <h3>Swatcher Notice</h3> <hr />',
                      foot = '</div>';
 
                  var msg = this.getMessage(key, search, replace);

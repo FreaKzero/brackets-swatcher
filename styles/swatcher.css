@@ -105,6 +105,38 @@
   width: 16px;
   display: none;
 }
+.swatcher-notice {
+  background-color: #222222;
+  color: white;
+  width: 600px;
+  border-radius: 5px;
+  padding: 5px 10px 10px 10px;
+  margin: 1px auto;
+  border: 1px solid black;
+  box-shadow: 1px 2px 0px 0px #3c3c3c, inset 3px 4px 6px 0px rgba(0, 0, 0, 0.2);
+}
+.swatcher-notice h3 {
+  padding: 0;
+  margin: 0;
+  text-align: right;
+  color: #2893ef;
+  text-shadow: 1px 0px 0px #0c5ea5;
+}
+.swatcher-notice hr {
+  border: 0;
+  color: #2893ef;
+  background-color: #2893ef;
+  height: 1px;
+  margin: 0 0 10px 0;
+  padding: 0;
+  box-shadow: 1px 1px 0px 0px #57abf3;
+}
+.swatcher-notice a {
+  color: #0083e8;
+}
+.swatcher-notice a:hover {
+  color: white;
+}
 .swatcher-error {
   background-color: #222222;
   color: white;
@@ -120,7 +152,7 @@
   margin: 0;
   text-align: right;
   color: #fa689d;
-  text-shadow: -1px 0px 0px #f4085e;
+  text-shadow: 1px 0px 0px #f4085e;
 }
 .swatcher-error hr {
   border: 0;
