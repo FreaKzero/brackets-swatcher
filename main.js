@@ -70,6 +70,23 @@ define(function(require, exports, module) {
     });
 
     $instance.on('keyup', '#swatcher-filter', function() {
+        var filter = $(this).val();
+
+        $('.swatcher-color').filter(function() {
+            var regex = new RegExp(filter, "ig");
+
+            if (regex.test($(this).data('variable'))) {
+                $(this).parent().fadeIn();
+            } else {
+                $(this).parent().fadeOut();
+            }
+
+        });
+
+    });
+
+    /*
+    $instance.on('keyup', '#swatcher-filter', function() {
         var $filter = $(this).val();
         if ($filter.length > 2) {
             $('.swatcher-colorwrap:not(.found)')
@@ -83,6 +100,7 @@ define(function(require, exports, module) {
             $('.swatcher-colorwrap').removeClass('found').fadeIn();
         }
     });
+    */
 
     $instance.on('click', '.close', function() {
         handleActive();
@@ -123,7 +141,7 @@ define(function(require, exports, module) {
     $instance.on('change', '#swatcher-track', function() {
         if ($(this).prop('checked')) {
             var editor = EditorManager.getFocusedEditor();
-            
+
             if (editor) {
                 actualFile = editor.document.file.fullPath;
 
