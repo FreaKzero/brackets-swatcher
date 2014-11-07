@@ -69,6 +69,10 @@ define(function(require, exports, module) {
         ColorImportDialog.show();
     });
 
+    $instance.on('click', '#swatcher-reset-filter', function() {
+        $('#swatcher-filter').val('');
+    });
+    
     $instance.on('keyup', '#swatcher-filter', function() {
         var filter = $(this).val();
 
@@ -80,28 +84,10 @@ define(function(require, exports, module) {
             } else {
                 $(this).parent().fadeOut();
             }
-
         });
 
     });
-
-    /*
-    $instance.on('keyup', '#swatcher-filter', function() {
-        var $filter = $(this).val();
-        if ($filter.length > 2) {
-            $('.swatcher-colorwrap:not(.found)')
-                .fadeOut()
-                .find('div[data-variable*="' + $filter.toLowerCase() + '"]')
-                .parent()
-                .addClass('found');
-
-            $('.found').fadeIn();
-        } else {
-            $('.swatcher-colorwrap').removeClass('found').fadeIn();
-        }
-    });
-    */
-
+    
     $instance.on('click', '.close', function() {
         handleActive();
     });
