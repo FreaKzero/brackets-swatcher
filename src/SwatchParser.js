@@ -26,7 +26,6 @@ define(function(require, exports, module) {
                             Hints.setHints(filtered.getCodeHints());
                             $('#swatcher-container').empty().hide().append(Mustache.render(MainView, data)).fadeIn();
                             $('#swatcher-styles').html(tree.toCSS());
-                            console.log(tree.toCSS());
                             
                             Icon.setOK();
                         } catch (error) {
@@ -38,7 +37,6 @@ define(function(require, exports, module) {
 
                 case 'text/x-scss':
                     css = sass.compile(filtered.getCSS());
-
                     if (typeof css === 'string') {
                         Hints.init('text/x-scss');
                         Hints.setHints(filtered.getCodeHints());

@@ -27,7 +27,7 @@ define(function(require, exports, module) {
 
             while ((found = mode.regexVariables.exec(documentText)) !== null) {
 
-                entity = found[0].split(/: (.+)?/, 2);
+                entity = found[0].split(/:(.+)?/, 2);
                 styleName = $.trim(entity[0]);
                 styleVal = $.trim(entity[1]);
                 htmlID = 'SW_' + styleName.substring(1);
@@ -36,8 +36,6 @@ define(function(require, exports, module) {
                     styleVal = "'" + $.trim(found[2]) + "'";
                     found[0] = styleName + ":" + styleVal;
                 }
-
-                console.log(styleVal.indexOf('data'));
 
                 if (styleVal.search(mode.regexOnlyColors) > -1 || styleVal.indexOf('data') === 1) {
                     continue;
@@ -82,7 +80,6 @@ define(function(require, exports, module) {
                     str += '#SW_' + key.substring(1) + ".swatcher-color" + this.styles[key];
                 }
             }
-
             return this.styleHead.join('') + str;
         },
 
