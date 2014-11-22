@@ -32,7 +32,14 @@ define(function(require, exports, module) {
                 styleVal = $.trim(entity[1]);
                 htmlID = 'SW_' + styleName.substring(1);
 
-                if (styleVal.search(mode.regexOnlyColors) > -1) {
+                if (typeof found[2] !== 'undefined') {
+                    styleVal = "'" + $.trim(found[2]) + "'";
+                    found[0] = styleName + ":" + styleVal;
+                }
+
+                console.log(styleVal.indexOf('data'));
+
+                if (styleVal.search(mode.regexOnlyColors) > -1 || styleVal.indexOf('data') === 1) {
                     continue;
                 }
 
@@ -75,6 +82,7 @@ define(function(require, exports, module) {
                     str += '#SW_' + key.substring(1) + ".swatcher-color" + this.styles[key];
                 }
             }
+
             return this.styleHead.join('') + str;
         },
 
