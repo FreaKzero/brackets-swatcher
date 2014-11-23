@@ -1,15 +1,6 @@
 /*jslint plusplus: true, vars: true, nomen: true */
 /*global $, brackets, define, Mustache */
 
-
-/*
-^@[0-9a-z\-_]+\s*:\s*((\burl\('([^']+)'\))|[0-9a-z\-_@#%'"*\/\.\(\)\,\+\s]+)
-regexVariables: /^@[0-9a-z\-_]+\s*:\s*(url\('data:image\/(.*);base64.*|[0-9a-z\-_@#%'"*\/\.\(\)\,\+\s]+)/igm,
-
-regexVariables: /^@[0-9a-z\-_]+\s*:\s*(url\('([^']+)'\)|[0-9a-z\-_@#%'"*\/\.\(\)\,\+\s]+)/igm,
-
-*/
-
 define(function(require, exports, module) {
     "use strict";
     var modes = {
