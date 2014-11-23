@@ -25,7 +25,7 @@ define(function(require, exports, module) {
             mode: 'text/x-scss',
             hints: ['scss'],
             trigger: '$',
-            regexVariables:  /^\$[0-9a-z\-_]+\s*:\s*(url\('data:image\/(.*);base64.*|[0-9a-z\-_\$#%'"*\/\.\(\)\,\+\s]+)/igm,
+            regexVariables: /^\$[0-9a-z\-_]+\s*:\s*(url\('([^']+)'\)|[0-9a-z\-_\$#%'"*\/\.\(\)\,\+\s]+)/igm,
             regexOnlyColors: /(str-|map-|selector-|unquote|quote|to-upper-case|to-lower-case|percentage|round|ceil|floor|abs|min|max|random|length|nth|join|append|zip|index|list-seperator|keywords|is-superselector|simple-selectors|feature-exists|variable-exists|global-variable-exists|function-exists|mixin-exists|inspect|type-of|unit|unitless|comparable|call|unique-id)|(^[0-9.]+)|(.*\s(\+|\-|\*)\s.*)|(inherit|normal|bold|italic|\")/g,
         },
 
@@ -33,7 +33,7 @@ define(function(require, exports, module) {
             mode: 'sass',
             hints: ['sass'],
             trigger: '$',
-            regexVariables: /^\$[0-9a-z\-_]+\s*:\s*(url\('data:image\/(.*);base64.*|[0-9a-z\-_\$#%'"*\/\.\(\)\,\+\s]+)/igm,
+            regexVariables: /^\$[0-9a-z\-_]+\s*:\s*(url\('([^']+)'\)|[0-9a-z\-_\$#%'"*\/\.\(\)\,\+\s]+)/igm,
             regexOnlyColors: /(str-|map-|selector-|unquote|quote|to-upper-case|to-lower-case|percentage|round|ceil|floor|abs|min|max|random|length|nth|join|append|zip|index|list-seperator|keywords|is-superselector|simple-selectors|feature-exists|variable-exists|global-variable-exists|function-exists|mixin-exists|inspect|type-of|unit|unitless|comparable|call|unique-id)|(^[0-9.]+)|(.*\s(\+|\-|\*)\s.*)|(inherit|normal|bold|italic|\")/g,
         }
     };
