@@ -19,6 +19,9 @@
  * colors are ugly.)
  */
 /* Dark Core UI variables -----------------------------------------------------------------------------*/
+/*#swatcher {
+    height:400px;
+}*/
 #swatcher-container {
   overflow: auto;
   height: 100%;
@@ -45,13 +48,6 @@
 }
 #swatcher-toolbar-icon.error {
   background-position: 0 -96px !important;
-}
-.swatcher-swatch-hints {
-  display: inline-block;
-  margin-right: 5px;
-  height: 10px;
-  width: 10px;
-  border: 1px solid #ffffff;
 }
 .swatcher-switch {
   position: relative;
@@ -173,12 +169,6 @@
   border-radius: 5px;
   cursor: pointer;
 }
-.swatcher-swatch-panel {
-  width: 100%;
-  height: 100%;
-  border-bottom: 1px solid #202020;
-  cursor: pointer;
-}
 .swatcher-prepare-color-remove {
   cursor: pointer;
   color: #a9acac;
@@ -296,62 +286,4 @@
 }
 .swatcher-error a:hover {
   color: white;
-}
-#swatcher-cp-canvas {
-  cursor: crosshair;
-}
-/*
-table {
-    width: 40%;
-}
-*/
-#swatcher-cp-holder {
-  position: relative;
-  background-color: #383838;
-  width: 60%;
-  height: 350px;
-  float: left;
-}
-#swatcher-cp-preview {
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 80px;
-  width: 80px;
-  border: 1px solid #393939;
-  background-color: white;
-  z-index: 9999;
-  cursor: pointer;
-}
-#swatcher-cp-addcolor {
-  margin: 13px auto auto auto;
-  border-radius: 999px;
-  width: 50px;
-  height: 35px;
-  padding-top: 15px;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.2);
-  font-size: 35px;
-  font-weight: bolder;
-  color: rgba(0, 0, 0, 0.3);
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  cursor: pointer;
-  opacity: 0;
-  transition: all 0.2s ease-in-out;
-  display: block;
-}
-#swatcher-cp-preview:hover > #swatcher-cp-addcolor {
-  cursor: pointer;
-  opacity: 1;
-}
-#swatcher-cp-zoomControls {
-  position: absolute;
-  right: 5px;
-  bottom: 0;
-}
-#swatcher-cp-zoomControls > button {
-  padding: 5px 10px 5px 10px;
-  font-weight: bold;
-  font-size: 15px;
-  margin-bottom: 10px;
 }

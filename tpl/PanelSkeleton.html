@@ -1,33 +1,38 @@
 <div id="swatcher" class="swatcher bottom-panel vert-resizable top-resizer">
-    <div class="toolbar simple-toolbar-layout">                
+    <div class="toolbar simple-toolbar-layout">
 
         <label class="swatcher-switch no-focus">
             <input type="checkbox" id="swatcher-track" class="no-focus">
             <span class="label"></span>
             <span class="handle"></span>
         </label>
-                        
-        <div class="toolbar-right">            
+
+        <div class="toolbar-right">
             <input type="text" id="swatcher-filter" class="input input-large" placeholder="Filter" />
-                <button href="#" id="swatcher-reset-filter" class="no-focus">&times;</button>            
-            
+            <button href="#" id="swatcher-reset-filter" class="no-focus">&times;</button>
+
             <div class="btn-group">
-            
+
                 <button type="button" class="btn small dropdown-toggle" data-toggle="dropdown">
                     <i class="settings-button"></i>
                 </button>
-            
-                <ul class="dropdown-menu pull-right swatcher-settings-dropdown"> 
-                    <li><a id="swatcher-open-colorimport" href="#">Import Palettes</a></li>                
-                    <li><a id="swatcher-open-setasset"href="#">Set Asset Path</a></li>
-                    <li><a id="swatcher-open-settingsdialog" href="#">Settings</a></li>
+
+                <ul class="dropdown-menu pull-right swatcher-settings-dropdown">                    
+                    <li><a id="swatcher-open-colorimport" href="#">Import Photoshop Swatches</a>
+                    </li>
+                    <li><a id="swatcher-open-colorpicker" href="#">Import via Colorpicker</a>
+                    </li>
+                    <li><a id="swatcher-open-setasset" href="#">Set Asset Path</a>
+                    </li>
+                    <li><a id="swatcher-open-settingsdialog" href="#">Settings</a>
+                    </li>
                 </ul>
             </div>
-            
+
         </div>
 
         <a href="#" class="close">&times;</a>
     </div>
-    
+
     <div id="swatcher-container" class="resizable-content {{swatchsize}} no-focus"></div>
 </div>

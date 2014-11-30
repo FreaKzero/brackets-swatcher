@@ -14,8 +14,9 @@ define(function(require, exports, module) {
         DocumentManager = brackets.getModule("document/DocumentManager"),
 
         SettingsDialog = require('src/dialogs/SettingsDialog'),
-        ColorImportDialog = require('src/dialogs/ColorImportDialog'),
+        AcoImportDialog = require('src/dialogs/AcoImportDialog'),
         AssetPathDialog = require('src/dialogs/AssetDialog'),
+        ColorPickerDialog = require('src/dialogs/ColorPickerDialog'),
 
         Preferences = require('src/Preferences'),
         Utils = require('src/Utils'),
@@ -55,7 +56,7 @@ define(function(require, exports, module) {
             Clickevent to import "defined" Colors (ColorDefine.html) into Swatcher Panel
         */
     $instance.on('click', '#swatcher-colordefine-import', function() {
-        ColorImportDialog.importColors(EditorManager.getFocusedEditor());
+        AcoImportDialog.importColors(EditorManager.getFocusedEditor());
     });
 
     /*
@@ -66,7 +67,11 @@ define(function(require, exports, module) {
     });
 
     $instance.on('click', '#swatcher-open-colorimport', function() {
-        ColorImportDialog.show();
+        AcoImportDialog.show();
+    });
+    
+    $instance.on('click', '#swatcher-open-colorpicker', function() {
+        ColorPickerDialog.show();
     });
 
     $instance.on('click', '#swatcher-reset-filter', function() {
@@ -121,9 +126,7 @@ define(function(require, exports, module) {
                 break;
         }
     });
-
-    //TODO set Assetpath here (getBGPath from variablefilter)
-
+    
     $instance.on('change', '#swatcher-track', function() {
         if ($(this).prop('checked')) {
             var editor = EditorManager.getFocusedEditor();
