@@ -179,17 +179,17 @@
   border-bottom: 1px solid #202020;
   cursor: pointer;
 }
-.swatcher-prepare-color-remove {
+.swatcher-colortable-colorremove {
   cursor: pointer;
   color: #a9acac;
   font-weight: bold;
   display: inline-block;
   font-size: 15px;
 }
-.swatcher-prepare-color-remove:hover {
+.swatcher-colortable-colorremove:hover {
   color: #6bbeff;
 }
-.swatcher-prepare-color {
+.swatcher-colortable-color {
   border-radius: 3px;
   border: 1px solid #adadad;
   vertical-align: bottom;

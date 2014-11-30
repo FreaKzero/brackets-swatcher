@@ -42,34 +42,15 @@ define(function(require, exports, module) {
 
     $instance = $(Mustache.render(PanelSkeleton, TemplateData));
 
-    $instance.on('click', '.swatcher-prepare-color-remove', function() {
-        $(this).parent().parent().fadeOut(function() {
-            $(this).remove();
-        });
-    });
-
     $instance.on('click', '#swatcher-open-setasset', function() {
         AssetPathDialog.show();
-    });
-
-    /*
-            Clickevent to import "defined" Colors (ColorDefine.html) into Swatcher Panel
-        */
-    $instance.on('click', '#swatcher-colordefine-import', function() {
-        AcoImportDialog.importColors(EditorManager.getFocusedEditor());
-    });
-
-    /*
-            Clickevent to cancel the ColorDefine Bottomscreen (ColorDefine.html)
-        */
-    $instance.on('click', '#swatcher-colordefine-cancel', function() {
-        $('#swatcher-container').empty();
     });
 
     $instance.on('click', '#swatcher-open-colorimport', function() {
         AcoImportDialog.show();
     });
     
+
     $instance.on('click', '#swatcher-open-colorpicker', function() {
         ColorPickerDialog.show();
     });

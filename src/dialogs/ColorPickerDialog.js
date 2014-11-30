@@ -4,8 +4,8 @@
 define(function(require, exports) {
     var MainTemplate = require("text!../../tpl/ColorPicker.html"),
         ColorPickerFileDialog = require("text!../../tpl/ColorPickerFile.html"),
-        ColorPickerColor = require("text!../../tpl/ColorPickerColor.html"),
         ColorPicker = require("../lib/colorpick"),        
+        ColorImporter = require('../ColorImporter'),
         WorkspaceManager = brackets.getModule('view/WorkspaceManager'),
 
         Dialogs = brackets.getModule("widgets/Dialogs");
@@ -14,14 +14,7 @@ define(function(require, exports) {
 
     function registerPanelEvents() {
         $('#swatcher-cp-addcolor').on('click', function() {
-            var colorname = 'color'+$('#swatcher-cp-colors tr').size();
-
-            $('#swatcher-cp-colors').append(
-                Mustache.render(ColorPickerColor, {
-                    hex: $(this).parent().data('color'),
-                    less: colorname
-                })
-            );
+            ColorImporter.add($(this).parent().data('color'));
         });
 
         $('#swatcher-cp-plus').on('click', function() {
@@ -97,10 +90,12 @@ define(function(require, exports) {
             
             WorkspaceManager.recomputeLayout();
             
-            $('#swatcher-container').empty().show().append(
+            var $panel = $('#swatcher-container').empty().show().append(
                 Mustache.render(MainTemplate)
             );
-            
+
+            ColorImporter.registerPanel($panel);
+
             var img = new Image();
             img.src = URL.createObjectURL(this.files[0]);
 
@@ -112,9 +107,6 @@ define(function(require, exports) {
             registerPanelEvents();
         });
 
-        dialog.on('click', '#swatcher-colorpickerdialog-ok', function() {});
-
-        //swatcher-colorimport-selectfile
     }
 
     exports.show = function() {
