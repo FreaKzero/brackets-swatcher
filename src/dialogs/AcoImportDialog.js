@@ -76,7 +76,7 @@ define(function(require, exports) {
 
             palette.forEach(function(arrayRGB) {
                 var hash = Utils.hashFromRGB(arrayRGB[0], arrayRGB[1], arrayRGB[2]);
-                ColorImporter.add(hash);
+                ColorImporter.add(hash, true);
             });
         });
     }

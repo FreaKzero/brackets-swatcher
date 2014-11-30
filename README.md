@@ -20,7 +20,7 @@ Generates CodeHints/Colorpalettes from importing via LESS/SASS Files, Images or 
     
 * Colorpalette Import  
     * Load Colorpalettes from RGB Photshop Swatch Files (*.aco)
-    * Extract Dominant Colors via ColorThief (*.jpg, *.gif, *.bmp, *.png)    
+    * Generate Colorpalettes with an Image Colorpicker 
     
 **Author** FreaKzero  
  [Twitter](https://twitter.com/freakzerodotcom) [G+](https://plus.google.com/+FreaKzero)  

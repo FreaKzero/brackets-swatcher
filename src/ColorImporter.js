@@ -28,10 +28,12 @@ define(function(require, exports) {
             });
         },
 
-        add: function(hex) {
+        add: function(hex, batch) {
+            batch ? batch = batch : batch = false;
+
             var $colordouble = $(".swatcher-colortable").find("[data-hex='" + hex + "']");
 
-            if ($colordouble.size() > 0) {
+            if ($colordouble.size() > 0 && batch === false) {
                 $colordouble.fadeTo(333, 0.3, function() {
                     $colordouble.fadeTo(333, 1);
                 });
@@ -45,6 +47,10 @@ define(function(require, exports) {
                         colorhex: hex
                     })
                 );
+
+                if (batch === false) {
+                    $('.swatcher-colortable tr:last').find('input').focus();
+                }
             }
         },
 
