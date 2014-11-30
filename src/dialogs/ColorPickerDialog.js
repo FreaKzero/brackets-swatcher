@@ -4,10 +4,10 @@
 define(function(require, exports) {
     var MainTemplate = require("text!../../tpl/ColorPicker.html"),
         ColorPickerFileDialog = require("text!../../tpl/ColorPickerFile.html"),
-        ColorPicker = require("../lib/colorpick"),        
+        ColorPicker = require("../lib/colorpick"),
+        Utils = require('../Utils'),
         ColorImporter = require('../ColorImporter'),
         WorkspaceManager = brackets.getModule('view/WorkspaceManager'),
-
         Dialogs = brackets.getModule("widgets/Dialogs");
 
 
@@ -37,7 +37,8 @@ define(function(require, exports) {
             switch (eventDown.button) {
 
                 case 0: // Left MouseButton            
-                    var col = ColorPicker.pick(xDown, yDown);
+                    var ArrRGB = ColorPicker.pick(xDown, yDown);
+                    var col = Utils.hashFromRGB(ArrRGB[0], ArrRGB[1], ArrRGB[2]);
 
                     $('#swatcher-cp-preview').css({
                         'background-color': col
@@ -87,9 +88,9 @@ define(function(require, exports) {
             $('#swatcher').css({
                 height: 380
             });
-            
+
             WorkspaceManager.recomputeLayout();
-            
+
             var $panel = $('#swatcher-container').empty().show().append(
                 Mustache.render(MainTemplate)
             );
@@ -101,9 +102,9 @@ define(function(require, exports) {
 
             img.onload = function() {
                 ColorPicker.init(img);
-                ColorPicker.draw();                
+                ColorPicker.draw();
             };
-            
+
             registerPanelEvents();
         });
 
