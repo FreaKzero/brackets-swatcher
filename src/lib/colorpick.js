@@ -47,8 +47,7 @@ define(function(require, exports, module) {
 
         crosshair: function(x, y) {
             ColorPicker.draw();
-            
-                        
+
             ctx.beginPath();
             ctx.strokeStyle = "#2893ef";
             ctx.setLineDash([5,2]);

@@ -1,18 +1,24 @@
- <div id="swatcher-colorpicker">
-        <div id="swatcher-cp-holder">
-            <div id="swatcher-cp-preview">
-                <div id="swatcher-cp-addcolor">+</div>
-            </div>
-            
-            <div id="swatcher-cp-zoomControls">
-                <button id="swatcher-cp-fit" class="dialog-button btn">F</button>
-                <br />
-                <button id="swatcher-cp-plus" class="dialog-button btn">+</button>
-                <br />
-                <button id="swatcher-cp-minus" class="dialog-button btn">-</button>
-            </div>
-            <canvas id="swatcher-cp-canvas"></canvas>
+<div id="swatcher-colorpicker">
+    <div id="swatcher-cp-holder">
+        <div id="swatcher-cp-preview">
+            <div id="swatcher-cp-addcolor">+</div>
         </div>
-        
-       <!-- Table -->
+
+        <div id="swatcher-cp-zoomControls">
+            <button id="swatcher-cp-fit" class="dialog-button btn">F</button>
+            <br />
+            <button id="swatcher-cp-plus" class="dialog-button btn">+</button>
+            <br />
+            <button id="swatcher-cp-minus" class="dialog-button btn">-</button>
         </div>
+        <canvas id="swatcher-cp-canvas"></canvas>
+    </div>
+    <div id="swatcher-cp-colors-holder">
+        <table class="bottom-panel-table table table-striped table-condensed row-highlight">
+            <tbody id="swatcher-cp-colors">
+            </tbody>
+        </table>
+    </div>
+    <button id="swatcher-colordefine-import" class="btn small primary no-focus">Import into current Editor</button>
+                        <button id="swatcher-colordefine-cancel" class="btn small no-focus">Cancel</button>
+</div>

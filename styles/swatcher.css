@@ -300,11 +300,11 @@
 #swatcher-cp-canvas {
   cursor: crosshair;
 }
-/*
-table {
-    width: 40%;
+#swatcher-cp-colors-holder {
+  width: 40%;
+  height: 320px;
+  overflow-y: scroll;
 }
-*/
 #swatcher-cp-holder {
   position: relative;
   background-color: #383838;
@@ -320,7 +320,6 @@ table {
   width: 80px;
   border: 1px solid #393939;
   background-color: white;
-  z-index: 9999;
   cursor: pointer;
 }
 #swatcher-cp-addcolor {

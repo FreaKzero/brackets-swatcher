@@ -4,6 +4,7 @@
 define(function(require, exports) {
     var MainTemplate = require("text!../../tpl/ColorPicker.html"),
         ColorPickerFileDialog = require("text!../../tpl/ColorPickerFile.html"),
+        ColorPickerColor = require("text!../../tpl/ColorPickerColor.html"),
         ColorPicker = require("../lib/colorpick"),        
         WorkspaceManager = brackets.getModule('view/WorkspaceManager'),
 
@@ -13,7 +14,14 @@ define(function(require, exports) {
 
     function registerPanelEvents() {
         $('#swatcher-cp-addcolor').on('click', function() {
-            alert("Your Color is " + $(this).parent().data('color'));
+            var colorname = 'color'+$('#swatcher-cp-colors tr').size();
+
+            $('#swatcher-cp-colors').append(
+                Mustache.render(ColorPickerColor, {
+                    hex: $(this).parent().data('color'),
+                    less: colorname
+                })
+            );
         });
 
         $('#swatcher-cp-plus').on('click', function() {
