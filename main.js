@@ -77,10 +77,13 @@ define(function(require, exports, module) {
         });
     });
 
+    $instance.on('change', '#swatcher-track', function() {
+        trackFile();
+    });
+
     $instance.on('click', '#swatcher-open-colorimport', function() {
         AcoImportDialog.show();
     });
-
 
     $instance.on('click', '#swatcher-open-colorpicker', function() {
         ColorPickerDialog.show();
@@ -88,11 +91,11 @@ define(function(require, exports, module) {
 
     $instance.on('click', '#swatcher-reset-filter', function() {
         $('#swatcher-filter').val('');
+        $('.swatcher-color').parent().fadeIn();
     });
 
     $instance.on('keyup', '#swatcher-filter', function() {
         var filter = $(this).val();
-
         $('.swatcher-color').filter(function() {
             var regex = new RegExp(filter, "ig");
 
@@ -137,10 +140,6 @@ define(function(require, exports, module) {
                 Utils.gotoLine(actualFile, $(this).data("line"));
                 break;
         }
-    });
-
-    $instance.on('change', '#swatcher-track', function() {
-        trackFile();
     });
 
     $instance.on({

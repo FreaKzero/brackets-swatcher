@@ -62,6 +62,10 @@ define(function(require, exports) {
                 defer.resolve();
             });
 
+            instance.on('click', '.cancel', function() {
+                defer.reject();
+            });
+
             return defer.promise();
         }
     };

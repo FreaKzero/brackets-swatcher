@@ -85,11 +85,12 @@ define(function(require, exports) {
         dialog.on('change', '#swatcher-colorimport-selectfile', function() {
             dialog.find('#swatcher-colorpickerdialog-ok').attr('disabled', false);
 
+            //TODO BUG: Layout Refreshing Bug
             $('#swatcher').css({
                 height: 380
             });
 
-            WorkspaceManager.recomputeLayout();
+            WorkspaceManager.recomputeLayout(true);
 
             var $panel = $('#swatcher-container').empty().show().append(
                 Mustache.render(MainTemplate)

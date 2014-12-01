@@ -12,7 +12,7 @@
              MAIN_WRONGEXT: 'Swatcher can only parse CSS or Preprocessor Files',
              MAIN_LESSERROR: 'Cant generate Swatches due to an LESS Parsererror<br><code>{errorMessage}</code>',
              MAIN_SASSERROR: 'Cant generate Swatches due to an SASS Parsererror<br><code>{errorMessage}</code>',
-             MAIN_NOSWATCHES: 'No parseable Variables Found',
+             MAIN_NOSWATCHES: 'No parseable Variables Found <br> File is tracked, define Variables and Save Document to generate Swatches',
 
              DIALOG_WRONGMIME: '<strong style="color:red">Please use an {filetype} File to Import Colorpalettes</strong>',
 
