@@ -5,20 +5,16 @@
 
          store = {
              SYSTEM_ERROR: 'Unknown System Error',
-             ACO_NOFILE: 'Please focus a Line of a CSS/LESS Document to insert Swatches',
+             ACO_NOFILE: 'Please focus a Line of a CSS/Preprocessor Document to insert Swatches',
              ACO_NOSUPPORT: 'Importing into this Filetype is not Supported',
              MAIN_WRONGFILE: 'Wrong Filetype - Please Open a LESS or SASS/SCSS File',
-             MAIN_NODOCUMENT: 'Please focus an editor window',
-             MAIN_WRONGEXT: 'Swatcher can only parse CSS or LESS Files',
+             MAIN_NODOCUMENT: 'Please open a CSS or Preprocessor File',
+             MAIN_WRONGEXT: 'Swatcher can only parse CSS or Preprocessor Files',
              MAIN_LESSERROR: 'Cant generate Swatches due to an LESS Parsererror<br><code>{errorMessage}</code>',
              MAIN_SASSERROR: 'Cant generate Swatches due to an SASS Parsererror<br><code>{errorMessage}</code>',
              MAIN_NOSWATCHES: 'No parseable Variables Found',
-             MAIN_SETPATH: 'New Asset Path is set, please reinitiate Swatcher on your wanted File',
 
              DIALOG_WRONGMIME: '<strong style="color:red">Please use an {filetype} File to Import Colorpalettes</strong>',
-
-             DIALOG_IMG_CANTPARSE: '<strong style="color:red">Cant extract any Colors from Image</strong>',
-             DIALOG_IMG_PARSESUCCESS: '<strong style="color:green">Successfully extracted {count} Colors</strong>',
 
              DIALOG_ACO_CANTPARSE: '<strong style="color:red">Swatcher cant parse any Swatches <br> Please make sure the Swatches are in RGB Format</strong>',
              DIALOG_ACO_PARSESUCCESS: '<strong style="color:green">Swatcher Found {count} parseable RGB Swatches</strong>',

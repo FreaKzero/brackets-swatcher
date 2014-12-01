@@ -42,14 +42,45 @@ define(function(require, exports, module) {
 
     $instance = $(Mustache.render(PanelSkeleton, TemplateData));
 
+    function trackFile() {
+        if ($('#swatcher-track').prop('checked')) {
+            var editor = EditorManager.getActiveEditor();
+
+            if (editor) {
+                actualFile = editor.document.file.fullPath;
+
+                if (Modes.hasPreprocessor(editor)) {
+                    SwatchParser.generate(editor);
+                } else {
+                    Messages.error('MAIN_WRONGFILE');
+                    $('#swatcher-track').prop('checked', false);
+                }
+            } else {
+                Messages.error('MAIN_NODOCUMENT');
+                $('#swatcher-track').prop('checked', false);
+            }
+
+        } else {
+            $('#swatcher-container').fadeOut(function() {
+                $(this).empty();
+                $('#swatcher-styles').html("");
+                Icon.forceActive();
+            });
+        }
+    }
+
     $instance.on('click', '#swatcher-open-setasset', function() {
-        AssetPathDialog.show();
+        var p = AssetPathDialog.show();
+
+        p.done(function() {
+            trackFile();
+        });
     });
 
     $instance.on('click', '#swatcher-open-colorimport', function() {
         AcoImportDialog.show();
     });
-    
+
 
     $instance.on('click', '#swatcher-open-colorpicker', function() {
         ColorPickerDialog.show();
@@ -58,7 +89,7 @@ define(function(require, exports, module) {
     $instance.on('click', '#swatcher-reset-filter', function() {
         $('#swatcher-filter').val('');
     });
-    
+
     $instance.on('keyup', '#swatcher-filter', function() {
         var filter = $(this).val();
 
@@ -73,7 +104,7 @@ define(function(require, exports, module) {
         });
 
     });
-    
+
     $instance.on('click', '.close', function() {
         handleActive();
     });
@@ -107,32 +138,9 @@ define(function(require, exports, module) {
                 break;
         }
     });
-    
+
     $instance.on('change', '#swatcher-track', function() {
-        if ($(this).prop('checked')) {
-            var editor = EditorManager.getFocusedEditor();
-
-            if (editor) {
-                actualFile = editor.document.file.fullPath;
-
-                if (Modes.hasPreprocessor(editor)) {
-                    SwatchParser.generate(editor);
-                } else {
-                    Messages.error('MAIN_WRONGFILE');
-                    $(this).prop('checked', false);
-                }
-            } else {
-                Messages.error('MAIN_NODOCUMENT');
-                $(this).prop('checked', false);
-            }
-
-        } else {
-            $('#swatcher-container').fadeOut(function() {
-                $(this).empty();
-                $('#swatcher-styles').html("");
-                Icon.forceActive();
-            });
-        }
+        trackFile();
     });
 
     $instance.on({

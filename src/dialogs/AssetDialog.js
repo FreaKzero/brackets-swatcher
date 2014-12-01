@@ -40,6 +40,7 @@ define(function(require, exports) {
 
         show: function() {
             var TemplateData = {};
+            var defer = $.Deferred();
 
             if (AssetDialog.getAssetPath()) {
                 TemplateData.AssetPath = AssetDialog.getAssetPath();
@@ -53,16 +54,15 @@ define(function(require, exports) {
             instance.on('click', '#swatcher-set-asset-path', function() {
                 var value = $.trim(instance.find('#swatcher-asset-path').val());
                 AssetDialog.AssetPath = value;
-
-                Icon.forceActive();
-                $('#swatcher-track').prop('checked', false);
-                Messages.notice('MAIN_SETPATH');
-
+                defer.resolve();
             });
 
             instance.on('click', '#swatcher-reset-asset-path', function() {
                 instance.find('#swatcher-asset-path').val('');
+                defer.resolve();
             });
+
+            return defer.promise();
         }
     };
 
