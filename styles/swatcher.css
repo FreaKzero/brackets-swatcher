@@ -130,6 +130,27 @@
   left: 32px;
   box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.2);
 }
+#swatcher-colorimport-pastebox {
+  width: 100px;
+  height: 100px;
+  border: 1px dashed #626262;
+  background-color: #1c1c1e;
+  float: left;
+}
+#swatcher-colorimport-pastebox:focus,
+#swatcher-colorimport-pastebox:active {
+  outline: none;
+  border: 1px dashed #2893ef;
+}
+.swatcher-colorimport-description {
+  width: 300px;
+  height: 100px;
+  margin-left: 110px;
+}
+.swatcher-colorimport-description .error {
+  color: #f74687;
+  font-weight: bold;
+}
 .swatcher-color {
   background-position: center center;
   background-size: 90%;
@@ -307,7 +328,7 @@
 }
 #swatcher-cp-holder {
   position: relative;
-  background-color: #383838;
+  background-color: #222222;
   width: 60%;
   height: 350px;
   float: left;

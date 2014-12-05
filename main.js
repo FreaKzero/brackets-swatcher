@@ -98,8 +98,9 @@ define(function(require, exports, module) {
         var filter = $(this).val();
         $('.swatcher-color').filter(function() {
             var regex = new RegExp(filter, "ig");
+            var regexStyle = new RegExp('^'+filter, "ig");
 
-            if (regex.test($(this).data('variable'))) {
+            if (regex.test($(this).data('variable')) || regexStyle.test($(this).data('style'))) {
                 $(this).parent().fadeIn();
             } else {
                 $(this).parent().fadeOut();
@@ -144,14 +145,14 @@ define(function(require, exports, module) {
 
     $instance.on({
         mouseenter: function() {
-            var toolTip = $(this).data('variable'),
+            var toolTip = '<strong>' + $(this).data('variable') + '</strong><br>' + $(this).data('style'),
                 pos = $(this).offset(),
                 top;
 
 
             Preferences.get('swatchsize') === 'big' ? top = 60 : top = 30;
 
-            $('<span class="swatcher-label"></span>').text(toolTip)
+            $('<span class="swatcher-label"></span>').html(toolTip)
                 .appendTo('body')
                 .css('left', (pos.left + 20) + 'px')
                 .css('top', (pos.top + top) + 'px')

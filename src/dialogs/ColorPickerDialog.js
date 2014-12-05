@@ -7,7 +7,6 @@ define(function(require, exports) {
         ColorPicker = require("../lib/colorpick"),
         Utils = require('../Utils'),
         ColorImporter = require('../ColorImporter'),
-        WorkspaceManager = brackets.getModule('view/WorkspaceManager'),
         Dialogs = brackets.getModule("widgets/Dialogs");
 
 
@@ -80,33 +79,43 @@ define(function(require, exports) {
         });
     }
 
+    function initColorPicker(blob) {
+        var $panel = $('#swatcher-container').empty().show().append(
+            Mustache.render(MainTemplate)
+        );
+
+        ColorImporter.registerPanel($panel);
+        ColorPicker.init(blob);
+        registerPanelEvents();        
+    }
+
     function registerDialogEvents(dialog) {
+        var $dialog = dialog.getElement();
 
-        dialog.on('change', '#swatcher-colorimport-selectfile', function() {
-            dialog.find('#swatcher-colorpickerdialog-ok').attr('disabled', false);
+        document.getElementById('swatcher-colorimport-pastebox').addEventListener("paste", function(e) {
+            e.preventDefault();
+            if (e.clipboardData) {
+                var items = e.clipboardData.items;
 
-            //TODO BUG: Layout Refreshing Bug
-            $('#swatcher').css({
-                height: 380
-            });
+                if (items) {
+                    var len = items.length;
+                    for (var i = 0; i < len; i++) {
+                        if (items[i].type.indexOf("image") !== -1) {
+                            initColorPicker(items[i].getAsFile());
+                            dialog.close();
+                            break;
+                        } else {
+                            $('.swatcher-colorimport-description .error').text('No Image in Clipboard');
+                        }
+                    }
+                }
+            }
+        });
 
-            WorkspaceManager.recomputeLayout(true);
-
-            var $panel = $('#swatcher-container').empty().show().append(
-                Mustache.render(MainTemplate)
-            );
-
-            ColorImporter.registerPanel($panel);
-
-            var img = new Image();
-            img.src = URL.createObjectURL(this.files[0]);
-
-            img.onload = function() {
-                ColorPicker.init(img);
-                ColorPicker.draw();
-            };
-
-            registerPanelEvents();
+        $dialog.on('change', '#swatcher-colorimport-selectfile', function() {
+            $dialog.find('#swatcher-colorpickerdialog-ok').attr('disabled', false);
+            initColorPicker(this.files[0]);
+            dialog.close();
         });
 
     }
@@ -115,6 +124,6 @@ define(function(require, exports) {
         var compiledTemplate = Mustache.render(ColorPickerFileDialog),
             dialog = Dialogs.showModalDialogUsingTemplate(compiledTemplate);
 
-        registerDialogEvents(dialog.getElement());
+        registerDialogEvents(dialog);
     };
 });

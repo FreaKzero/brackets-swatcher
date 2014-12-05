@@ -60,6 +60,7 @@ define(function(require, exports, module) {
                 this.codeHints.push('<div id="' + htmlID + '" class="swatcher-swatch-hints swatcher-color"></div>' + styleName);
 
                 this.panelData.push({
+                    style: styleVal,
                     line: StringUtils.offsetToLineNum(documentLines, found.index),
                     variable: styleName,
                     htmlID: htmlID

@@ -32,19 +32,24 @@ define(function(require, exports, module) {
             zoomStep: 0.3
         },
 
-        init: function(image) {
+        init: function(blob) {
             canvas = document.getElementById('swatcher-cp-canvas');
             ctx = canvas.getContext('2d');
             
             var c = document.getElementById('swatcher-cp-holder');
             canvas.width = c.clientWidth;
             canvas.height = 350;
-            ColorPicker.image = image;
+                                    
+            var img = new Image();
+            img.src = URL.createObjectURL(blob);
 
-            ColorPicker.zoom('x');
-
+            img.onload = function() {
+                ColorPicker.image = img;
+                ColorPicker.draw();
+                ColorPicker.zoom('x');
+            };
         },
-
+        
         crosshair: function(x, y) {
             ColorPicker.draw();
 

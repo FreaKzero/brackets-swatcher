@@ -1,0 +1,22 @@
+#swatcher-colorimport-pastebox {
+    width: 100px;
+    height: 100px;
+    border: 1px dashed @pastebox-bordercolor;
+    background-color: @dark-bc-bg-status-bar;
+    float:left;    
+    &:focus, &:active {
+        outline:none;
+        border: 1px dashed @dark-bc-btn-border-focused;
+    }
+}
+
+.swatcher-colorimport-description {
+    width: 300px;  
+    height: 100px; 
+    margin-left: 110px;
+    
+    .error {
+        color: @bc-error;
+        font-weight:bold;
+    }
+}

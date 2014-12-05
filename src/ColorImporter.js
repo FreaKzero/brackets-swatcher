@@ -8,24 +8,29 @@ define(function(require, exports) {
 
         Modes = require('../modes'),
         Utils = require('./Utils'),
-        messages = require('./Messages');
+        messages = require('./Messages'),
+        registered = false;
 
     var ColorImporter = {
 
         registerPanel: function($panel) {
-            $panel.on('click', '.swatcher-colortable-colorremove', function() {
-                $(this).parent().parent().fadeOut(function() {
-                    $(this).remove();
+            if (!registered) {
+                $panel.on('click', '.swatcher-colortable-colorremove', function() {
+                    $(this).parent().parent().fadeOut(function() {
+                        $(this).remove();
+                    });
                 });
-            });
 
-            $panel.on('click', '.swatcher-colortable-import', function() {
-                ColorImporter.EditorImport(EditorManager.getFocusedEditor());
-            });
+                $panel.on('click', '.swatcher-colortable-import', function() {
+                    ColorImporter.EditorImport(EditorManager.getFocusedEditor());
+                });
 
-            $panel.on('click', '.swatcher-colortable-cancel', function() {
-                ColorImporter.exit();
-            });
+                $panel.on('click', '.swatcher-colortable-cancel', function() {
+                    ColorImporter.exit();
+                });
+                
+                registered = true;
+            }
         },
 
         add: function(hex, batch) {
