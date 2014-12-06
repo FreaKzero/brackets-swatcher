@@ -58,8 +58,24 @@
 }
 
 #swatcher-cp-zoomControls > button { 
-    padding: 5px 10px 5px 10px;
+    height: 30px;
+    width: 30px;
     font-weight: bold;
-    font-size: 15px;
+    font-size: 20px;
     margin-bottom: 10px;
+    padding: 0;
+}
+
+#swatcher-cp-fit {
+    background-image: @swatcher-cp-icon-fit-light;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 50%;
+
+    .dark & {
+        background-image: @swatcher-cp-icon-fit-dark;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 50%;
+    }
 }

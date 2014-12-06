@@ -134,12 +134,19 @@
   width: 100px;
   height: 100px;
   border: 1px dashed #626262;
-  background-color: #1c1c1e;
+  background-color: #ffffff;
   float: left;
+}
+.dark #swatcher-colorimport-pastebox {
+  background-color: #1c1c1e;
 }
 #swatcher-colorimport-pastebox:focus,
 #swatcher-colorimport-pastebox:active {
   outline: none;
+  border: 1px dashed #2893ef;
+}
+.dark #swatcher-colorimport-pastebox:focus,
+.dark #swatcher-colorimport-pastebox:active {
   border: 1px dashed #2893ef;
 }
 .swatcher-colorimport-description {
@@ -370,8 +377,22 @@
   bottom: 0;
 }
 #swatcher-cp-zoomControls > button {
-  padding: 5px 10px 5px 10px;
+  height: 30px;
+  width: 30px;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 20px;
   margin-bottom: 10px;
+  padding: 0;
+}
+#swatcher-cp-fit {
+  background-image: url('images/fitscreen-light.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 50%;
+}
+.dark #swatcher-cp-fit {
+  background-image: url('images/fitscreen-dark.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 50%;
 }

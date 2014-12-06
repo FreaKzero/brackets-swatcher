@@ -51,7 +51,7 @@ define(function(require, exports) {
                         colorname: name,
                         colorhex: hex
                     })
-                );
+                ).children(':last').hide().fadeIn();
 
                 if (batch === false) {
                     $('.swatcher-colortable tr:last').find('input').focus();

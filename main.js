@@ -65,6 +65,7 @@ define(function(require, exports, module) {
                 $(this).empty();
                 $('#swatcher-styles').html("");
                 Icon.forceActive();
+                actualFile = false;
             });
         }
     }

@@ -12,6 +12,11 @@ define(function(require, exports, module) {
 
         coords: {
 
+            cross: {
+                x: 0,
+                y: 0
+            },
+
             start: {
                 x: 0,
                 y: 0
@@ -29,17 +34,19 @@ define(function(require, exports, module) {
         image: false,
 
         config: {
-            zoomStep: 0.3
+            zoomStep: 0.1,
+            maxOut: 0.3,
+            maxIn: 5
         },
 
         init: function(blob) {
             canvas = document.getElementById('swatcher-cp-canvas');
             ctx = canvas.getContext('2d');
-            
+
             var c = document.getElementById('swatcher-cp-holder');
             canvas.width = c.clientWidth;
             canvas.height = 350;
-                                    
+
             var img = new Image();
             img.src = URL.createObjectURL(blob);
 
@@ -49,18 +56,21 @@ define(function(require, exports, module) {
                 ColorPicker.zoom('x');
             };
         },
-        
+
         crosshair: function(x, y) {
             ColorPicker.draw();
 
+            ColorPicker.coords.cross.x = x;
+            ColorPicker.coords.cross.y = y;
+
             ctx.beginPath();
             ctx.strokeStyle = "#2893ef";
-            ctx.setLineDash([5,2]);
-            
+            ctx.setLineDash([5, 2]);
+
             ctx.moveTo(0, y);
             ctx.lineTo(canvas.width, y);
             ctx.moveTo(x, 0);
-            ctx.lineTo(x, canvas.height);            
+            ctx.lineTo(x, canvas.height);
             ctx.stroke();
             ctx.closePath();
         },
@@ -84,9 +94,9 @@ define(function(require, exports, module) {
         },
 
         fitToScreen: function() {
-            if (ColorPicker.image.width > canvas.width) {
+            if (ColorPicker.image.width > canvas.width && ColorPicker.image.width > ColorPicker.image.height) {
                 ColorPicker.scale = (canvas.width / (ColorPicker.image.width / 100)) / 100;
-            } else if (ColorPicker.image.height > canvas.height) {
+            } else if (ColorPicker.image.height > canvas.height && ColorPicker.image.width < ColorPicker.image.height) {
                 ColorPicker.scale = (canvas.height / (ColorPicker.image.height / 100)) / 100;
             } else {
                 ColorPicker.scale = 1;
@@ -110,16 +120,19 @@ define(function(require, exports, module) {
             ColorPicker.draw();
         },
 
+
         zoom: function(arg) {
             switch (arg) {
                 case '+':
-                    ColorPicker.scale = ColorPicker.scale + ColorPicker.config.zoomStep;
+                    if (ColorPicker.scale < ColorPicker.config.maxIn) {
+                        ColorPicker.scale = ColorPicker.scale + ColorPicker.config.zoomStep;
+                    }
                     break;
-
                 case '-':
-                    ColorPicker.scale = ColorPicker.scale - ColorPicker.config.zoomStep;
+                    if (ColorPicker.scale > ColorPicker.config.maxOut) {
+                        ColorPicker.scale = ColorPicker.scale - ColorPicker.config.zoomStep;
+                    }
                     break;
-
                 case 'x':
                     ColorPicker.fitToScreen();
                     break;
@@ -136,10 +149,9 @@ define(function(require, exports, module) {
 
             ColorPicker.coords.x = newX;
             ColorPicker.coords.y = newY;
-
             ColorPicker.draw();
         }
     };
-    
+
     return ColorPicker;
 });

@@ -28,6 +28,15 @@ define(function(require, exports) {
             ColorPicker.zoom('x');
         });
 
+        $('#swatcher-cp-canvas').on('mousewheel', function(eventScroll) {
+            if (eventScroll.originalEvent.wheelDelta < 0) {
+                ColorPicker.zoom('-');
+            } else {
+                ColorPicker.zoom('+');
+            }
+            return false;
+        });
+
         $('#swatcher-cp-canvas').on('mousedown', function(eventDown) {
 
             var xDown = eventDown.offsetX;
@@ -86,7 +95,7 @@ define(function(require, exports) {
 
         ColorImporter.registerPanel($panel);
         ColorPicker.init(blob);
-        registerPanelEvents();        
+        registerPanelEvents();
     }
 
     function registerDialogEvents(dialog) {
@@ -114,8 +123,12 @@ define(function(require, exports) {
 
         $dialog.on('change', '#swatcher-colorimport-selectfile', function() {
             $dialog.find('#swatcher-colorpickerdialog-ok').attr('disabled', false);
-            initColorPicker(this.files[0]);
-            dialog.close();
+            if (this.files[0].type.indexOf("image") !== -1) {
+                initColorPicker(this.files[0]);
+                dialog.close();
+            } else {
+                $('.swatcher-colorimport-description .error').text('No Image in Clipboard');
+            }
         });
 
     }
