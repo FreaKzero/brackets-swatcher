@@ -135,6 +135,10 @@
   height: 100px;
   border: 1px dashed #626262;
   background-color: #ffffff;
+  background-image: url('images/pastebox.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  margin-right: 15px;
   float: left;
 }
 .dark #swatcher-colorimport-pastebox {
@@ -149,12 +153,11 @@
 .dark #swatcher-colorimport-pastebox:active {
   border: 1px dashed #2893ef;
 }
-.swatcher-colorimport-description {
-  width: 300px;
-  height: 100px;
-  margin-left: 110px;
+.swatcher-dialog-description .pastebox-desc {
+  height: 110px;
+  width: 400px;
 }
-.swatcher-colorimport-description .error {
+.swatcher-dialog-description .error {
   color: #f74687;
   font-weight: bold;
 }
@@ -330,7 +333,7 @@
 }
 #swatcher-cp-colors-holder {
   width: 40%;
-  height: 320px;
+  height: 300px;
   overflow-y: scroll;
 }
 #swatcher-cp-holder {

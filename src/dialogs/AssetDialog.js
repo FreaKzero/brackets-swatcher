@@ -2,10 +2,9 @@
 /*global define, $, brackets, Mustache */
 define(function(require, exports) {
     var Template = require("text!../../tpl/AssetPath.html"),
-        Dialogs = brackets.getModule("widgets/Dialogs"),
-        Icon = require('src/plugin-icon'),
-        Messages = require('src/Messages');
+        Dialogs = brackets.getModule("widgets/Dialogs");
 
+    //TODO Trailing Slash Errorhandle
 
     var AssetDialog = {
         AssetPath: '',

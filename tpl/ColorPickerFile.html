@@ -6,18 +6,26 @@
 
     <div class="modal-body">        
         <h4>Select a File:</h4>
-        <input id="swatcher-colorimport-selectfile" type="file" accept="image/*" />
-        <br /><br />
-        <h4>Or Paste Image here</h4>        
+        <div class="swatcher-dialog-description">
+            <input id="swatcher-colorimport-selectfile" type="file" accept="image/*" />
+            <p class="error"></p>
+        </div>
+
+        <br />
+
+        <h4>Or Paste Screenshot here</h4>
+        <div class="swatcher-dialog-description">
         <div contenteditable="true" id="swatcher-colorimport-pastebox"></div>
-        <div class="swatcher-colorimport-description">
-            Focus the Box and Paste your Image in with
+
+        <div class="pastebox-desc">
+            Focus the Box and Paste your Screenshot with <br />
             <strong>STRG/CMD+V</strong>
             <p class="error"></p>
         </div>
-    </div>        
+
+        </div>
+    </div>
     <div class="modal-footer">        
         <button data-button-id="cancel" class="dialog-button btn cancel">Close</button>
     </div>
-
-</div>
+    </div>

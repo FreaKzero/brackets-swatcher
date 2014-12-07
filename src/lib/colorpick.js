@@ -1,5 +1,8 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50, browser: true */
 /*global $ */
+
+//TODO Centering +/- Zoom on Pan Position
+
 define(function(require, exports, module) {
 
     var canvas;

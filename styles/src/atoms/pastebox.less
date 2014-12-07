@@ -3,7 +3,12 @@
     height: 100px;
     border: 1px dashed @pastebox-bordercolor;
     background-color: @bc-bg-status-bar;
+    background-image: @swatcher-cp-icon-pastebox;
+    background-position: center center;
+    background-repeat: no-repeat;
+    margin-right: 15px;
     float:left;
+
 
     .dark & {
         background-color: @dark-bc-bg-status-bar;
@@ -19,13 +24,9 @@
     }
 }
 
-.swatcher-colorimport-description {
-    width: 300px;  
-    height: 100px; 
-    margin-left: 110px;
-    
-    .error {
-        color: @bc-error;
-        font-weight:bold;
+.swatcher-dialog-description {
+    .pastebox-desc {
+        height: 110px;
+        width: 400px;
     }
 }

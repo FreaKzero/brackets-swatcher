@@ -11,6 +11,8 @@ define(function(require, exports) {
         messages = require('./Messages'),
         registered = false;
 
+    //TODO Implement some sort of "complete reset"
+
     var ColorImporter = {
 
         registerPanel: function($panel) {

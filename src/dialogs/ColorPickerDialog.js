@@ -9,7 +9,8 @@ define(function(require, exports) {
         ColorImporter = require('../ColorImporter'),
         Dialogs = brackets.getModule("widgets/Dialogs");
 
-
+        //TODO Proper Error for Filepick
+        //TODO Proper "quit" from Paneldialog
 
     function registerPanelEvents() {
         $('#swatcher-cp-addcolor').on('click', function() {
@@ -114,7 +115,10 @@ define(function(require, exports) {
                             dialog.close();
                             break;
                         } else {
-                            $('.swatcher-colorimport-description .error').text('No Image in Clipboard');
+                            $('#swatcher-colorimport-pastebox')
+                                .parent()
+                                .find('.error')
+                                .text('No Image in Clipboard');
                         }
                     }
                 }
@@ -127,7 +131,7 @@ define(function(require, exports) {
                 initColorPicker(this.files[0]);
                 dialog.close();
             } else {
-                $('.swatcher-colorimport-description .error').text('No Image in Clipboard');
+                $(this).parent().find('.error').text('This Filetype is not supported, please select an Image');
             }
         });
 
