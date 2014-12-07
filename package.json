@@ -1,9 +1,9 @@
 {
     "name": "brackets.swatcher",
     "title": "Swatcher",
-    "description": "Generates CodeHints/Colorpalettes from importing via LESS/SASS Files, Images or Photoshop Swatchfiles (*.aco)",
+    "description": "Generates CodeHints/Colorpalettes from importing via LESS/SASS Files, Images (Colorpicker) or Photoshop Swatchfiles (*.aco)",
     "homepage": "https://github.com/FreaKzero/brackets-swatcher",
-    "version": "0.4.3",
+    "version": "1.0.0",
     "author": "FreaKzero <pete@freakzero.com>",
     "license": "GPL",
     "categories" : "color",
@@ -12,7 +12,7 @@
         "sass",
         "scss",
         "photoshop",
-        "swatches"
+        "swatch"
     ],
     "engines": {
         "brackets": ">=0.44.0"

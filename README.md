@@ -1,5 +1,5 @@
-# Brackets Swatcher
-Generates CodeHints/Colorpalettes from importing via LESS/SASS Files, Images or Photoshop Swatchfiles (*.aco)
+# Brackets Swatcher  
+Generates CodeHints/Colorpalettes from importing via LESS/SASS Files, Images (Colorpicker) or Photoshop Swatchfiles (*.aco)
 
 
 ##Restrictions  
@@ -12,6 +12,7 @@ Generates CodeHints/Colorpalettes from importing via LESS/SASS Files, Images or 
 * Change Assetfolder Path for preview Images in Bottombar/Codehints
 * Configurable Swatch sizes
 * Codehints
+* Filter/Search via Variablename or the Variablevalue 
 
 * Bottompanel Colorpalette  
     * Leftclick to insert Variable or Value
@@ -21,11 +22,20 @@ Generates CodeHints/Colorpalettes from importing via LESS/SASS Files, Images or 
 * Colorpalette Import  
     * Load Colorpalettes from RGB Photshop Swatch Files (*.aco)
     * Generate Colorpalettes with an Image Colorpicker 
-    
+
+* Colorpicker 
+	* Load Images directly from Disc
+	* Load Imagedata/Printscreendata directly from Clipboard
+	* Scroll for Zoom, rightclick to pan Image
+
+##TODO/Known Bugs
+* CMYK -> RGB Converter for Importing Photoshop Swatches	    
+* Colorpicker +/- Zoom center on zoomed Position
+* Stylus Support
+
 **Author** FreaKzero  
  [Twitter](https://twitter.com/freakzerodotcom) [G+](https://plus.google.com/+FreaKzero)  
  
-**Thanks to:**  
-Lokesh Dhakar [ColorThief](http://lokeshdhakar.com/projects/color-thief)  
+**Thanks to:** 
 Amin Ullah Khan [GitHub](https://github.com/sprintr)  
 Alexander Hochreiter for Testing on Mac/Linux Systems
