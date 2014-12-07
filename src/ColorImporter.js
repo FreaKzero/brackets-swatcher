@@ -11,8 +11,6 @@ define(function(require, exports) {
         messages = require('./Messages'),
         registered = false;
 
-    //TODO Implement some sort of "complete reset"
-
     var ColorImporter = {
 
         registerPanel: function($panel) {
@@ -27,7 +25,7 @@ define(function(require, exports) {
                     ColorImporter.EditorImport(EditorManager.getFocusedEditor());
                 });
 
-                $panel.on('click', '.swatcher-colortable-cancel', function() {
+                $panel.on('click', '.swatcher-colortable-close', function() {
                     ColorImporter.exit();
                 });
                 
@@ -85,7 +83,7 @@ define(function(require, exports) {
         },
 
         exit: function() {
-            $('.swatcher-colortable').empty();
+             $('#swatcher-container').empty();
         }
     };
 

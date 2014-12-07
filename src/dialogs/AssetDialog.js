@@ -4,8 +4,6 @@ define(function(require, exports) {
     var Template = require("text!../../tpl/AssetPath.html"),
         Dialogs = brackets.getModule("widgets/Dialogs");
 
-    //TODO Trailing Slash Errorhandle
-
     var AssetDialog = {
         AssetPath: '',
 
@@ -51,7 +49,13 @@ define(function(require, exports) {
             var instance = dialog.getElement();
 
             instance.on('click', '#swatcher-set-asset-path', function() {
-                var value = $.trim(instance.find('#swatcher-asset-path').val());
+                var value = $.trim(instance.find('#swatcher-asset-path').val()),
+                    lastChar = value.slice(-1);
+
+                if (lastChar !== '/') {
+                    value = value + '/';
+                }
+
                 AssetDialog.AssetPath = value;
                 defer.resolve();
             });

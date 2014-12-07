@@ -9,9 +9,6 @@ define(function(require, exports) {
         ColorImporter = require('../ColorImporter'),
         Dialogs = brackets.getModule("widgets/Dialogs");
 
-        //TODO Proper Error for Filepick
-        //TODO Proper "quit" from Paneldialog
-
     function registerPanelEvents() {
         $('#swatcher-cp-addcolor').on('click', function() {
             ColorImporter.add($(this).parent().data('color'));
