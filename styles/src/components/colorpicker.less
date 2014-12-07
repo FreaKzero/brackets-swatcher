@@ -1,0 +1,81 @@
+#swatcher-cp-canvas {    
+    cursor: crosshair;    
+}
+
+#swatcher-cp-colors-holder {
+    width: 40%;
+    height: 300px;
+    overflow-y: scroll;
+}
+
+#swatcher-cp-holder {
+    position: relative;
+    background-color: @dark-bc-panel-bg-promoted;
+    width: 60%;
+    height: 350px;
+    float:left;
+}
+
+#swatcher-cp-preview {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 80px;
+    width: 80px;
+    border: 1px solid #393939;
+    background-color:white;
+    cursor: pointer;
+}
+
+#swatcher-cp-addcolor {
+    margin: 13px auto auto auto;
+    border-radius: 999px;
+    width: 50px;
+    height: 35px;
+    padding-top: 15px;
+    text-align:center;    
+    background-color: rgba(255, 255, 255, 0.2); 
+    font-size: 35px;
+    
+    font-weight: bolder;
+    color: rgba(0,0,0,0.3);
+    border: 2px solid rgba(255,255,255,0.3);     
+    cursor: pointer;
+    opacity: 0;
+    transition: all .2s ease-in-out;
+    display:block;
+}
+
+#swatcher-cp-preview:hover >#swatcher-cp-addcolor {
+    cursor: pointer;    
+    opacity: 1;
+}
+
+#swatcher-cp-zoomControls {
+    position: absolute;
+    right: 5px;
+    bottom: 0;
+}
+
+#swatcher-cp-zoomControls > button { 
+    height: 30px;
+    width: 30px;
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 10px;
+    padding: 0;
+}
+
+#swatcher-cp-fit {
+    background-image: @swatcher-cp-icon-fit-light;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 50%;
+
+    .dark & {
+        background-image: @swatcher-cp-icon-fit-dark;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 50%;
+    }
+}

@@ -6,16 +6,6 @@ define(function(require, exports) {
         EditorManager = brackets.getModule("editor/EditorManager");
 
     /*
-        Build an Imagepath via Filename and parentpath of current document
-    */
-    function getBgPath(str, currentDocument) {
-        var os = brackets.platform.indexOf('win') ? 'file:///' : '/',
-            root = os + currentDocument.file._parentPath;
-
-        return str.slice(0, 1) + root + str.slice(1 + Math.abs(0));
-    }
-
-    /*
         Inserts String into focused editor
     */
     function insert(currentEditor, str) {
@@ -62,11 +52,8 @@ define(function(require, exports) {
         return "#" + digitToHex(R) + digitToHex(G) + digitToHex(B);
     }
 
-
-    exports.getBgPath = getBgPath;
     exports.insert = insert;
     exports.gotoLine = gotoLine;
-
     exports.hashFromRGB = hashFromRGB;
 
 });

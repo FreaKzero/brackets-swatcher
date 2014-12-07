@@ -8,10 +8,6 @@ define(function(require, exports, module) {
         prefs = PreferencesManager.getExtensionPrefs('brackets.swatcher');
 
     var defaultPreferences = {
-        "animation": {
-            "type": "string",
-            "value": "checked"
-        },
         "swatchsize": {
             "type": "string",
             "value": "big"

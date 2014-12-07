@@ -1,0 +1,32 @@
+#swatcher-colorimport-pastebox {
+    width: 100px;
+    height: 100px;
+    border: 1px dashed @pastebox-bordercolor;
+    background-color: @bc-bg-status-bar;
+    background-image: @swatcher-cp-icon-pastebox;
+    background-position: center center;
+    background-repeat: no-repeat;
+    margin-right: 15px;
+    float:left;
+
+
+    .dark & {
+        background-color: @dark-bc-bg-status-bar;
+    }
+
+    &:focus, &:active {
+        outline:none;
+        border: 1px dashed @bc-btn-border-focused;
+
+        .dark & {
+            border: 1px dashed @bc-btn-border-focused;
+        }
+    }
+}
+
+.swatcher-dialog-description {
+    .pastebox-desc {
+        height: 110px;
+        width: 400px;
+    }
+}

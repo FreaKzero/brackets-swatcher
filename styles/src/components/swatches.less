@@ -1,0 +1,56 @@
+.swatcher-color {
+    background-position: center center;
+    background-size:  90%;
+    background-repeat: no-repeat;
+}
+
+.swatcher-colorwrap {
+    width: 35px;
+    height: 35px; 
+    margin: 2px;
+    border-radius: none; 
+}
+
+.big .swatcher-colorwrap {
+    width: 70px;
+    height: 70px;
+    margin: 3px;
+    border-radius: 3px;
+} 
+
+.swatcher-colorwrap {    
+    border-top: 1px solid @dark-bc-secondary-btn-border;
+    border-left: 1px solid @dark-bc-secondary-btn-border;
+    border-right: 1px solid @dark-bc-primary-btn-border;
+    border-bottom: 1px solid @dark-bc-primary-btn-border;
+    float: left;
+    position: relative;    
+    transition: border-color 333ms ease-out;    
+    font-size: 12px;
+    overflow: hidden;
+    background: url(@transBG);
+        
+     &:hover {
+        border: 1px solid @bc-btn-border-focused;
+    }
+    
+}
+
+.swatcher-label {              
+    display: none;
+    position:absolute;     
+    padding: 2px 6px; 
+    color: @dark-bc-text-link;
+    text-align:center;
+    text-shadow: @dark-bc-primary-btn-border 0 1px 0px;
+    background: rgba(0, 0, 0, 0.7);    
+    border-radius: 5px;
+    cursor:pointer;
+}
+
+.swatcher-swatch-panel {
+  width: 100%;
+  height: 100%;
+  border-bottom: 1px solid #202020;
+  cursor: pointer;
+}

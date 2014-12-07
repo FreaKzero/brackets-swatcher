@@ -1,19 +1,14 @@
 /*jslint vars: true, plusplus: true, nomen: true, devel: true, regexp: true, indent: 4, maxerr: 50 */
 /*global define, $, brackets, Mustache */
 define(function(require, exports) {
-    var Template = require("text!../../html/SettingsDialog.html"),
-        ShortcutHelper = require("../../src/helpers/ShortcutHelper"),
-
+    var Template = require("text!../../tpl/SettingsDialog.html"),
         Dialogs = brackets.getModule("widgets/Dialogs"),
         CommandManager = brackets.getModule("command/CommandManager"),
         preferences;
 
-    function registerEvents(dialog) {
-        ShortcutHelper.register('#swatcher-settings-shortcut');
-
+    function registerEvents(dialog) {        
         dialog.on('click', '#swatcher-settings-restore', function() {
-            var defaults = preferences.getDefaults()
-            preferences.persist('animation', defaults.animation);
+            var defaults = preferences.getDefaults()            
             preferences.persist('shortcut', defaults.shortcut);
             preferences.persist('swatchsize', defaults.swatchsize);
 
@@ -22,11 +17,9 @@ define(function(require, exports) {
         });
 
         dialog.on('click', '#swatcher-settings-save', function() {
-            var $animationValue = $('#swatcher-settings-animation').prop("checked") ? 'checked' : '',
-                $swatchsize = $('#swatcher-settings-size option:selected').val(),
+            var $swatchsize = $('#swatcher-settings-size option:selected').val(),
                 $shortcut = $('#swatcher-settings-shortcut').val();
-
-            preferences.persist('animation', $animationValue);
+            
             preferences.persist('shortcut', $shortcut);
 
             if ($swatchsize !== "0") {

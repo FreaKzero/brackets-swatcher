@@ -1,0 +1,289 @@
+/*
+ * Brackets Colors
+ *
+ * These are general purpose colors that can be used in defining
+ * themes or UI elements.
+
+ * IMPORTANT: IF we want a UI element to be themeable, these variable names or
+ * color literals (#aaa) should not be used in its definition.
+ *
+ * Instead, a new semantically-meaningful variables/mixins should be added
+ * to the "brackets_theme_default.less" file, and then these variables/mixins
+ * should be used in the definition of the UI element
+ *
+ * For UI elements we do NOT want to theme, we should use these color names
+ *
+ * All brackets color variable names (that refer to an actual color)
+ * are prefixed with "bc-" for "brackets". This is to avoid confusion
+ * with system and css color names. (We define our own colors because system
+ * colors are ugly.)
+ */
+/* Dark Core UI variables -----------------------------------------------------------------------------*/
+/*#swatcher {
+    height:400px;
+}*/
+#swatcher-container {
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+  padding-bottom: 100px;
+}
+.simple-toolbar-layout.toolbar {
+  overflow: visible;
+}
+#swatcher-toolbar-icon {
+  background-image: url('images/swatcher-icon.png');
+  height: 24px;
+  width: 24px;
+}
+#swatcher-toolbar-icon.ok {
+  background-position: 0 -24px !important;
+}
+#swatcher-toolbar-icon.active {
+  background-position: 0 -48px;
+}
+#swatcher-toolbar-icon.warning,
+#swatcher-toolbar-icon.loading {
+  background-position: 0 -72px !important;
+}
+#swatcher-toolbar-icon.error {
+  background-position: 0 -96px !important;
+}
+.swatcher-switch {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 55px;
+  height: 20px;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px #555555, inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  background-color: #555555;
+}
+.swatcher-switch > input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+.swatcher-switch .label {
+  position: relative;
+  display: block;
+  height: inherit;
+  font-size: 10px;
+  text-transform: uppercase;
+  background: #555555;
+  border-radius: inherit;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12), inset 0 0 2px rgba(0, 0, 0, 0.15);
+  transition: 0.15s ease-out;
+  transition-property: opacity background;
+}
+.swatcher-switch .label:before,
+.swatcher-switch .label:after {
+  position: absolute;
+  top: 50%;
+  margin-top: -0.5em;
+  line-height: 1;
+  transition: inherit;
+}
+.swatcher-switch .label:before {
+  content: "Off";
+  right: 7px;
+  color: #aaa;
+  text-shadow: 0 1px rgba(255, 255, 255, 0.5);
+}
+.swatcher-switch .label:after {
+  content: "On";
+  left: 7px;
+  color: white;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+}
+.swatcher-switch > input:checked ~ .label {
+  background: #003a68;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), inset 0 0 3px rgba(0, 0, 0, 0.2);
+}
+.swatcher-switch > input:checked ~ .label:before {
+  opacity: 0;
+}
+.swatcher-switch > input:checked ~ .label:after {
+  opacity: 1;
+}
+.swatcher-switch .handle {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background-image: linear-gradient(to bottom, #016dc4, #00569b);
+  background-repeat: repeat-x;
+  border-radius: 3px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  transition: left 0.15s ease-out;
+  z-index: 999999;
+}
+.swatcher-switch input:checked ~ .handle {
+  left: 32px;
+  box-shadow: -1px 1px 5px rgba(0, 0, 0, 0.2);
+}
+.swatcher-color {
+  background-position: center center;
+  background-size: 90%;
+  background-repeat: no-repeat;
+}
+.swatcher-colorwrap {
+  width: 35px;
+  height: 35px;
+  margin: 2px;
+  border-radius: none;
+}
+.big .swatcher-colorwrap {
+  width: 70px;
+  height: 70px;
+  margin: 3px;
+  border-radius: 3px;
+}
+.swatcher-colorwrap {
+  border-top: 1px solid #202020;
+  border-left: 1px solid #202020;
+  border-right: 1px solid #202020;
+  border-bottom: 1px solid #202020;
+  float: left;
+  position: relative;
+  transition: border-color 333ms ease-out;
+  font-size: 12px;
+  overflow: hidden;
+  background: url('images/bg-transparent.png');
+}
+.swatcher-colorwrap:hover {
+  border: 1px solid #2893ef;
+}
+.swatcher-label {
+  display: none;
+  position: absolute;
+  padding: 2px 6px;
+  color: #6bbeff;
+  text-align: center;
+  text-shadow: #202020 0 1px 0px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.swatcher-prepare-color-remove {
+  cursor: pointer;
+  color: #a9acac;
+  font-weight: bold;
+  display: inline-block;
+  font-size: 15px;
+}
+.swatcher-prepare-color-remove:hover {
+  color: #6bbeff;
+}
+.swatcher-prepare-color {
+  border-radius: 3px;
+  border: 1px solid #adadad;
+  vertical-align: bottom;
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+}
+.swatcher-colorimport-loading {
+  background: url('images/spinner.gif') no-repeat;
+  height: 16px;
+  width: 16px;
+  display: none;
+}
+.swatcher-insless {
+  display: none;
+}
+#swatcher-reset-filter {
+  margin: 0 0 0 -25px;
+  font-size: 18px;
+  background: transparent;
+  border: none;
+  color: #2a2a2a;
+}
+#swatcher-reset-filter:hover {
+  color: #000;
+}
+#swatcher-filter {
+  margin: 0;
+  height: 18px;
+  padding: 2px 0 2px 5px;
+}
+.toolbar-right {
+  position: absolute;
+  right: 40px;
+  top: 5px;
+}
+.settings-button {
+  padding: 4px 6px;
+  background: url('images/settings.svg') 0 0 no-repeat;
+  width: 13px;
+  height: 13px;
+  background-position: center;
+}
+.swatcher-notice {
+  background-color: #222222;
+  color: white;
+  width: 600px;
+  border-radius: 5px;
+  padding: 5px 10px 10px 10px;
+  margin: 1px auto;
+  border: 1px solid black;
+  box-shadow: 1px 2px 0px 0px #3c3c3c, inset 3px 4px 6px 0px rgba(0, 0, 0, 0.2);
+}
+.swatcher-notice h3 {
+  padding: 0;
+  margin: 0;
+  text-align: right;
+  color: #2893ef;
+  text-shadow: 1px 0px 0px #0c5ea5;
+}
+.swatcher-notice hr {
+  border: 0;
+  color: #2893ef;
+  background-color: #2893ef;
+  height: 1px;
+  margin: 0 0 10px 0;
+  padding: 0;
+  box-shadow: 1px 1px 0px 0px #57abf3;
+}
+.swatcher-notice a {
+  color: #0083e8;
+}
+.swatcher-notice a:hover {
+  color: white;
+}
+.swatcher-error {
+  background-color: #222222;
+  color: white;
+  width: 600px;
+  border-radius: 5px;
+  padding: 5px 10px 10px 10px;
+  margin: 1px auto;
+  border: 1px solid black;
+  box-shadow: 1px 2px 0px 0px #3c3c3c, inset 3px 4px 6px 0px rgba(0, 0, 0, 0.2);
+}
+.swatcher-error h3 {
+  padding: 0;
+  margin: 0;
+  text-align: right;
+  color: #fa689d;
+  text-shadow: 1px 0px 0px #f4085e;
+}
+.swatcher-error hr {
+  border: 0;
+  color: #fa689d;
+  background-color: #fa689d;
+  height: 1px;
+  margin: 0 0 10px 0;
+  padding: 0;
+  box-shadow: 1px 1px 0px 0px #3c3c3c;
+}
+.swatcher-error a {
+  color: #f74687;
+}
+.swatcher-error a:hover {
+  color: white;
+}
