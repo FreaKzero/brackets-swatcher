@@ -1,6 +1,11 @@
 # Brackets Swatcher  
-Generates CodeHints/Colorpalettes from importing via LESS/SASS Files, Images (Colorpicker) or Photoshop Swatchfiles (*.aco)
+Generates CodeHints/Colorpalettes from importing via LESS/SASS Files, Images or Photoshop Swatchfiles (*.aco)
 
+![Filter](https://raw.githubusercontent.com/FreaKzero/brackets-swatcher/master/readme/readme-filter.gif)
+
+![Variables](https://raw.githubusercontent.com/FreaKzero/brackets-swatcher/master/readme/readme-variables.gif)
+
+![ColorPicker](https://raw.githubusercontent.com/FreaKzero/brackets-swatcher/master/readme/readme-picker.gif)
 
 ##Restrictions  
 * use Singlequotes for Paths, doublequotes for Font-Families / CSS contents
@@ -29,7 +34,7 @@ Generates CodeHints/Colorpalettes from importing via LESS/SASS Files, Images (Co
 	* Scroll for Zoom, rightclick to pan Image
 
 ##TODO/Known Bugs
-* CMYK -> RGB Converter for Importing Photoshop Swatches	    
+* CMYK Converter for Importing Photoshop Swatches	    
 * Colorpicker +/- Zoom center on zoomed Position
 * Stylus Support
 
