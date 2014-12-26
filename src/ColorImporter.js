@@ -32,7 +32,13 @@ define(function(require, exports) {
                 registered = true;
             }
         },
-
+        
+        addArray: function(array) {
+            array.forEach(function(color) {
+                ColorImporter.add(color, true);
+            });
+        },
+        
         add: function(hex, batch) {
             batch ? batch = batch : batch = false;
 
