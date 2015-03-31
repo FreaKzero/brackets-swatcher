@@ -1,0 +1,17 @@
+{
+	"folders":
+	[
+		{
+			"follow_symlinks": true,
+			"path": "./src"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "./styles"
+		},
+		{
+			"follow_symlinks": true,
+			"path": "./tpl"
+		}
+	]	
+}

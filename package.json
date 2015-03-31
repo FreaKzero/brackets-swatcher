@@ -16,5 +16,12 @@
     ],
     "engines": {
         "brackets": ">=0.44.0"
-    }
+    },
+    "devDependencies": {
+        "grunt": "*",
+        "grunt-contrib-watch": "*",
+        "grunt-contrib-less": "*",
+        "grunt-contrib-cssmin": "*"
+  }
+
 }
