@@ -179,16 +179,22 @@
   border-radius: 3px;
 }
 .swatcher-colorwrap {
-  border-top: 1px solid #202020;
-  border-left: 1px solid #202020;
-  border-right: 1px solid #202020;
-  border-bottom: 1px solid #202020;
+  border-top: 1px solid #868686;
+  border-left: 1px solid #868686;
+  border-right: 1px solid #868686;
+  border-bottom: 1px solid #868686;
   float: left;
   position: relative;
   transition: border-color 333ms ease-out;
   font-size: 12px;
   overflow: hidden;
   background: url('images/bg-transparent.png');
+}
+.dark .swatcher-colorwrap {
+  border-top: 1px solid #202020;
+  border-left: 1px solid #202020;
+  border-right: 1px solid #202020;
+  border-bottom: 1px solid #202020;
 }
 .swatcher-colorwrap:hover {
   border: 1px solid #2893ef;
@@ -197,12 +203,17 @@
   display: none;
   position: absolute;
   padding: 2px 6px;
-  color: #6bbeff;
+  color: #0083e8;
   text-align: center;
-  text-shadow: #202020 0 1px 0px;
-  background: rgba(0, 0, 0, 0.7);
+  text-shadow: #1474bf 0 1px 0px;
+  background: rgba(255, 255, 255, 0.6);
   border-radius: 5px;
   cursor: pointer;
+}
+.dark .swatcher-label {
+  color: #6bbeff;
+  text-shadow: #202020 0 1px 0px;
+  background: rgba(0, 0, 0, 0.8);
 }
 .swatcher-swatch-panel {
   width: 100%;
