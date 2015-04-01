@@ -2,12 +2,12 @@
 /*global define, $, brackets, FileReader, Mustache */
 
 define(function(require, exports) {
-    var MainTemplate = require("text!../../tpl/AcoImport.html"),
-        ColorDefineTemplate = require("text!../../tpl/ColorDefine.html"),
+    var MainTemplate = require('text!../../tpl/AcoImport.html'),
+        ColorDefineTemplate = require('text!../../tpl/ColorDefine.html'),
         messages = require('../Messages'),
         ColorImporter = require('../ColorImporter'),
-        SwatchImporter = require("../lib/swatchimporter"),
-        Dialogs = brackets.getModule("widgets/Dialogs");
+        SwatchImporter = require('../lib/swatchimporter'),
+        Dialogs = brackets.getModule('widgets/Dialogs');
     /*
         Register Dialog Events
     */
@@ -21,10 +21,10 @@ define(function(require, exports) {
         */
         dialog.on('change', '#swatcher-colorimport-aco', function(changeEvent) {
             dialog.find('.swatcher-colorimport-loading').show();
-            dialog.find('#swatcher-colorimport-status').html("");
+            dialog.find('#swatcher-colorimport-status').html('');
 
             // file.type on aco is an empty String.... 
-            if (changeEvent.target.files[0].name.slice(-3).toLowerCase() === "aco") {
+            if (changeEvent.target.files[0].name.slice(-3).toLowerCase() === 'aco') {
 
                 var fr = new FileReader();
 
@@ -32,8 +32,7 @@ define(function(require, exports) {
                     // Set Palette globally                    
                     var aco = SwatchImporter.init('aco');
                         palette = aco.getHash(this.result);
-                    
-                    console.log(palette);
+
                     // We cant use aco.colnum because that property can be from all colorspaces - we just want RGB (prevented in lib)
                     if (palette.length > 0) {
 
@@ -42,6 +41,11 @@ define(function(require, exports) {
                         dialog.find('#swatcher-colorimport-status').html(
                             messages.getMessage('DIALOG_ACO_PARSESUCCESS', 'count', palette.length)
                         );
+
+                        if (aco.hasConvertedColors()) {
+                            dialog.find('#swatcher-colorimport-status').append(messages.getMessage('DIALOG_ACO_CONVERTWARNING'));
+                        }
+                        
                         dialog.find('#swatcher-colorimport-ok').attr('disabled', false);
 
                     } else {

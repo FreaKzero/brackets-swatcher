@@ -1,7 +1,7 @@
  define(function(require, exports, module) {
-     "use strict";
-     var Dialogs = brackets.getModule("widgets/Dialogs"),
-         DialogTemplate = require("text!tpl/MessageDialog.html"),         
+     'use strict';
+     var Dialogs = brackets.getModule('widgets/Dialogs'),
+         DialogTemplate = require('text!tpl/MessageDialog.html'),         
 
          store = {
              SYSTEM_ERROR: 'Unknown System Error',
@@ -15,8 +15,9 @@
              MAIN_NOSWATCHES: 'No parseable Variables Found <br> File is tracked, define Variables and Save Document to generate Swatches',
 
              DIALOG_WRONGMIME: '<strong style="color:red">Please use an {filetype} File to Import Colorpalettes</strong>',
-
-             DIALOG_ACO_CANTPARSE: '<strong style="color:red">Swatcher cant parse any Swatches <br> Please make sure the Swatches are in RGB Format</strong>',
+            
+             DIALOG_ACO_CONVERTWARNING: '<br /><strong style="color:red">Some swatches needed a CMYK to RGB Conversion, consider that color distortions can occur</strong>',
+             DIALOG_ACO_CANTPARSE: '<strong style="color:red">Swatcher cant parse any Swatches <br> Please make sure the Swatches are in RGB or CMYK Format</strong>',
              DIALOG_ACO_PARSESUCCESS: '<strong style="color:green">Swatcher Found {count} parseable RGB Swatches</strong>',
          },
          

@@ -6,6 +6,7 @@ define(function(require, exports, module) {
         this.version = 0;
         this.colnum = 0;
         this.colors = [];
+        this.converted = false;
     };
 
     AcoImport.prototype._readHead = function(array) {
@@ -63,6 +64,7 @@ define(function(require, exports, module) {
                     break;
 
                 case 'CMYK':
+                    this.converted = true;
                     rgb = SwatchImporter.cmyk2rgb(data[pot + 6], data[pot + 8], data[pot + 10], data[pot + 12]);
                     break;
 
@@ -81,6 +83,10 @@ define(function(require, exports, module) {
         return this.colors;
     };
 
+    AcoImport.prototype.hasConvertedColors = function() {
+        return this.converted;
+    };
+        
     AcoImport.prototype.getRGB = function(buffer) {
         return this.getColors(buffer);
     };
