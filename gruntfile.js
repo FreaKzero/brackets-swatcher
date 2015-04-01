@@ -1,5 +1,6 @@
 module.exports = function(grunt) {
     // Project configuration.
+    var userExtensionPath = 'C:\\Users\\FreaK\\AppData\\Roaming\\Brackets\\extensions\\user';
 
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -27,11 +28,46 @@ module.exports = function(grunt) {
                     ext: '.min.css'
                 }]
             }
-        }
+        },
+
+        compress: {
+            main: {
+                options: {
+                    archive: 'build/brackets-swatcher.zip'
+                },
+                files: [{
+                        src: ['src/**'],
+                        dest: '/'
+                    }, {
+                        src: ['styles/images/**'],
+                        dest: '/'
+                    }, {
+                        src: ['styles/*.min.css'],
+                        dest: '/'
+                    }, {
+                        src: ['tpl/**'],
+                        dest: '/'
+                    }, {
+                        src: ['main.js'],
+                        dest: '/'
+                    }, {
+                        src: ['package.json'],
+                        dest: '/'
+                    }, {
+                        src: ['modes.js'],
+                        dest: '/'
+                    }
+
+                ]
+            }
+        }        
     });
 
     // Plugins  
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
+    grunt.loadNpmTasks('grunt-contrib-compress');    
+
+    grunt.registerTask('build', ['less', 'cssmin', 'compress']);    
 };

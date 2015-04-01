@@ -2,7 +2,7 @@
 /*global $, brackets, define, Mustache */
 
 define(function(require, exports, module) {
-    "use strict";
+    'use strict';
 
     var AppInit = brackets.getModule('utils/AppInit'),
         Menus = brackets.getModule('command/Menus'),
@@ -11,7 +11,7 @@ define(function(require, exports, module) {
         MainViewManager = brackets.getModule('view/MainViewManager'),
         EditorManager = brackets.getModule('editor/EditorManager'),
         ExtensionUtils = brackets.getModule('utils/ExtensionUtils'),
-        DocumentManager = brackets.getModule("document/DocumentManager"),
+        DocumentManager = brackets.getModule('document/DocumentManager'),
 
         SettingsDialog = require('src/dialogs/SettingsDialog'),
         AcoImportDialog = require('src/dialogs/AcoImportDialog'),
@@ -28,10 +28,10 @@ define(function(require, exports, module) {
         $instance, actualFile,
 
         app = {
-            ID: "brackets.swatcher",
-            PANEL: "#swatcher",
-            CSS: "styles/swatcher.css",
-            MENULABEL: "Swatcher",
+            ID: 'brackets.swatcher',
+            PANEL: '#swatcher',
+            CSS: 'styles/swatcher.min.css',
+            MENULABEL: 'Swatcher',
             MENULOCATION: Menus.AppMenuBar.VIEW_MENU
         };
 
@@ -63,7 +63,7 @@ define(function(require, exports, module) {
         } else {
             $('#swatcher-container').fadeOut(function() {
                 $(this).empty();
-                $('#swatcher-styles').html("");
+                $('#swatcher-styles').html('');
                 Icon.forceActive();
                 actualFile = false;
             });
@@ -98,8 +98,8 @@ define(function(require, exports, module) {
     $instance.on('keyup', '#swatcher-filter', function() {
         var filter = $(this).val();
         $('.swatcher-color').filter(function() {
-            var regex = new RegExp(filter, "ig");
-            var regexStyle = new RegExp('^'+filter, "ig");
+            var regex = new RegExp(filter, 'ig');
+            var regexStyle = new RegExp('^'+filter, 'ig');
 
             if (regex.test($(this).data('variable')) || regexStyle.test($(this).data('style'))) {
                 $(this).parent().fadeIn();
@@ -126,7 +126,7 @@ define(function(require, exports, module) {
 
             case 0: // Left MouseButton
                 if (Modes.hasPreprocessor(editor)) {
-                    insert = $(this).data("variable");
+                    insert = $(this).data('variable');
                 } else {
                     if ($(this).css('backgroundImage') === 'none') {
                         insert = $(this).css('backgroundColor');
@@ -139,7 +139,7 @@ define(function(require, exports, module) {
                 break;
 
             case 2: // Right MouseButton
-                Utils.gotoLine(actualFile, $(this).data("line"));
+                Utils.gotoLine(actualFile, $(this).data('line'));
                 break;
         }
     });
@@ -165,7 +165,7 @@ define(function(require, exports, module) {
         }
     }, '.swatcher-color');
 
-    $(DocumentManager).on("documentSaved", function(e, doc) {
+    $(DocumentManager).on('documentSaved', function(e, doc) {
         if (actualFile) {
             var editor = EditorManager.getFocusedEditor();
 

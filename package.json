@@ -21,7 +21,8 @@
         "grunt": "*",
         "grunt-contrib-watch": "*",
         "grunt-contrib-less": "*",
-        "grunt-contrib-cssmin": "*"
+        "grunt-contrib-cssmin": "*",
+        "grunt-contrib-compress": "*"        
   }
 
 }
