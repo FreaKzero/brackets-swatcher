@@ -1,7 +1,5 @@
 module.exports = function(grunt) {
     // Project configuration.
-    var userExtensionPath = 'C:\\Users\\FreaK\\AppData\\Roaming\\Brackets\\extensions\\user';
-
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         watch: {
