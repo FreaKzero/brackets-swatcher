@@ -6,8 +6,7 @@ define(function(require, exports) {
         ColorDefineTemplate = require("text!../../tpl/ColorDefine.html"),
         messages = require('../Messages'),
         ColorImporter = require('../ColorImporter'),
-        Utils = require('../Utils'),
-        Aco = require("../lib/aco"),
+        SwatchImporter = require("../lib/swatchimporter"),
         Dialogs = brackets.getModule("widgets/Dialogs");
     /*
         Register Dialog Events
@@ -30,9 +29,11 @@ define(function(require, exports) {
                 var fr = new FileReader();
 
                 fr.onloadend = function() {
-                    // Set Palette globally
-                    palette = Aco.getRGB(this.result);
-
+                    // Set Palette globally                    
+                    var aco = SwatchImporter.init('aco');
+                        palette = aco.getHash(this.result);
+                    
+                    console.log(palette);
                     // We cant use aco.colnum because that property can be from all colorspaces - we just want RGB (prevented in lib)
                     if (palette.length > 0) {
 
@@ -72,12 +73,9 @@ define(function(require, exports) {
                 Mustache.render(ColorDefineTemplate)
             );
 
-            ColorImporter.registerPanel($panel);
-
-            palette.forEach(function(arrayRGB) {
-                var hash = Utils.hashFromRGB(arrayRGB[0], arrayRGB[1], arrayRGB[2]);
-                ColorImporter.add(hash, true);
-            });
+            ColorImporter.registerPanel($panel);                        
+            ColorImporter.addArray(palette);
+            
         });
     }
 
