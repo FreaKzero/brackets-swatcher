@@ -6,14 +6,13 @@ define(function(require, exports) {
         ColorDefineTemplate = require('text!../../tpl/ColorDefine.html'),
         messages = require('../Messages'),
         ColorImporter = require('../ColorImporter'),
-        SwatchImporter = require('../lib/swatchimporter'),
-        Dialogs = brackets.getModule('widgets/Dialogs');
+        SwatchImporter = require('../lib/SwatchImporter.min'),
+        Dialogs = brackets.getModule('widgets/Dialogs'),
+        jDataView = require('../lib/jdataview');
     /*
         Register Dialog Events
     */
     function registerDialogEvents(dialog) {
-
-        // Since we can have Palettes from Images or Aco Files - we need this global
         var palette;
 
         /*
@@ -22,51 +21,30 @@ define(function(require, exports) {
         dialog.on('change', '#swatcher-colorimport-aco', function(changeEvent) {
             dialog.find('.swatcher-colorimport-loading').show();
             dialog.find('#swatcher-colorimport-status').html('');
+            var EXT = changeEvent.target.files[0].name.slice(-3).toLowerCase();
+            var fr = new FileReader();
 
-            // file.type on aco is an empty String.... 
-            if (changeEvent.target.files[0].name.slice(-3).toLowerCase() === 'aco') {
+            fr.onloadend = function() {
+                try {
+                    var data = new jDataView(this.result);
+                    var imp = SwatchImporter(EXT);
+                    palette = imp.getColors(data);
 
-                var fr = new FileReader();
+                    dialog.find('.swatcher-colorimport-loading').hide();
+                    dialog.find('#swatcher-colorimport-status').html(
+                        messages.getMessage('DIALOG_ACO_PARSESUCCESS', 'count', palette.length)
+                    );
 
-                fr.onloadend = function() {
-                    // Set Palette globally                    
-                    var aco = SwatchImporter.init('aco');
-                        palette = aco.getHash(this.result);
+                    dialog.find('#swatcher-colorimport-ok').attr('disabled', false);
 
-                    // We cant use aco.colnum because that property can be from all colorspaces - we just want RGB (prevented in lib)
-                    if (palette.length > 0) {
+                } catch(e) {
+                    dialog.find('#swatcher-colorimport-status').html(messages.getMessage('DIALOG_ACO_CANTPARSE'));
+                    dialog.find('#swatcher-colorimport-ok').attr('disabled', 'disabled');
+                }
+            };
 
-                        // Show Success Message with count of colors found and activate OK Button
-                        dialog.find('.swatcher-colorimport-loading').hide();
-                        dialog.find('#swatcher-colorimport-status').html(
-                            messages.getMessage('DIALOG_ACO_PARSESUCCESS', 'count', palette.length)
-                        );
+            fr.readAsArrayBuffer(this.files[0]);
 
-                        if (aco.hasConvertedColors()) {
-                            dialog.find('#swatcher-colorimport-status').append(messages.getMessage('DIALOG_ACO_CONVERTWARNING'));
-                        }
-                        
-                        dialog.find('#swatcher-colorimport-ok').attr('disabled', false);
-
-                    } else {
-                        // Show Error Message and disable OK Button
-                        dialog.find('#swatcher-colorimport-status').html(messages.getMessage('DIALOG_ACO_CANTPARSE'));
-                        dialog.find('#swatcher-colorimport-ok').attr('disabled', 'disabled');
-                    }
-                };
-
-                fr.readAsArrayBuffer(this.files[0]);
-
-                // Wrong MIME
-            } else {
-
-                dialog.find('#swatcher-colorimport-status').html(
-                    messages.getMessage('DIALOG_WRONGMIME', 'filetype', 'Photoshop Swatches (*.aco)')
-                );
-
-                dialog.find('#swatcher-colorimport-ok').attr('disabled', 'disabled');
-
-            }
         });
 
         /*
@@ -78,7 +56,7 @@ define(function(require, exports) {
             );
 
             ColorImporter.registerPanel($panel);                        
-            ColorImporter.addArray(palette);
+            ColorImporter.addObject(palette);
             
         });
     }
