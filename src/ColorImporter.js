@@ -67,9 +67,9 @@ define(function(require, exports) {
                 if (typeof name === 'undefined') {
                     name = 'color' + $('.swatcher-colortable tr').size();
                 }
-
+//[^a-zA-Z0-9] "[^\w\d]"stringToReplace
                 var mObj = {
-                    colorname: name,
+                    colorname: name.replace(/[^a-zA-Z0-9]/gi, '').toLowerCase(),
                     colorhex: hex
                 };
 
