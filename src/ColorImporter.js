@@ -28,14 +28,19 @@ define(function(require, exports) {
                 $panel.on('click', '.swatcher-colortable-close', function() {
                     ColorImporter.exit();
                 });
-                
+
                 registered = true;
             }
         },
-        
+
         addObject: function(obj) {
             obj.forEach(function(color) {
-                ColorImporter.add(color.hash, color.name);
+                if (color.originFormat === 'CMYK') {
+                    ColorImporter.add(color.hash, color.name, true);
+                } else {
+                    ColorImporter.add(color.hash, color.name);
+                }
+
             });
         },
 
@@ -44,8 +49,12 @@ define(function(require, exports) {
                 ColorImporter.add(color, false);
             });
         },
-        
-        add: function(hex, name) {
+
+        add: function(hex, name, converted) {
+            if (typeof converted === 'undefined') {
+                converted = false;
+            }
+
             var $colordouble = $('.swatcher-colortable').find('[data-hex="' + hex + '"]');
 
             if ($colordouble.size() > 0 && typeof name === 'undefined') {
@@ -59,12 +68,17 @@ define(function(require, exports) {
                     name = 'color' + $('.swatcher-colortable tr').size();
                 }
 
-                $('.swatcher-colortable').append(
-                    Mustache.render(ColorFragment, {
-                        colorname: name,
-                        colorhex: hex
-                    })
-                ).children(':last').hide().fadeIn();
+                var mObj = {
+                    colorname: name,
+                    colorhex: hex
+                };
+
+                if (converted === true) {
+                    mObj.converted = true;
+                }
+                
+                $('.swatcher-colortable').append(Mustache.render(ColorFragment, mObj))
+                    .children(':last').hide().fadeIn();
             }
         },
 
@@ -92,7 +106,7 @@ define(function(require, exports) {
         },
 
         exit: function() {
-             $('#swatcher-container').empty();
+            $('#swatcher-container').empty();
         }
     };
 
