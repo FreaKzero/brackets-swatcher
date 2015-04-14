@@ -5,9 +5,15 @@
     width: 55px;
     height: 20px;    
     border-radius: 3px;
-    box-shadow: inset 0 -1px @dark-bc-input-bg, inset 0 1px 1px rgba(0, 0, 0, 0.05);
-    cursor: pointer;    
-    background-color: @dark-bc-input-bg;
+    box-shadow: inset 0 -1px @bc-panel-bg-alt, inset 0 1px 1px rgba(0, 0, 0, 0.05);
+    cursor: pointer;     
+    background-color: @bc-panel-bg-alt;
+
+    .dark & {
+        box-shadow: inset 0 -1px @dark-bc-input-bg, inset 0 1px 1px rgba(0, 0, 0, 0.05);
+        cursor: pointer;    
+        background-color: @dark-bc-input-bg;
+    }
 } 
 
 .swatcher-switch > input {
@@ -23,11 +29,17 @@
     height: inherit;    
     font-size: 10px;
     text-transform: uppercase;
-    background: @dark-bc-input-bg;
+    background: @bc-panel-bg-alt;
     border-radius: inherit;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12), inset 0 0 2px rgba(0, 0, 0, 0.15);    
     transition: 0.15s ease-out;    
     transition-property: opacity background;
+    border: 1px solid @bc-btn-border;
+
+    .dark & {
+        background: @dark-bc-input-bg;        
+        border: none;
+    }
 }
 .swatcher-switch .label:before, .swatcher-switch .label:after {
     position: absolute;
@@ -52,8 +64,12 @@
 }
 
 .swatcher-switch > input:checked ~ .label {
-    background: darken(@dark-bc-primary-btn-bg-down,10%);
+    background: darken(@bc-primary-btn-bg-down,10%);
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), inset 0 0 3px rgba(0, 0, 0, 0.2);
+
+    .dark & {
+        background: darken(@dark-bc-primary-btn-bg-down,10%);
+    }
 }
 
 .swatcher-switch > input:checked ~ .label:before {
@@ -66,17 +82,23 @@
 
 .swatcher-switch .handle {
     position: absolute;
-    top: 2px;
-    left: 2px;
+    top: 3px;
+    left: 3px;
     width: 20px;
     height: 20px;        
-    background-image: linear-gradient(to bottom, @dark-bc-primary-btn-bg, @dark-bc-primary-btn-bg-down);
+    background-image: linear-gradient(to bottom, @bc-primary-btn-bg, @bc-primary-btn-bg-down);
     background-repeat: repeat-x;
     
     border-radius: 3px;          
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);    
     transition: left 0.15s ease-out;    
     z-index: 999999;
+
+    .dark & {
+        top: 2px;
+        left: 2px;
+        background-image: linear-gradient(to bottom, @bc-primary-btn-bg, @bc-primary-btn-bg-down);
+    }
 }
 
 .swatcher-switch input:checked ~ .handle {

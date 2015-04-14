@@ -60,6 +60,11 @@
   width: 55px;
   height: 20px;
   border-radius: 3px;
+  box-shadow: inset 0 -1px #e6e9e9, inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  background-color: #e6e9e9;
+}
+.dark .swatcher-switch {
   box-shadow: inset 0 -1px #555555, inset 0 1px 1px rgba(0, 0, 0, 0.05);
   cursor: pointer;
   background-color: #555555;
@@ -76,11 +81,16 @@
   height: inherit;
   font-size: 10px;
   text-transform: uppercase;
-  background: #555555;
+  background: #e6e9e9;
   border-radius: inherit;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12), inset 0 0 2px rgba(0, 0, 0, 0.15);
   transition: 0.15s ease-out;
   transition-property: opacity background;
+  border: 1px solid #b2b5b5;
+}
+.dark .swatcher-switch .label {
+  background: #555555;
+  border: none;
 }
 .swatcher-switch .label:before,
 .swatcher-switch .label:after {
@@ -104,8 +114,11 @@
   opacity: 0;
 }
 .swatcher-switch > input:checked ~ .label {
-  background: #003a68;
+  background: #0264b6;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), inset 0 0 3px rgba(0, 0, 0, 0.2);
+}
+.dark .swatcher-switch > input:checked ~ .label {
+  background: #003a68;
 }
 .swatcher-switch > input:checked ~ .label:before {
   opacity: 0;
@@ -115,16 +128,21 @@
 }
 .swatcher-switch .handle {
   position: absolute;
-  top: 2px;
-  left: 2px;
+  top: 3px;
+  left: 3px;
   width: 20px;
   height: 20px;
-  background-image: linear-gradient(to bottom, #016dc4, #00569b);
+  background-image: linear-gradient(to bottom, #288edf, #0380e8);
   background-repeat: repeat-x;
   border-radius: 3px;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
   transition: left 0.15s ease-out;
   z-index: 999999;
+}
+.dark .swatcher-switch .handle {
+  top: 2px;
+  left: 2px;
+  background-image: linear-gradient(to bottom, #288edf, #0380e8);
 }
 .swatcher-switch input:checked ~ .handle {
   left: 32px;
