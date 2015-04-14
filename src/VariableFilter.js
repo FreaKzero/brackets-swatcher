@@ -4,7 +4,8 @@
 define(function(require, exports, module) {
     var Modes = require('../modes'),
         StringUtils = brackets.getModule("utils/StringUtils"),
-        AssetPathDialog = require('src/dialogs/AssetDialog');
+        AssetPathClass = require('src/dialogs/AssetDialog');
+        var AssetPath = AssetPathClass.getInstance();
 
     function Swatches(editor) {
         this.panelData = [];
@@ -23,7 +24,13 @@ define(function(require, exports, module) {
                 documentText = editor.document.getText(),
                 documentLines = StringUtils.getLines(documentText),
                 mode = Modes.getMode(this.mode),
-                path = AssetPathDialog.getAssetPath(editor.document);
+                firstLine = /^\/\/swatcher-assets+\s*:\s*('|")([0-9a-z\-_%\/\.\(\)\s]+)('|")/.exec(documentLines[0]);
+
+                if (typeof firstLine[2] !== 'undefined' && firstLine[2] !== '') {
+                    AssetPath.setPath(firstLine[2], editor.document);
+                }
+
+                var path = AssetPath.getPath(editor.document);
 
             while ((found = mode.regexVariables.exec(documentText)) !== null) {
 

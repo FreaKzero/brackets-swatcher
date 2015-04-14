@@ -15,7 +15,7 @@ define(function(require, exports, module) {
 
         SettingsDialog = require('src/dialogs/SettingsDialog'),
         AcoImportDialog = require('src/dialogs/AcoImportDialog'),
-        AssetPathDialog = require('src/dialogs/AssetDialog'),
+        AssetPathClass = require('src/dialogs/AssetDialog'),
         ColorPickerDialog = require('src/dialogs/ColorPickerDialog'),
 
         Preferences = require('src/Preferences'),
@@ -35,12 +35,15 @@ define(function(require, exports, module) {
             MENULOCATION: Menus.AppMenuBar.VIEW_MENU
         };
 
+        var AssetPath = AssetPathClass.getInstance();
+        
     ExtensionUtils.loadStyleSheet(module, app.CSS);
 
     var TemplateData = {};
     TemplateData.swatchsize = Preferences.get('swatchsize');
 
-    $instance = $(Mustache.render(PanelSkeleton, TemplateData));
+    $instance = $(Mustache.render(PanelSkeleton, TemplateData));    
+    
 
     function trackFile() {
         if ($('#swatcher-track').prop('checked')) {
@@ -51,10 +54,12 @@ define(function(require, exports, module) {
 
                 if (Modes.hasPreprocessor(editor)) {
                     SwatchParser.generate(editor);
+
                 } else {
                     Messages.error('MAIN_WRONGFILE');
                     $('#swatcher-track').prop('checked', false);
                 }
+
             } else {
                 Messages.error('MAIN_NODOCUMENT');
                 $('#swatcher-track').prop('checked', false);
@@ -71,7 +76,7 @@ define(function(require, exports, module) {
     }
 
     $instance.on('click', '#swatcher-open-setasset', function() {
-        var p = AssetPathDialog.show();
+        var p = AssetPath.showDialog();
 
         p.done(function() {
             trackFile();
