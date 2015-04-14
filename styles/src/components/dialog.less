@@ -1,6 +1,35 @@
+//#TODO Orange: f6aa0e
 .swatcher-dialog-description {
     .error {
         color: @bc-error;
         font-weight:bold;
     }
 }
+
+//#todo bright theme
+#swatcher-colorimport-status {
+	background-color: @bc-panel-bg-alt;
+	border-radius: 3px;
+	padding: 10px;
+	margin-top: 10px;	
+	display:none;
+
+	.dark & {
+		background-color: @dark-bc-panel-bg-alt;	
+	}
+
+	&.error {
+		color: @bc-error;
+		border: 1px solid @bc-error;
+		display:block;
+	}
+ 
+	&.success {
+		color: @dark-bc-secondary-btn-bg;
+		border: 1px solid @dark-bc-secondary-btn-bg;
+		display:block;
+	}
+
+
+}
+

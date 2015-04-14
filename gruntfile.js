@@ -8,9 +8,9 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
                 
         watch: {
-            lesswatch: {
-                files: ['styles/src/**/*.less'],
-                tasks: ['less:main', 'cssmin:main']
+            main: {
+                files: ['styles/src/**/*.less', 'src/**/*.js'],
+                tasks: ['less:main', 'cssmin:main', 'copy']
             }
         },
 
@@ -35,7 +35,7 @@ module.exports = function(grunt) {
         },
 
         copy: {
-            build: {
+            main: {
                 src: ['src/**', 'styles/*.min.css', 'tpl/**', 'main.js', 'package.json', 'modes.js','styles/images/**'],
                 dest: buildPath,
                 expand: true

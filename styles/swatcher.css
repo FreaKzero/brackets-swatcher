@@ -161,6 +161,26 @@
   color: #f74687;
   font-weight: bold;
 }
+#swatcher-colorimport-status {
+  background-color: #e6e9e9;
+  border-radius: 3px;
+  padding: 10px;
+  margin-top: 10px;
+  display: none;
+}
+.dark #swatcher-colorimport-status {
+  background-color: #313131;
+}
+#swatcher-colorimport-status.error {
+  color: #f74687;
+  border: 1px solid #f74687;
+  display: block;
+}
+#swatcher-colorimport-status.success {
+  color: #5b9e00;
+  border: 1px solid #5b9e00;
+  display: block;
+}
 .swatcher-color {
   background-position: center center;
   background-size: 90%;

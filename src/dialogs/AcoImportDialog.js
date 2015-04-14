@@ -20,31 +20,46 @@ define(function(require, exports) {
         */
         dialog.on('change', '#swatcher-colorimport-aco', function(changeEvent) {
             dialog.find('.swatcher-colorimport-loading').show();
-            dialog.find('#swatcher-colorimport-status').html('');
+            dialog.find('#swatcher-colorimport-status').removeClass().html('');
             var EXT = changeEvent.target.files[0].name.slice(-3).toLowerCase();
+            var ALLOWED_EXT = ['aco', 'ase'];
+
             var fr = new FileReader();
 
             fr.onloadend = function() {
-                try {
-                    var data = new jDataView(this.result);
-                    var imp = SwatchImporter(EXT);
-                    palette = imp.getColors(data);
 
-                    dialog.find('.swatcher-colorimport-loading').hide();
-                    dialog.find('#swatcher-colorimport-status').html(
-                        messages.getMessage('DIALOG_ACO_PARSESUCCESS', 'count', palette.length)
-                    );
+                if (ALLOWED_EXT.indexOf(EXT) != -1) {
+                    try {
+                        var data = new jDataView(this.result);
+                        var imp = SwatchImporter(EXT);
+                        palette = imp.getColors(data);
 
-                    dialog.find('#swatcher-colorimport-ok').attr('disabled', false);
+                        dialog.find('.swatcher-colorimport-loading').hide();
+                        dialog.find('#swatcher-colorimport-status')
+                            .addClass('success')
+                            .html(messages.getMessage('DIALOG_ACO_PARSESUCCESS', 'count', palette.length));
 
-                } catch(e) {
-                    dialog.find('#swatcher-colorimport-status').html(messages.getMessage('DIALOG_ACO_CANTPARSE'));
+                        dialog.find('#swatcher-colorimport-ok').attr('disabled', false);
+
+                    } catch (e) {
+                        
+                        dialog.find('#swatcher-colorimport-status')
+                            .addClass('error')
+                            .html(messages.getMessage('DIALOG_ACO_CANTPARSE'));
+
+                        dialog.find('#swatcher-colorimport-ok').attr('disabled', 'disabled');
+                    }
+                } else {
+
+                    dialog.find('#swatcher-colorimport-status')
+                        .addClass('error')
+                        .html(messages.getMessage('DIALOG_WRONGMIME', 'filetype', '(*.aco, *.ase)'));
+
                     dialog.find('#swatcher-colorimport-ok').attr('disabled', 'disabled');
+
                 }
             };
-
             fr.readAsArrayBuffer(this.files[0]);
-
         });
 
         /*
@@ -55,9 +70,9 @@ define(function(require, exports) {
                 Mustache.render(ColorDefineTemplate)
             );
 
-            ColorImporter.registerPanel($panel);                        
+            ColorImporter.registerPanel($panel);
             ColorImporter.addObject(palette);
-            
+
         });
     }
 

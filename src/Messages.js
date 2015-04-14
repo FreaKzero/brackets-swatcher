@@ -14,11 +14,10 @@
              MAIN_SASSERROR: 'Cant generate Swatches due to an SASS Parsererror<br><code>{errorMessage}</code>',
              MAIN_NOSWATCHES: 'No parseable Variables Found <br> File is tracked, define Variables and Save Document to generate Swatches',
 
-             DIALOG_WRONGMIME: '<strong style="color:red">Please use an {filetype} File to Import Colorpalettes</strong>',
-            
-             DIALOG_ACO_CONVERTWARNING: '<br /><strong style="color:red">Some swatches needed a CMYK to RGB Conversion, consider that color distortions can occur</strong>',
-             DIALOG_ACO_CANTPARSE: '<strong style="color:red">Swatcher cant parse any Swatches <br> Please make sure the Swatches are in RGB or CMYK Format</strong>',
-             DIALOG_ACO_PARSESUCCESS: '<strong style="color:green">Swatcher Found {count} parseable RGB Swatches</strong>',
+             DIALOG_WRONGMIME: 'Please use an Adobe Colorswatch File {filetype} to Import Colorpalettes',
+
+             DIALOG_ACO_CANTPARSE: 'Swatcher cant parse any Swatches <br> Please make sure the Swatches are in parseable Colorspaces',
+             DIALOG_ACO_PARSESUCCESS: 'Swatcher Found {count} importable Swatches',
          },
          
          messages = {
@@ -57,7 +56,7 @@
                  if (!replace) {
                      return tpl;
                  } else {
-                     return tpl.replace("{" + search + "}", replace);
+                     return tpl.replace('{' + search + '}', replace);
                  }
              }
          };
