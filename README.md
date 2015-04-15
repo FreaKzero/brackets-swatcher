@@ -16,8 +16,8 @@ Generates CodeHints/Colorpalettes from importing via LESS/SASS Files, Images or 
 * Support for all color-related functions, rgba() and Hashs  
 * Configurable Swatch sizes  
 * Codehints  
-* Filter/Search via Variablename or the Variablevalue  
 * Dark and Brighttheme Support  
+* Filter/Search via Variablename or the Variablevalue  
 
 * Define an Assetpath for Images  
 	* Change Assetfolder once a Session via Dialog  
@@ -29,7 +29,7 @@ Generates CodeHints/Colorpalettes from importing via LESS/SASS Files, Images or 
     * Updates on Filesave  
     
 * Colorpalette Import  
-    * Import Colorpalettes from RGB Photshop Swatch Files (*.aco)  
+    * Import Colorpalettes from Photshop Swatch Files (*.aco)  
     * Import Colorpalettes from Adobe Swatch Exchange Files (*.ase)  
     * Importer converts colors from CMYK, HSV and RGB values, the Importer will give you a warning when CMYK is converted
     * Generate Colorpalettes with an Image Colorpicker  
