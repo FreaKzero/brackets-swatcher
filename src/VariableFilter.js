@@ -25,8 +25,8 @@ define(function(require, exports, module) {
                 documentLines = StringUtils.getLines(documentText),
                 mode = Modes.getMode(this.mode),
                 firstLine = /^\/\/swatcher-assets+\s*:\s*('|")([0-9a-z\-_%\/\.\(\)\s]+)('|")/.exec(documentLines[0]);
-
-                if (typeof firstLine[2] !== 'undefined' && firstLine[2] !== '') {
+                
+                if (firstLine !== null) {
                     AssetPath.setPath(firstLine[2], editor.document);
                 }
 
