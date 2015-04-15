@@ -42,6 +42,7 @@ Generates CodeHints/Colorpalettes from importing via LESS/SASS Files, Images or 
 ##TODO/Known Bugs
 * Colorpicker +/- Zoom center on zoomed Position  
 * Stylus Support  
+* Better Support for grouped ASE Swatches
 
 **Author** FreaKzero  
  [Twitter](https://twitter.com/freakzerodotcom) [G+](https://plus.google.com/+FreaKzero)  
