@@ -12,7 +12,6 @@ define(function(require, exports) {
         registered = false;
 
     var ColorImporter = {
-
         registerPanel: function($panel) {
             if (!registered) {
                 $panel.on('click', '.swatcher-colortable-colorremove', function() {
@@ -64,7 +63,7 @@ define(function(require, exports) {
 
             } else {
 
-                if (typeof name === 'undefined') {
+                if (typeof name === 'undefined' || name === '') {
                     name = 'color' + $('.swatcher-colortable tr').size();
                 }
                 

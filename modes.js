@@ -36,7 +36,7 @@ define(function(require, exports, module) {
 
         return modes[mode];
     }
-
+    
     function hasPreprocessor(editor) {
         var m = Object.keys(modes);
         var mode = editor.document.language._mode;

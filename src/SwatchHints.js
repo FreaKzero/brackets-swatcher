@@ -7,7 +7,7 @@ define(function(require, exports, module) {
         Modes = require('../modes'),
         mode,
         codeHints = [];
-    
+        
     var Filter = {
         search: "",
                 

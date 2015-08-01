@@ -19,7 +19,6 @@
              DIALOG_ACO_CANTPARSE: 'Swatcher cant parse any Swatches <br> Please make sure the Swatches are in parseable Colorspaces',
              DIALOG_ACO_PARSESUCCESS: 'Swatcher Found {count} importable Swatches',
          },
-         
          messages = {
              notice: function(key, search, replace) {
                  var head = '<br><div class="swatcher-notice"> <h3>Swatcher Notice</h3> <hr />',
