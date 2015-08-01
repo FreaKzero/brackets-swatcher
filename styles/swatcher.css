@@ -175,6 +175,10 @@
   height: 110px;
   width: 400px;
 }
+.codehint-menu .dropdown-menu li a:hover {
+  background-color: #121c2a !important;
+  cursor: pointer;
+}
 .swatcher-dialog-description .error {
   color: #f74687;
   font-weight: bold;
