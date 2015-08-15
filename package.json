@@ -23,7 +23,8 @@
         "grunt-contrib-less": "*",
         "grunt-contrib-cssmin": "*",
         "grunt-contrib-compress": "*",
-        "grunt-contrib-copy": "*"
+        "grunt-contrib-copy": "*",
+        "grunt-run": "*"
   }
 
 }

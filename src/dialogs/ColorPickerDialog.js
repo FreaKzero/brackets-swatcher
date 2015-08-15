@@ -2,14 +2,33 @@
 /*global define, brackets, $, Mustache */
 
 define(function(require, exports) {
-    var MainTemplate = require("text!../../tpl/ColorPicker.html"),
-        ColorPickerFileDialog = require("text!../../tpl/ColorPickerFile.html"),
-        ColorPicker = require("../lib/colorpick"),
+    var MainTemplate = require('text!../../tpl/ColorPicker.html'),
+        ColorPickerFileDialog = require('text!../../tpl/ColorPickerFile.html'),
+        ColorPicker = require('../lib/colorpick'),
         Utils = require('../Utils'),
         ColorImporter = require('../ColorImporter'),
-        Dialogs = brackets.getModule("widgets/Dialogs");
+        Dialogs = brackets.getModule('widgets/Dialogs');
 
     function registerPanelEvents() {
+
+        $('#swatcher-cp-addcolor').on('mousedown', function(event) {
+          
+          switch (event.button) {
+
+                case 0: // Left MouseButton            
+                    ColorImporter.add($(this).parent().data('color'));
+                break;
+
+                case 2: // Right MouseButton
+                var tocopy = document.querySelector('.copy-helper');
+                    tocopy.select();
+                
+                var copied = document.execCommand('copy');
+                    document.execCommand('copy');
+                break;
+            }                      
+        });
+        
         $('#swatcher-cp-addcolor').on('click', function() {
             ColorImporter.add($(this).parent().data('color'));
         });
@@ -50,6 +69,8 @@ define(function(require, exports) {
                         'background-color': col
                     }).data('color', col);
 
+                    $('.copy-helper').val(col);
+                    
                     break;
 
                 case 2: // Right MouseButton
@@ -99,7 +120,7 @@ define(function(require, exports) {
     function registerDialogEvents(dialog) {
         var $dialog = dialog.getElement();
 
-        document.getElementById('swatcher-colorimport-pastebox').addEventListener("paste", function(e) {
+        document.getElementById('swatcher-colorimport-pastebox').addEventListener('paste', function(e) {
             e.preventDefault();
             if (e.clipboardData) {
                 var items = e.clipboardData.items;
@@ -107,7 +128,7 @@ define(function(require, exports) {
                 if (items) {
                     var len = items.length;
                     for (var i = 0; i < len; i++) {
-                        if (items[i].type.indexOf("image") !== -1) {
+                        if (items[i].type.indexOf('image') !== -1) {
                             initColorPicker(items[i].getAsFile());
                             dialog.close();
                             break;
@@ -124,7 +145,7 @@ define(function(require, exports) {
 
         $dialog.on('change', '#swatcher-colorimport-selectfile', function() {
             $dialog.find('#swatcher-colorpickerdialog-ok').attr('disabled', false);
-            if (this.files[0].type.indexOf("image") !== -1) {
+            if (this.files[0].type.indexOf('image') !== -1) {
                 initColorPicker(this.files[0]);
                 dialog.close();
             } else {

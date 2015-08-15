@@ -12,11 +12,11 @@
 	"build_systems":
 	[
 		{
-			"name": "Brackets Build",
-			"shell_cmd": "grunt build"
+			"name": "Start Brackets",
+			"shell_cmd": "grunt build-start"
 		},
 		{
-			"name": "Package Build",
+			"name": "Package Swatcher",
 			"shell_cmd": "grunt pack"
 		}
 	]		
