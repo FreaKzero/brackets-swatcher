@@ -170,7 +170,7 @@ define(function(require, exports, module) {
         }
     }, '.swatcher-color');
 
-    $(DocumentManager).on('documentSaved', function(e, doc) {
+    DocumentManager.on('documentSaved', function(e, doc) {
         if (actualFile) {
             var editor = EditorManager.getFocusedEditor();
 
