@@ -70,8 +70,7 @@ define(function(require, exports) {
                 if (typeof name === 'undefined' || name === '') {
                     name = ColorNames.name(hex)[1].replace(/[^a-zA-Z0-9-_]/gi, '').toLowerCase();
                     var sameNames= $('.swatcher-colortable').find('[data-colorname="' + name + '"]').size();
-
-                    alert(sameNames);
+                    
                     if (sameNames > 0) {
                         name = name + '-' + sameNames;
                     }
