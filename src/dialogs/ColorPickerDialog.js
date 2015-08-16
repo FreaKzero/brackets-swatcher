@@ -9,6 +9,7 @@ define(function(require, exports) {
         ColorImporter = require('../ColorImporter'),
         Dialogs = brackets.getModule('widgets/Dialogs');
 
+// todo: Button click +/-
     function registerPanelEvents() {
 
         $('#swatcher-cp-addcolor').on('mousedown', function(event) {
