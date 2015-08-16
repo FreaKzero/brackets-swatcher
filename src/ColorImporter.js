@@ -8,12 +8,15 @@ define(function(require, exports) {
 
         Modes = require('../modes'),
         Utils = require('./Utils'),
+        ColorNames = require('./lib/colornames'),
         messages = require('./Messages'),
         registered = false;
 
     var ColorImporter = {
         registerPanel: function($panel) {
             if (!registered) {
+
+                ColorNames.init();
                 $panel.on('click', '.swatcher-colortable-colorremove', function() {
                     $(this).parent().parent().fadeOut(function() {
                         $(this).remove();
@@ -54,6 +57,7 @@ define(function(require, exports) {
                 converted = false;
             }
 
+            hex = hex.toUpperCase();
             var $colordouble = $('.swatcher-colortable').find('[data-hex="' + hex + '"]');
 
             if ($colordouble.size() > 0 && typeof name === 'undefined') {
@@ -64,11 +68,17 @@ define(function(require, exports) {
             } else {
 
                 if (typeof name === 'undefined' || name === '') {
-                    name = 'color' + $('.swatcher-colortable tr').size();
+                    name = ColorNames.name(hex)[1].replace(/[^a-zA-Z0-9-_]/gi, '').toLowerCase();
+                    var sameNames= $('.swatcher-colortable').find('[data-colorname="' + name + '"]').size();
+
+                    alert(sameNames);
+                    if (sameNames > 0) {
+                        name = name + '-' + sameNames;
+                    }
                 }
                 
                 var mObj = {
-                    colorname: name.replace(/[^a-zA-Z0-9]/gi, '').toLowerCase(),
+                    colorname: name,
                     colorhex: hex
                 };
 
