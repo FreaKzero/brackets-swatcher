@@ -24,7 +24,17 @@ define(function(require, exports) {
                     tocopy.select();
                 
                 var copied = document.execCommand('copy');
-                    document.execCommand('copy');
+
+                    if (copied === true) {
+                        $('.swatcher-copied-message').fadeIn(function() {
+                            var that = $(this);
+
+                            setTimeout(function() {
+                                that.fadeOut();
+                            }, 1200);
+
+                        });
+                    }
                 break;
             }                      
         });
@@ -40,11 +50,7 @@ define(function(require, exports) {
         $('#swatcher-cp-minus').on('click', function() {
             ColorPicker.zoom('-');
         });
-
-        $('#swatcher-cp-fit').on('click', function() {
-            ColorPicker.zoom('x');
-        });
-
+        
         $('#swatcher-cp-canvas').on('mousewheel', function(eventScroll) {
             ColorPicker.zoomWheel(eventScroll.originalEvent);
         });
@@ -91,11 +97,8 @@ define(function(require, exports) {
                 'cursor': 'crosshair'
             });
 
-            if (eventUp.button === 2) {
-                var xUp = eventUp.offsetX;
-                var yUp = eventUp.offsetY;
-
-                ColorPicker.panEnd(xUp, yUp);
+            if (eventUp.button === 2) {                
+                ColorPicker.panEnd();
 
                 $('#swatcher-cp-canvas').off('mousemove');
             }

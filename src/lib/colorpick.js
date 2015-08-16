@@ -65,15 +65,16 @@ define(function(require, exports, module) {
     }
 
     var ColorPicker = {
-
-        scale: 1,
-        debug: true,
-        
+            
         image: false,
-
         transform: null,
 
         point: {
+            x: 0,
+            y: 0
+        },
+
+        cross: {
             x: 0,
             y: 0
         },
@@ -108,11 +109,22 @@ define(function(require, exports, module) {
             };
         },
 
-        crosshair: function(x, y) {
-            ColorPicker.draw();
+        crosshair: function(x, y) {            
 
-            ColorPicker.coords.cross.x = x;
-            ColorPicker.coords.cross.y = y;
+            var p1 = ctx.transformedPoint(0,0);
+            var p2 = ctx.transformedPoint(canvas.width,canvas.height);
+            ctx.clearRect(p1.x,p1.y,p2.x-p1.x,p2.y-p1.y);
+
+            ColorPicker.cross.x = x;
+            ColorPicker.cross.y = y;
+            
+             ctx.drawImage(
+                ColorPicker.image,
+                0,
+                0,
+                ColorPicker.image.width,
+                ColorPicker.image.height
+            );
 
             ctx.beginPath();
             ctx.strokeStyle = '#2893ef';
@@ -121,14 +133,17 @@ define(function(require, exports, module) {
             ctx.moveTo(0, y);
             ctx.lineTo(canvas.width, y);
             ctx.moveTo(x, 0);
-            ctx.lineTo(x, canvas.height);
+            ctx.lineTo(x, canvas.height);    
             ctx.stroke();
-            ctx.closePath();
+            ctx.closePath(); 
+                    
         },
 
         draw: function() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.transformedPoint(canvas.width,canvas.height);
+
+            var p1 = ctx.transformedPoint(0,0);
+            var p2 = ctx.transformedPoint(canvas.width,canvas.height);
+            ctx.clearRect(p1.x,p1.y,p2.x-p1.x,p2.y-p1.y);
 
             ctx.drawImage(
                 ColorPicker.image,
@@ -141,18 +156,18 @@ define(function(require, exports, module) {
 
         pick: function(x, y) {
             var imgData = ctx.getImageData(x, y, 1, 1).data;
-            ColorPicker.crosshair(x, y);
             return imgData;
         },
 
         fitToScreen: function() {
+            ColorPicker.draw();
         },
 
         panStart: function(x, y) {
             ColorPicker.transform = ctx.transformedPoint(x,y);            
         },
 
-        panEnd: function(x, y) {
+        panEnd: function() {
             ColorPicker.transform = null;
         },
 
@@ -164,9 +179,7 @@ define(function(require, exports, module) {
 
         zoomWheel: function(event) {
             
-
-            var delta = event.wheelDelta ? event.wheelDelta/40 : event.detail ? -event.detail : 0;
-                                
+            var delta = event.wheelDelta ? event.wheelDelta/40 : event.detail ? -event.detail : 0;                                
 
             if (delta) {
                 var pt = ctx.transformedPoint(ColorPicker.point.x, ColorPicker.point.y);
@@ -183,10 +196,7 @@ define(function(require, exports, module) {
                 case '+':
                     break;
                 case '-':                    
-                    break;
-                case 'x':
-             
-                    break;
+                    break;                
             }
         }
     };
