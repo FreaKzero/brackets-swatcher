@@ -330,6 +330,9 @@
   height: 13px;
   background-position: center;
 }
+.dark .swatcher-settings-dropdown > li > a {
+  color: white;
+}
 .swatcher-notice {
   background-color: #222222;
   color: white;
