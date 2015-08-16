@@ -46,12 +46,7 @@ define(function(require, exports) {
         });
 
         $('#swatcher-cp-canvas').on('mousewheel', function(eventScroll) {
-            if (eventScroll.originalEvent.wheelDelta < 0) {
-                ColorPicker.zoom('-');
-            } else {
-                ColorPicker.zoom('+');
-            }
-            return false;
+            ColorPicker.zoomWheel(eventScroll.originalEvent);
         });
 
         $('#swatcher-cp-canvas').on('mousedown', function(eventDown) {
