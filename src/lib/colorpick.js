@@ -8,64 +8,72 @@ define(function(require, exports, module) {
     var canvas;
     var ctx;
 
-    function trackTransforms(ctx){
-        var svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    function trackTransforms(ctx) {
+        var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
         var xform = svg.createSVGMatrix();
-        ctx.getTransform = function(){ return xform; };
-        
+        ctx.getTransform = function() {
+            return xform;
+        };
+
         var savedTransforms = [];
         var save = ctx.save;
-        ctx.save = function(){
-            savedTransforms.push(xform.translate(0,0));
+        ctx.save = function() {
+            savedTransforms.push(xform.translate(0, 0));
             return save.call(ctx);
         };
         var restore = ctx.restore;
-        ctx.restore = function(){
+        ctx.restore = function() {
             xform = savedTransforms.pop();
             return restore.call(ctx);
         };
 
         var scale = ctx.scale;
-        ctx.scale = function(sx,sy){
-            xform = xform.scaleNonUniform(sx,sy);
-            return scale.call(ctx,sx,sy);
+        ctx.scale = function(sx, sy) {
+            xform = xform.scaleNonUniform(sx, sy);
+            return scale.call(ctx, sx, sy);
         };
         var rotate = ctx.rotate;
-        ctx.rotate = function(radians){
-            xform = xform.rotate(radians*180/Math.PI);
-            return rotate.call(ctx,radians);
+        ctx.rotate = function(radians) {
+            xform = xform.rotate(radians * 180 / Math.PI);
+            return rotate.call(ctx, radians);
         };
         var translate = ctx.translate;
-        ctx.translate = function(dx,dy){
-            xform = xform.translate(dx,dy);
-            return translate.call(ctx,dx,dy);
+        ctx.translate = function(dx, dy) {
+            xform = xform.translate(dx, dy);
+            return translate.call(ctx, dx, dy);
         };
         var transform = ctx.transform;
-        ctx.transform = function(a,b,c,d,e,f){
+        ctx.transform = function(a, b, c, d, e, f) {
             var m2 = svg.createSVGMatrix();
-            m2.a=a; m2.b=b; m2.c=c; m2.d=d; m2.e=e; m2.f=f;
+            m2.a = a;
+            m2.b = b;
+            m2.c = c;
+            m2.d = d;
+            m2.e = e;
+            m2.f = f;
             xform = xform.multiply(m2);
-            return transform.call(ctx,a,b,c,d,e,f);
+            return transform.call(ctx, a, b, c, d, e, f);
         };
         var setTransform = ctx.setTransform;
-        ctx.setTransform = function(a,b,c,d,e,f){
+        ctx.setTransform = function(a, b, c, d, e, f) {
             xform.a = a;
             xform.b = b;
             xform.c = c;
             xform.d = d;
             xform.e = e;
             xform.f = f;
-            return setTransform.call(ctx,a,b,c,d,e,f);
+            return setTransform.call(ctx, a, b, c, d, e, f);
         };
-        var pt  = svg.createSVGPoint();
-        ctx.transformedPoint = function(x,y){
-            pt.x=x; pt.y=y;
+        var pt = svg.createSVGPoint();
+        ctx.transformedPoint = function(x, y) {
+            pt.x = x;
+            pt.y = y;
             return pt.matrixTransform(xform.inverse());
         };
     }
 
     var ColorPicker = {
-            
+
         image: false,
         transform: null,
 
@@ -93,10 +101,10 @@ define(function(require, exports, module) {
             var c = document.getElementById('swatcher-cp-holder');
             canvas.width = c.clientWidth;
             canvas.height = 350;
-            
+
             ColorPicker.point = {
-                x: canvas.width/2,
-                y: canvas.height/2
+                x: canvas.width / 2,
+                y: canvas.height / 2
             };
 
             var img = new Image();
@@ -109,16 +117,16 @@ define(function(require, exports, module) {
             };
         },
 
-        crosshair: function(x, y) {            
+        crosshair: function(x, y) {
 
-            var p1 = ctx.transformedPoint(0,0);
-            var p2 = ctx.transformedPoint(canvas.width,canvas.height);
-            ctx.clearRect(p1.x,p1.y,p2.x-p1.x,p2.y-p1.y);
+            var p1 = ctx.transformedPoint(0, 0);
+            var p2 = ctx.transformedPoint(canvas.width, canvas.height);
+            ctx.clearRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
 
             ColorPicker.cross.x = x;
             ColorPicker.cross.y = y;
-            
-             ctx.drawImage(
+
+            ctx.drawImage(
                 ColorPicker.image,
                 0,
                 0,
@@ -133,17 +141,17 @@ define(function(require, exports, module) {
             ctx.moveTo(0, y);
             ctx.lineTo(canvas.width, y);
             ctx.moveTo(x, 0);
-            ctx.lineTo(x, canvas.height);    
+            ctx.lineTo(x, canvas.height);
             ctx.stroke();
-            ctx.closePath(); 
-                    
+            ctx.closePath();
+
         },
 
         draw: function() {
 
-            var p1 = ctx.transformedPoint(0,0);
-            var p2 = ctx.transformedPoint(canvas.width,canvas.height);
-            ctx.clearRect(p1.x,p1.y,p2.x-p1.x,p2.y-p1.y);
+            var p1 = ctx.transformedPoint(0, 0);
+            var p2 = ctx.transformedPoint(canvas.width, canvas.height);
+            ctx.clearRect(p1.x, p1.y, p2.x - p1.x, p2.y - p1.y);
 
             ctx.drawImage(
                 ColorPicker.image,
@@ -164,7 +172,7 @@ define(function(require, exports, module) {
         },
 
         panStart: function(x, y) {
-            ColorPicker.transform = ctx.transformedPoint(x,y);            
+            ColorPicker.transform = ctx.transformedPoint(x, y);
         },
 
         panEnd: function() {
@@ -172,44 +180,43 @@ define(function(require, exports, module) {
         },
 
         pan: function(x, y) {
-            var p = ctx.transformedPoint(x,y);
-            ctx.translate(p.x-ColorPicker.transform.x,p.y-ColorPicker.transform.y);
+            var p = ctx.transformedPoint(x, y);
+            ctx.translate(p.x - ColorPicker.transform.x, p.y - ColorPicker.transform.y);
             ColorPicker.draw();
         },
 
+        _calcZoom: function(delta) {
+            var pt = ctx.transformedPoint(ColorPicker.point.x, ColorPicker.point.y);
+            ctx.translate(pt.x, pt.y);
+            var factor = Math.pow(ColorPicker.config.scaleFactor, delta);
+            ctx.scale(factor, factor);
+            ctx.translate(-pt.x, -pt.y);
+            ColorPicker.draw();
+
+        },
+        
         zoomWheel: function(event) {
-            
-            var delta = event.wheelDelta ? event.wheelDelta/40 : event.detail ? -event.detail : 0;                                
-            console.log(delta);
+
+            var delta = event.wheelDelta ? event.wheelDelta / 40 : event.detail ? -event.detail : 0;
+
             if (delta) {
-                var pt = ctx.transformedPoint(ColorPicker.point.x, ColorPicker.point.y);
-                ctx.translate(pt.x,pt.y);
-                var factor = Math.pow(ColorPicker.config.scaleFactor, delta);
-                ctx.scale(factor,factor);
-                ctx.translate(-pt.x,-pt.y);
-                ColorPicker.draw();
+                ColorPicker._calcZoom(delta);
             }
         },
 
         zoom: function(arg) {
+            var delta = 0;
+
             switch (arg) {
-                case '+':   
-                    var pt = ctx.transformedPoint(ColorPicker.point.x, ColorPicker.point.y);
-                    ctx.translate(pt.x,pt.y);
-                    var factor = Math.pow(ColorPicker.config.scaleFactor, 3);
-                    ctx.scale(factor,factor);
-                    ctx.translate(-pt.x,-pt.y);
-                    ColorPicker.draw();       
+                case '+':
+                    delta = 3;
                     break;
-                case '-': 
-                    var pt = ctx.transformedPoint(ColorPicker.point.x, ColorPicker.point.y);
-                    ctx.translate(pt.x,pt.y);
-                    var factor = Math.pow(ColorPicker.config.scaleFactor, -3);
-                    ctx.scale(factor,factor);
-                    ctx.translate(-pt.x,-pt.y);
-                    ColorPicker.draw();                          
-                    break;                
+                case '-':
+                    delta = -3;
+                    break;
             }
+
+            ColorPicker._calcZoom(delta);
         }
     };
 
