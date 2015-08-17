@@ -16,7 +16,7 @@ define(function(require, exports) {
 
             switch (event.button) {
 
-                case 0: // Left MouseButton            
+                case 0: // Left MouseButton
                     ColorImporter.add($(this).parent().data('color'));
                     break;
 
@@ -39,7 +39,7 @@ define(function(require, exports) {
                     break;
             }
         });
-        
+
         $('#swatcher-cp-plus').on('click', function() {
             ColorPicker.zoom('+');
         });
@@ -52,6 +52,16 @@ define(function(require, exports) {
             ColorPicker.zoomWheel(eventScroll.originalEvent);
         });
 
+        $('#swatcher-cp-canvas').on('mouseleave', function(eventScroll) {
+            $(this).css({
+                'cursor': 'crosshair'
+            });
+
+            ColorPicker.panEnd();
+
+            $('#swatcher-cp-canvas').off('mousemove');
+        });
+
         $('#swatcher-cp-canvas').on('mousedown', function(eventDown) {
 
             var xDown = eventDown.offsetX;
@@ -59,7 +69,7 @@ define(function(require, exports) {
 
             switch (eventDown.button) {
 
-                case 0: // Left MouseButton   
+                case 0: // Left MouseButton
                     var ArrRGB = ColorPicker.pick(xDown, yDown);
                     var col = Utils.hashFromRGB(ArrRGB[0], ArrRGB[1], ArrRGB[2]);
 
@@ -80,9 +90,7 @@ define(function(require, exports) {
                         $('.copy-helper').val(col);
 
                     });
-
                     
-
                     break;
 
                 case 2: // Right MouseButton
