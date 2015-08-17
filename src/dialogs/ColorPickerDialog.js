@@ -9,22 +9,22 @@ define(function(require, exports) {
         ColorImporter = require('../ColorImporter'),
         Dialogs = brackets.getModule('widgets/Dialogs');
 
-// todo: Button click +/-
+    // todo: Button click +/-
     function registerPanelEvents() {
 
         $('#swatcher-cp-addcolor').on('mousedown', function(event) {
-          
-          switch (event.button) {
+
+            switch (event.button) {
 
                 case 0: // Left MouseButton            
                     ColorImporter.add($(this).parent().data('color'));
-                break;
+                    break;
 
                 case 2: // Right MouseButton
-                var tocopy = document.querySelector('.copy-helper');
+                    var tocopy = document.querySelector('.copy-helper');
                     tocopy.select();
-                
-                var copied = document.execCommand('copy');
+
+                    var copied = document.execCommand('copy');
 
                     if (copied === true) {
                         $('.swatcher-copied-message').fadeIn(function() {
@@ -36,14 +36,10 @@ define(function(require, exports) {
 
                         });
                     }
-                break;
-            }                      
+                    break;
+            }
         });
         
-        $('#swatcher-cp-addcolor').on('click', function() {
-            ColorImporter.add($(this).parent().data('color'));
-        });
-
         $('#swatcher-cp-plus').on('click', function() {
             ColorPicker.zoom('+');
         });
@@ -51,7 +47,7 @@ define(function(require, exports) {
         $('#swatcher-cp-minus').on('click', function() {
             ColorPicker.zoom('-');
         });
-        
+
         $('#swatcher-cp-canvas').on('mousewheel', function(eventScroll) {
             ColorPicker.zoomWheel(eventScroll.originalEvent);
         });
@@ -63,7 +59,7 @@ define(function(require, exports) {
 
             switch (eventDown.button) {
 
-                case 0: // Left MouseButton            
+                case 0: // Left MouseButton   
                     var ArrRGB = ColorPicker.pick(xDown, yDown);
                     var col = Utils.hashFromRGB(ArrRGB[0], ArrRGB[1], ArrRGB[2]);
 
@@ -72,7 +68,21 @@ define(function(require, exports) {
                     }).data('color', col);
 
                     $('.copy-helper').val(col);
+
+                    $('#swatcher-cp-canvas').on('mousemove', function(eventMove) {
+                        var ArrRGB = ColorPicker.pick(eventMove.offsetX, eventMove.offsetY);
+                        var col = Utils.hashFromRGB(ArrRGB[0], ArrRGB[1], ArrRGB[2]);
+
+                        $('#swatcher-cp-preview').css({
+                            'background-color': col
+                        }).data('color', col);
+
+                        $('.copy-helper').val(col);
+
+                    });
+
                     
+
                     break;
 
                 case 2: // Right MouseButton
@@ -98,11 +108,11 @@ define(function(require, exports) {
                 'cursor': 'crosshair'
             });
 
-            if (eventUp.button === 2) {                
+            if (eventUp.button === 2) {
                 ColorPicker.panEnd();
-
-                $('#swatcher-cp-canvas').off('mousemove');
             }
+
+            $('#swatcher-cp-canvas').off('mousemove');
         });
     }
 
