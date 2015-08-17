@@ -180,7 +180,7 @@ define(function(require, exports, module) {
         zoomWheel: function(event) {
             
             var delta = event.wheelDelta ? event.wheelDelta/40 : event.detail ? -event.detail : 0;                                
-
+            console.log(delta);
             if (delta) {
                 var pt = ctx.transformedPoint(ColorPicker.point.x, ColorPicker.point.y);
                 ctx.translate(pt.x,pt.y);
@@ -193,9 +193,21 @@ define(function(require, exports, module) {
 
         zoom: function(arg) {
             switch (arg) {
-                case '+':
+                case '+':   
+                    var pt = ctx.transformedPoint(ColorPicker.point.x, ColorPicker.point.y);
+                    ctx.translate(pt.x,pt.y);
+                    var factor = Math.pow(ColorPicker.config.scaleFactor, 3);
+                    ctx.scale(factor,factor);
+                    ctx.translate(-pt.x,-pt.y);
+                    ColorPicker.draw();       
                     break;
-                case '-':                    
+                case '-': 
+                    var pt = ctx.transformedPoint(ColorPicker.point.x, ColorPicker.point.y);
+                    ctx.translate(pt.x,pt.y);
+                    var factor = Math.pow(ColorPicker.config.scaleFactor, -3);
+                    ctx.scale(factor,factor);
+                    ctx.translate(-pt.x,-pt.y);
+                    ColorPicker.draw();                          
                     break;                
             }
         }
