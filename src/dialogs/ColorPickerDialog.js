@@ -72,6 +72,10 @@ define(function(require, exports) {
                 case 0: // Left MouseButton
                     var ArrRGB = ColorPicker.pick(xDown, yDown);
                     var col = Utils.hashFromRGB(ArrRGB[0], ArrRGB[1], ArrRGB[2]);
+                    
+                    if (eventDown.ctrlKey) {                    
+                        ColorImporter.add(col);
+                    }
 
                     $('#swatcher-cp-preview').css({
                         'background-color': col
