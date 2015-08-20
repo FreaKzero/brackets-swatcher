@@ -38,15 +38,17 @@ Generates CodeHints/Colorpalettes from importing via LESS/SASS Files, Images or 
 	* Load Images directly from Disc  
 	* Load Imagedata/Printscreendata directly from Clipboard  
 	* Scroll for Zoom, rightclick to pan Image  
+    * CTRL + Click picks color directly into List
+    * Rightclick on the "Colorpreview/Add" copies Color into Clipboard
 
 ##TODO/Known Bugs
-* Colorpicker +/- Zoom center on zoomed Position  
+  
 * Stylus Support  
 * Better Support for grouped ASE Swatches
 
 **Author** FreaKzero  
- [Twitter](https://twitter.com/freakzerodotcom) [G+](https://plus.google.com/+FreaKzero)  
+ [Twitter](https://twitter.com/freakzerodotcom) [G+](https://plus.google.com/+FreaKzero) [Web] (http://www.freakzero.com)
  
-**Thanks to:** 
+**Thanks to:**  
 Amin Ullah Khan [GitHub](https://github.com/sprintr)  
 Alexander Hochreiter for Testing on Mac/Linux Systems
