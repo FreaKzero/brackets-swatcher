@@ -112,8 +112,10 @@ define(function(require, exports, module) {
 
             img.onload = function() {
                 ColorPicker.image = img;
+                var initZoom = ((canvas.width * canvas.height) / (img.width * img.height)) * 4;
+                
+                ctx.scale(initZoom, initZoom);
                 ColorPicker.draw();
-                ColorPicker.zoom('x');
             };
         },
 
@@ -194,7 +196,7 @@ define(function(require, exports, module) {
             ColorPicker.draw();
 
         },
-        
+
         zoomWheel: function(event) {
 
             var delta = event.wheelDelta ? event.wheelDelta / 40 : event.detail ? -event.detail : 0;

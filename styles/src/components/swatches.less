@@ -18,29 +18,13 @@
     border-radius: 3px;
 } 
 
-.swatcher-colorwrap {    
-    border-top: 1px solid lighten(@dark-bc-secondary-btn-border,40%);
-    border-left: 1px solid lighten(@dark-bc-secondary-btn-border,40%);
-    border-right: 1px solid lighten(@dark-bc-primary-btn-border,40%);
-    border-bottom: 1px solid lighten(@dark-bc-primary-btn-border,40%);
+.swatcher-colorwrap {        
     float: left; 
     position: relative;
     transition: border-color 333ms ease-out;    
     font-size: 12px;
     overflow: hidden;
     background: url(@transBG);
-    
-    .dark & {
-        border-top: 1px solid @dark-bc-secondary-btn-border;
-        border-left: 1px solid @dark-bc-secondary-btn-border;
-        border-right: 1px solid @dark-bc-primary-btn-border;
-        border-bottom: 1px solid @dark-bc-primary-btn-border;
-    }   
-
-    &:hover {
-        border: 1px solid @bc-btn-border-focused;
-    }
-    
 }
 
 .swatcher-label {              
