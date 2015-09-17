@@ -1,6 +1,7 @@
 # Brackets Swatcher  
 
-[![Join the chat at https://gitter.im/FreaKzero/brackets-swatcher](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/FreaKzero/brackets-swatcher?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+Want to give Feedback or have an Idea for a future Feature ? Visit the Gitterchat: [![Join the chat at https://gitter.im/FreaKzero/brackets-swatcher](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/FreaKzero/brackets-swatcher?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Generates CodeHints/Colorpalettes from importing via LESS/SASS Files, Images or Adobe Swatchfiles (*.aco, *.ase)
 
 ![Filter](https://raw.githubusercontent.com/FreaKzero/brackets-swatcher/master/readme/readme-filter.gif)
