@@ -1,6 +1,7 @@
 /*jslint vars: true, plusplus: true, devel: true, nomen: true, indent: 4, maxerr: 50 */
 /*global define, $, Mustache, brackets */
 
+//https://github.com/MarcelGerber/brackets/blob/16a773444e7fce2f00bff16152403e2bc162638b/src/LiveDevelopment/main.js
 define(function(require, exports, module) {
     var VariableFilter = require("./VariableFilter"),
         MainView = require("text!tpl/Swatches.html"),
@@ -19,6 +20,20 @@ define(function(require, exports, module) {
             switch (filtered.mode) {
 
                 case 'text/x-less':                    
+                 less.render(filtered.getCSS(), function onParse(err, tree) {
+                    try {
+                            Hints.init('text/x-less');
+                            Hints.setHints(filtered.getCodeHints());
+                            $('#swatcher-container').empty().hide().append(Mustache.render(MainView, data)).fadeIn();
+                            $('#swatcher-styles').html(tree.css);                            
+                            Icon.setOK();
+                        } catch (error) {
+                            Icon.setError();
+                            Messages.error('MAIN_LESSERROR', 'errorMessage', err.message);                            
+                        }                
+                });
+
+                /*
                     var lp = new(less.Parser);
                     lp.parse(filtered.getCSS(), function(err, tree) {
                         try {
@@ -33,6 +48,8 @@ define(function(require, exports, module) {
                             Messages.error('MAIN_LESSERROR', 'errorMessage', err.message);                            
                         }
                     });
+
+                */
                     break;
 
                 case 'text/x-scss':
