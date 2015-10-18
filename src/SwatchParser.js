@@ -8,7 +8,7 @@ define(function(require, exports, module) {
         sass = require("./lib/sass"),
         Hints = require("./SwatchHints"),
         Messages = require('./Messages'),
-        Icon = require("src/plugin-icon");        
+        Icon = require("src/plugin-icon");
 
     function generate(editor) {
 
@@ -19,37 +19,19 @@ define(function(require, exports, module) {
             var css;
             switch (filtered.mode) {
 
-                case 'text/x-less':                    
-                 less.render(filtered.getCSS(), function onParse(err, tree) {
-                    try {
-                            Hints.init('text/x-less');
-                            Hints.setHints(filtered.getCodeHints());
-                            $('#swatcher-container').empty().hide().append(Mustache.render(MainView, data)).fadeIn();
-                            $('#swatcher-styles').html(tree.css);                            
-                            Icon.setOK();
-                        } catch (error) {
-                            Icon.setError();
-                            Messages.error('MAIN_LESSERROR', 'errorMessage', err.message);                            
-                        }                
-                });
-
-                /*
-                    var lp = new(less.Parser);
-                    lp.parse(filtered.getCSS(), function(err, tree) {
+                case 'text/x-less':
+                    less.render(filtered.getCSS(), function onParse(err, tree) {
                         try {
                             Hints.init('text/x-less');
                             Hints.setHints(filtered.getCodeHints());
                             $('#swatcher-container').empty().hide().append(Mustache.render(MainView, data)).fadeIn();
-                            $('#swatcher-styles').html(tree.toCSS());
-                            
+                            $('#swatcher-styles').html(tree.css);
                             Icon.setOK();
                         } catch (error) {
                             Icon.setError();
-                            Messages.error('MAIN_LESSERROR', 'errorMessage', err.message);                            
+                            Messages.error('MAIN_LESSERROR', 'errorMessage', err.message);
                         }
                     });
-
-                */
                     break;
 
                 case 'text/x-scss':
