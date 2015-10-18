@@ -17,7 +17,7 @@ define(function(require, exports, module) {
             hints: ['scss'],
             trigger: '$',
             regexVariables: /^\$[0-9a-z\-_]+\s*:\s*(url\('([^']+)'\)|[0-9a-z\-_\$#%'"*\/\.\(\)\,\+\s]+)/igm,
-            regexOnlyColors: /(str-|map-|selector-|unquote|quote|to-upper-case|to-lower-case|percentage|round|ceil|floor|abs|min|max|random|length|nth|join|append|zip|index|list-seperator|keywords|is-superselector|simple-selectors|feature-exists|variable-exists|global-variable-exists|function-exists|mixin-exists|inspect|type-of|unit|unitless|comparable|call|unique-id)|(^[0-9.]+)|(.*\s(\+|\-|\*)\s.*)|(inherit|normal|bold|italic|\")/g,
+            regexOnlyColors: /(\(.*|str-|map-|selector-|unquote|quote|to-upper-case|to-lower-case|percentage|round|ceil|floor|abs|min|max|random|length|nth|join|append|zip|index|list-seperator|keywords|is-superselector|simple-selectors|feature-exists|variable-exists|global-variable-exists|function-exists|mixin-exists|inspect|type-of|unit|unitless|comparable|call|unique-id)|(^[0-9.]+)|(.*\s(\+|\-|\*)\s.*)|(inherit|normal|bold|italic|\")/g,
         },
 
         'sass': {
@@ -25,7 +25,7 @@ define(function(require, exports, module) {
             hints: ['sass'],
             trigger: '$',
             regexVariables: /^\$[0-9a-z\-_]+\s*:\s*(url\('([^']+)'\)|[0-9a-z\-_\$#%'"*\/\.\(\)\,\+\s]+)/igm,
-            regexOnlyColors: /(str-|map-|selector-|unquote|quote|to-upper-case|to-lower-case|percentage|round|ceil|floor|abs|min|max|random|length|nth|join|append|zip|index|list-seperator|keywords|is-superselector|simple-selectors|feature-exists|variable-exists|global-variable-exists|function-exists|mixin-exists|inspect|type-of|unit|unitless|comparable|call|unique-id)|(^[0-9.]+)|(.*\s(\+|\-|\*)\s.*)|(inherit|normal|bold|italic|\")/g,
+            regexOnlyColors: /(\(.*|str-|map-|selector-|unquote|quote|to-upper-case|to-lower-case|percentage|round|ceil|floor|abs|min|max|random|length|nth|join|append|zip|index|list-seperator|keywords|is-superselector|simple-selectors|feature-exists|variable-exists|global-variable-exists|function-exists|mixin-exists|inspect|type-of|unit|unitless|comparable|call|unique-id)|(^[0-9.]+)|(.*\s(\+|\-|\*)\s.*)|(inherit|normal|bold|italic|\")/g,
         }
     };
 
